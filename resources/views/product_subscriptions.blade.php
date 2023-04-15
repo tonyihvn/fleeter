@@ -2,13 +2,19 @@
 @php
     $pagetype = 'Table';
     
+    if (stripos($_SERVER['REQUEST_URI'], 'client') !== false) {
+        $cli = 'for ' . $subscriptions[0]->client->name;
+    } else {
+        $cli = '';
+    }
+    
 @endphp
 @section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Product Subscriptions</h1>
+                    <h1 class="m-0">Product Subscriptions {{ $cli ?? '' }}</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">

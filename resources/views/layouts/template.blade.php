@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AccessMade | Dashboard</title>
+    <title> {{ $pagetitle ?? 'AccessMade' }}</title>
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
@@ -257,6 +257,8 @@
                                     </a>
                                 </li>
 
+
+
                             </ul>
                         </li>
 
@@ -277,7 +279,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('accountheads') }}" class="nav-link">
+                                    <a href="{{ url('account-heads') }}" class="nav-link">
                                         <i class="far fa-user-plus nav-icon"></i>
                                         <p>Manage Account Heads</p>
                                     </a>
@@ -376,7 +378,12 @@
                             </ul>
                         </li>
 
-
+                        <li class="nav-item">
+                            <a href="{{ url('generate-upload') }}" class="btn btn-success nav-link">
+                                <i class="nav-icon fa far fa-upload text-info"></i>
+                                <p><b> GENERATE UPLOAD<b></p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="{{ url('logout') }}" class="nav-link">

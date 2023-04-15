@@ -20,6 +20,18 @@ class SubscriptionsController extends Controller
         return view('product_subscriptions')->with(['subscriptions'=>$subscriptions]);
     }
 
+    public function UploadTemplate()
+    {
+        $subscriptions = subscriptions::where('status','Open')->get();
+        return view('upload-template')->with(['subscriptions'=>$subscriptions]);
+    }
+
+    public function clientSubs($cid)
+    {
+        $subscriptions = subscriptions::where('client_id',$cid)->get();
+        return view('product_subscriptions')->with(['subscriptions'=>$subscriptions]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

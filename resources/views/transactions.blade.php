@@ -28,7 +28,7 @@
 
             </div>
             <div class="card-body">
-                <table class="table responsive-table" id="products" style="font-size: 0.7em !important;">
+                <table class="table responsive-table" id="subscriptions" style="font-size: 0.7em !important;">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -49,16 +49,16 @@
                         @foreach ($transactions as $transact)
                             <tr>
                                 <td>{{ $transact->title }} <br> <i
-                                        style="color: green;"><small>{{ $transact->project_id != '' ? $transact->project->title : '' }}</small></i>
+                                        style="color: green;"><small>{{ $transact->subscription_id != '' ? $transact->subscription->title : '' }}</small></i>
                                 </td>
                                 <td>{{ $transact->amount }}</td>
                                 <td>{{ $transact->account_head }}</td>
                                 <td>{{ $transact->date }}</td>
                                 <td>{{ $transact->reference_no }}</td>
-                                <td>{{ $transact->detail }}</td>
-                                <td>{{ is_numeric($transact->from) ? $users->where('id', $transact->from)->first()->name : $transact->from }}
+                                <td>{{ $transact->subscription->subplan->title }} <br>{{ $transact->detail }}</td>
+                                <td>{{ $transact->From->name }}
                                 </td>
-                                <td>{{ is_numeric($transact->to) ? $users->where('id', $transact->to)->first()->name : $transact->to }}
+                                <td>{{ $transact->To->name }}
                                 </td>
                                 <td>{{ is_numeric($transact->approved_by) ? $users->where('id', $transact->approved_by)->first()->name : $transact->approved_by }}
                                 </td>
@@ -71,7 +71,8 @@
                                         data-target="#transaction" data-title="{{ $transact->title }}"
                                         data-amount="{{ $transact->amount }}"
                                         data-account_head="{{ $transact->account_head }}"
-                                        data-date="{{ $transact->date }}" data-project="{{ $transact->project_id }}"
+                                        data-date="{{ $transact->date }}"
+                                        data-subscription="{{ $transact->subscription_id }}"
                                         data-reference_no="{{ $transact->reference_no }}"
                                         data-detail="{{ $transact->detail }}" data-from="{{ $transact->from }}"
                                         data-to="{{ $transact->to }}" data-approved_by="{{ $transact->approved_by }}"
@@ -169,11 +170,12 @@
 
 
                             <div class="form-group col-md-6">
-                                <label for="project_id">Select Project</label>
-                                <select class="form-control" name="project_id" id="project_id">
+                                <label for="subscription_id">Select subscription</label>
+                                <select class="form-control" name="subscription_id" id="subscription_id">
                                     <option value="" selected>Not Applicable</option>
-                                    @foreach ($business->projects as $project)
-                                        <option value="{{ $project->id }}">{{ $project->title }}</option>
+                                    @foreach ($business->subscriptions as $subscription)
+                                        <option value="{{ $subscription->id }}">{{ $subscription->subplan->title }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>

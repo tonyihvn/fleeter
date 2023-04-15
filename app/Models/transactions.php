@@ -16,8 +16,16 @@ class transactions extends Model
         return $this->belongsTo(businesses::class, 'business_id', 'id');
     }
 
-    public function product()
+    public function From()
     {
-        return $this->belongsTo(products::class, 'product_id', 'id');
+        return $this->hasOne(User::class, 'id', 'from');
+    }
+    public function To()
+    {
+        return $this->hasOne(User::class, 'id', 'to');
+    }
+    public function subscription()
+    {
+        return $this->hasOne(subscriptions::class, 'id', 'subscription_id');
     }
 }

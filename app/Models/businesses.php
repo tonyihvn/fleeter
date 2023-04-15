@@ -41,6 +41,16 @@ class businesses extends Model
         return $this->hasMany(products::class, 'business_id', 'id');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(subscriptions::class, 'business_id', 'id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(payments::class, 'business_id', 'id');
+    }
+
     public function subplans()
     {
         return $this->hasMany(subscription_plans::class, 'business_id', 'id');

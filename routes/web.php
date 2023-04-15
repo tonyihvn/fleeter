@@ -20,6 +20,11 @@ Auth::routes();
 // HOME
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// STAFF
+Route::get('staff', [App\Http\Controllers\HomeController::class, 'Staff'])->name('staff');
+Route::get('new-staff', [App\Http\Controllers\HomeController::class, 'newStaff'])->name('new-staff');
+
+
 // CLIENTS
 Route::get('clients', [App\Http\Controllers\HomeController::class, 'clients'])->name('clients');
 Route::get('new-client', [App\Http\Controllers\HomeController::class, 'newClient'])->name('new-client');
@@ -94,6 +99,11 @@ Route::get('/product_subscription', [App\Http\Controllers\SubscriptionsControlle
 Route::post('/addsubscription', [App\Http\Controllers\SubscriptionsController::class, 'store'])->name('addsubscription')->middleware('role:Finance,Admin,Super');
 Route::post('/paysub', [App\Http\Controllers\PaymentsController::class, 'store'])->name('paysub')->middleware('role:Finance,Admin,Super');
 Route::get('/delete-subs/{id}', [App\Http\Controllers\SubscriptionsController::class, 'destroy'])->name('delete-subs')->middleware('role:Super');
+Route::get('/client-subscriptions/{cid}', [App\Http\Controllers\SubscriptionsController::class, 'clientSubs'])->name('client-supscriptions')->middleware('role:Finance,Admin,Super');
+
+// GENERATE UPLOADS
+Route::get('/generate-upload', [App\Http\Controllers\SubscriptionsController::class, 'UploadTemplate'])->name('generate-upload')->middleware('role:Finance,Admin,Super');
+
 
 //PAYMENTS
 Route::get('/payments', [App\Http\Controllers\PaymentsController::class, 'index'])->name('payments')->middleware('role:Finance,Admin,Super');

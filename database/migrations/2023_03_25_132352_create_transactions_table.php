@@ -22,12 +22,14 @@ class CreateTransactionsTable extends Migration
             $table->string('reference_no',70)->nullable();
             $table->string('upload')->nullable();
             $table->string('detail')->nullable();
-            $table->string('from',70)->nullable();
-            $table->string('to',70)->nullable();
+            $table->unsignedBigInteger('from')->index()->nullable();
+            $table->foreign('from')->references('id')->on('users');
+            $table->unsignedBigInteger('to')->index()->nullable();
+            $table->foreign('to')->references('id')->on('users');
             $table->string('approved_by',50)->nullable();
             $table->string('recorded_by',50)->nullable();
-            $table->unsignedBigInteger('product_id')->index()->nullable();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('subscription_id')->index()->nullable();
+            $table->foreign('subscription_id')->references('id')->on('subscriptions');
             $table->unsignedBigInteger('business_id')->index()->nullable();
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->timestamps();

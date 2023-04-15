@@ -37,8 +37,13 @@ class HomeController extends Controller
     public function clients()
     {
         $allclients = User::where('role','Client')->get();
-        $subscriptions = subscriptions::get();
         return view('clients')->with(['allclients'=>$allclients]);
+    }
+
+    public function Staff()
+    {
+        $allclients = User::where('category','Staff')->get();
+        return view('staff')->with(['allclients'=>$allclients]);
     }
 
 
@@ -46,7 +51,13 @@ class HomeController extends Controller
     public function newClient()
     {
         $categories = categories::where('group_name','Clients')->get();
-        return view('new-client')->with(['categories'=>$categories]);
+        return view('new-client')->with(['categories'=>$categories,'object'=>'Client']);
+    }
+
+    public function newStaff()
+    {
+        $categories = categories::where('group_name','Clients')->get();
+        return view('new-client')->with(['categories'=>$categories,'object'=>'Staff']);
     }
 
 
