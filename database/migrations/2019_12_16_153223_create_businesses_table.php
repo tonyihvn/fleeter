@@ -28,6 +28,12 @@ class CreateBusinessesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->nullable();
             $table->timestamps();
         });
+
+        DB::table('businesses')->insert(
+            array(
+                'business_name' => 'AccessMade',
+                'businessgroup_id'=>1
+            ));
     }
 
     /**

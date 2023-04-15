@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\payments;
-use App\Http\Requests\StorepaymentsRequest;
-use App\Http\Requests\UpdatepaymentsRequest;
+use App\Models\subscriptions;
+
+use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
@@ -15,7 +16,9 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        //
+        $payments = payments::all();
+        return view('payments')->with(['payments'=>$payments]);
+
     }
 
     /**
@@ -34,9 +37,30 @@ class PaymentsController extends Controller
      * @param  \App\Http\Requests\StorepaymentsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorepaymentsRequest $request)
+    public function store(Request $request)
     {
-        //
+        $payment = payments::Create([
+            'client_id'=>$request->client_id,
+            'product_id'=>$request->product_id,
+            'amount_paid'=>$request->amount,
+            'payment_date'=>$request->date_paid,
+            'subscription_id'=>$request->subscription_id,
+            'business_id'=>Auth()->user()->business_id
+        ]);
+
+        $thissubpayments = payments::where('subscription_id',$request->subscription_id)->count();
+        $TEXT =  $thissubpayments. " of ".$payment->subscription->subplan->duration;
+
+        if(number_format($thissubpayments) >= $payment->subscription->subplan->duration){
+            subscriptions::where('id',$request->subscription_id)->update(['status'=>'Completed']);
+        }else{
+            subscriptions::where('id',$request->subscription_id)->update(['status'=>'Open']);
+        }
+
+
+        $message = 'The Subscription payment was successful! '.$TEXT;
+
+        return redirect()->back()->with(['message'=>$message]);
     }
 
     /**
@@ -79,8 +103,10 @@ class PaymentsController extends Controller
      * @param  \App\Models\payments  $payments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(payments $payments)
-    {
-        //
-    }
+    public function destroy($pid){
+        payments::find($pid)->delete();
+        $message = "The Payment has been deleted";
+
+        return redirect()->back()->with(['message'=>$message]);
+      }
 }

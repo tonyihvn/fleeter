@@ -97,8 +97,10 @@ class SubscriptionsController extends Controller
      * @param  \App\Models\subscriptions  $subscriptions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(subscriptions $subscriptions)
-    {
-        //
-    }
+    public function destroy($sid){
+        subscriptions::find($sid)->delete();
+        $message = "The subscription has been deleted";
+
+        return redirect()->back()->with(['message'=>$message]);
+      }
 }

@@ -29,7 +29,7 @@
         <div class="widget-user-header text-white"
             style="background: @if ($featured_img) url({{ asset('public/files/' . $featured_img->product_id . '/' . $featured_img->file_name) }}); @endif background-size: cover; background-position: top; height: 250px !important; text-shadow: 2px 2px #000; background-color: grey;">
             <h1 class="text-right">{{ $product->title }}</h1>
-            <h5 class="widget-user-desc text-right">Vendor: {{ $product->supplier->company_name }}
+            <h5 class="widget-user-desc text-right">Vendor: {{ $product->supplier->company_name ?? '' }}
             </h5>
         </div>
 
@@ -153,7 +153,7 @@
                                     Vendor Contact:
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $product->supplier->name }}
+                                    {{ $product->supplier->name ?? '' }}
                                 </li>
 
                             </ul>
@@ -234,12 +234,8 @@
                                 <thead>
                                     <tr style="color: ">
                                         <th>Title</th>
-                                        <th>Product</th>
                                         <th># of Repayments</th>
-                                        <th>Frequency</th>
-                                        <th>Remmitance</th>
-                                        <th>Every</th>
-                                        <th>Penalty</th>
+                                        <th>Monthly Contribution</th>
 
 
                                     </tr>
@@ -248,13 +244,8 @@
                                     @foreach ($product->subplans as $sub)
                                         <tr>
                                             <td>{{ $sub->title }}</td>
-                                            <td>{{ $sub->product->title }}</td>
-                                            <td>{{ $sub->no_times }}</td>
-                                            <td>{{ $sub->frequency }}</td>
-                                            <td>{{ $sub->amount_per }}</td>
-                                            <td>{{ $sub->duration_per . ' Days' }}</td>
-                                            <td>{{ $sub->penalty }}</td>
-
+                                            <td>{{ $sub->duration }}</td>
+                                            <td>{{ number_format(ceil($sub->monthly_contribution), 2) }}</td>
 
                                         </tr>
                                     @endforeach

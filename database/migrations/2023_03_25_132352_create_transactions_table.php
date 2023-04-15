@@ -26,8 +26,8 @@ class CreateTransactionsTable extends Migration
             $table->string('to',70)->nullable();
             $table->string('approved_by',50)->nullable();
             $table->string('recorded_by',50)->nullable();
-            $table->unsignedBigInteger('project_id')->index()->nullable();
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->unsignedBigInteger('product_id')->index()->nullable();
+            $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('business_id')->index()->nullable();
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->timestamps();

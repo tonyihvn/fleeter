@@ -17,12 +17,14 @@ class CreateSubscriptionPlansTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id')->index()->nullable();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->string('title',50);
-            $table->string('frequency',50)->nullable();
-            $table->double('no_times',10,2)->nullable();
-            $table->double('duration_per',10,2)->nullable();
-            $table->double('amount_per',10,2)->nullable();
-            $table->double('penalty',10,2)->nullable();
+
+            $table->string('title',60);
+
+            $table->double('price',10,2)->nullable();
+            $table->double('percentage_increase',10,2)->nullable();
+            $table->double('duration',10,2)->nullable();
+            $table->double('monthly_contribution',10,2)->nullable();
+
             $table->unsignedBigInteger('business_id')->index()->nullable();
             $table->foreign('business_id')->references('id')->on('businesses');
 

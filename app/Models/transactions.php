@@ -16,8 +16,8 @@ class transactions extends Model
         return $this->belongsTo(businesses::class, 'business_id', 'id');
     }
 
-    public function project()
+    public function product()
     {
-        return $this->belongsTo(projects::class, 'project_id', 'id');
+        return $this->belongsTo(products::class, 'product_id', 'id');
     }
 }

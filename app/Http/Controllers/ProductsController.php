@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\products;
-use App\Http\Requests\StoreproductsRequest;
-use App\Http\Requests\UpdateproductsRequest;
+use App\Models\suppliers;
+
+use App\Models\categories;
 use Illuminate\Http\Request;
+use App\Models\subscription_plans;
 
 use App\Models\User;
 
@@ -33,15 +35,19 @@ class ProductsController extends Controller
     }
 
     public function newProduct(){
-        $suppliers = User::where('role','Supplier')->get();
-        return view('new-product')->with(['suppliers'=>$suppliers]);
+        $suppliers = suppliers::select('supplier_name','id','company_name')->get();
+        $pcategories = categories::where('group_name','Products')->get();
+
+        return view('new-product')->with(['suppliers'=>$suppliers,'pcategories'=>$pcategories]);
     }
 
     public function editProduct($pid)
     {
         $product = products::where('id',$pid)->first();
-        $suppliers = User::where('role','Supplier')->get();
-        return view('new-product')->with(['product'=>$product,'suppliers'=>$suppliers]);
+        $suppliers = suppliers::select('supplier_name','id','company_name')->get();
+        $pcategories = categories::where('group_name','Products')->get();
+
+        return view('new-product')->with(['product'=>$product,'suppliers'=>$suppliers, 'pcategories'=>$pcategories]);
     }
 
     /**
@@ -58,18 +64,42 @@ class ProductsController extends Controller
             $outcome = "created";
         }
 
+        foreach($request->model as $key=>$model){
 
-        products::updateOrCreate(['id'=>$request->product_id],[
-            'title'=>$request->title,
-            'price'=>$request->price,
-            'supplier_id'=>$request->supplier_id,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date,
-            'detail'=>$request->detail,
-            'terms'=>$request->terms,
-            'status'=>$request->status,
-            'business_id'=>Auth()->user()->business_id
-        ]);
+
+            $product_id = products::updateOrCreate(['id'=>$request->product_id],[
+                'title' => $request->title.' - '.$model,
+                'price' => $request->price[$key],
+                'model' => $request->model[$key],
+                'supplier_id'=>$request->supplier_id,
+                'start_date'=>$request->start_date,
+                'end_date'=>$request->end_date,
+                'detail'=>$request->detail,
+                'terms'=>$request->terms,
+                'category'=>$request->category,
+                'status'=>$request->status,
+                'business_id'=>Auth()->user()->business_id
+            ])->id;
+
+            $monthsplan = [3, 6, 9, 12, 15, 18, 21, 24];
+
+            foreach ($monthsplan as $month)  {
+                $current_month = 'm'.$month;
+                if ($request->$current_month[$key]!="") {
+                    $newprice = (($request->price[$key]/100)*$request->$current_month[$key])+$request->price[$key];
+                    $monthly_contribution = $newprice/$month;
+                    subscription_plans::updateOrCreate(['product_id'=>$product_id,'duration'=>$month],[
+                        'product_id' => $product_id,
+                        'title' => $request->title.' - '.$model.' - N'.$newprice.' ('.$month.')',
+                        'price' => $newprice,
+                        'percentage_increase'=>$request->$current_month[$key],
+                        'duration'=>$month,
+                        'monthly_contribution'=>$monthly_contribution,
+                        'business_id'=>Auth()->user()->business_id
+                    ]);
+                }
+            }
+        }
 
         $message = 'The product has been '.$outcome.' successfully';
 

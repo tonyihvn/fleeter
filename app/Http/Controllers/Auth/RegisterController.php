@@ -70,6 +70,7 @@ class RegisterController extends Controller
             'phone_number' => $data['phone_number'],
             'about' => "",
             'status' => "InActive",
+            'business_id' => 1,
             'password' => Hash::make($data['password']),
         ]);
     }

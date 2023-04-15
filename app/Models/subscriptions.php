@@ -26,9 +26,14 @@ class subscriptions extends Model
         return $this->belongsTo(User::class, 'client_id', 'id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(payments::class, 'subscription_id', 'id');
+    }
+
     public function subplan()
     {
-        return $this->belongsTo(subscription_plans::class, 'subscription_plan', 'id');
+        return $this->hasOne(subscription_plans::class, 'id', 'subscription_plan');
     }
 
 }

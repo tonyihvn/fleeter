@@ -20,4 +20,9 @@ class subscription_plans extends Model
     {
         return $this->belongsTo(products::class, 'product_id', 'id');
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(subscriptions::class, 'subscription_plan', 'id');
+    }
 }

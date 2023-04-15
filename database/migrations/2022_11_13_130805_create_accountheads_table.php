@@ -24,24 +24,24 @@ class CreateAccountheadsTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('accountheads')->insert(
-            array(
-                'title' => 'Client Payment',
-                'category' => 'Inflow',
-                'type'=> 'Payment Recieved',
-                'description'=>'All payments made by owner of the project',
-                'business_id'=>1
+        // DB::table('accountheads')->insert(
+        //     array(
+        //         'title' => 'Client Payment',
+        //         'category' => 'Inflow',
+        //         'type'=> 'Payment Recieved',
+        //         'description'=>'All payments made by owner of the project',
+        //         'business_id'=>1
 
-            ));
-        DB::table('accountheads')->insert(
-            array(
-                'title' => 'Material Supply',
-                'category' => 'Expenditure',
-                'type'=> 'Building Material',
-                'description'=>'For payment of material supplies',
-                'business_id'=>1
+        //     ));
+        // DB::table('accountheads')->insert(
+            // array(
+            //     'title' => 'Material Supply',
+            //     'category' => 'Expenditure',
+            //     'type'=> 'Building Material',
+            //     'description'=>'For payment of material supplies',
+            //     'business_id'=>1
 
-            ));
+            // ));
     }
 
     /**

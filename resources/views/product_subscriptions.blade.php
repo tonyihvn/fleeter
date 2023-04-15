@@ -2,33 +2,6 @@
 @php
     $pagetype = 'Table';
     
-    function daysCount($start_date, $duration)
-    {
-        $now = time(); // or your date as well
-        $your_date = strtotime($start_date);
-        $datediff = $now - $your_date;
-    
-        $noofdays = round($datediff / (60 * 60 * 24));
-    
-        if ($noofdays % $duration > 0) {
-            echo $noofdays % $duration . ' Days';
-        } else {
-            echo $noofdays / $duration . ' Days';
-        }
-    }
-    
-    function nextDue($start_date, $duration)
-    {
-        $now = time(); // or your date as well
-        $your_date = strtotime($start_date);
-        $datediff = $now - $your_date;
-        $today = Date('Y-m-d');
-        $noofdays = round($datediff / (60 * 60 * 24));
-    
-        $daysmore = $noofdays % $duration;
-    
-        echo date('Y-m-d', strtotime($today . ' + ' . $daysmore . ' days'));
-    }
 @endphp
 @section('content')
     <div class="content-header">
@@ -56,12 +29,9 @@
                         <tr style="color: ">
                             <th>Client</th>
                             <th>Product</th>
-                            <th>Qty</th>
                             <th>Date Subscribed</th>
                             <th>Subscription-Plan</th>
-                            <th>Remmitances</th>
-                            <th>Next Due</th>
-                            <th># of OverDue</th>
+                            <th>Payments-Made</th>
                             <th>Penalty</th>
                             <th>Action</th>
 
@@ -69,31 +39,38 @@
                     </thead>
                     <tbody>
                         @foreach ($subscriptions as $sub)
-                            <tr>
+                            <tr @if ($sub->status == 'Completed') style="background-color: azure !important;" @endif>
                                 <td>{{ $sub->client->name }}</td>
                                 <td>{{ $sub->product->title }}</td>
-                                <td>{{ $sub->quantity }}</td>
                                 <td>{{ $sub->date_subscribed }}</td>
-                                <td>{{ $sub->subplan->title . ' (' . $sub->subplan->amount_per . ' ' . $sub->subplan->frequency . ')' }}
+                                <td>{{ $sub->subplan->title }}</td>
+                                <td>{{ $sub->payments->count() }} times (Total: {{ $sub->payments->sum('amount_paid') }} )
+                                    @if ($sub->subplan->duration <= $sub->payments->count())
+                                        <div class="badge badge-success">Completed</div>
+                                    @else
+                                        <div class="badge badge-warning">Not Completed</div>
+                                    @endif
                                 </td>
-                                <td>{{ 'Total Payments Days' }}</td>
-                                <td>{{ nextDue($sub->date_subscribed, $sub->subplan->duration_per) }}</td>
-                                <td>{{ daysCount($sub->date_subscribed, $sub->subplan->duration_per) }}</td>
                                 <td>{{ $sub->penalties }}</td>
-                                <td style="width: 8% !important">
+                                <td style="width:20% !important">
                                     <form action="{{ route('paysub') }}" method="post">
+                                        @csrf
                                         <div class="form-group row">
-                                            <input type="hidden" value="{{ $sub->id }}">
-                                            <input type="number" name="amount" class="form-control"
-                                                style="height: 25px !important;" placeholder="Amount"><br>
-                                            <input type="date" name="date_paid" class="form-control"
-                                                style="height: 25px !important;" placeholder="Date">
+                                            <input type="hidden" name="subscription_id" value="{{ $sub->id }}">
+                                            <input type="hidden" name="product_id" value="{{ $sub->product_id }}">
+                                            <input type="hidden" name="client_id" value="{{ $sub->client_id }}">
+
+                                            <input type="number" name="amount" class="form-control col-md-6"
+                                                style="height: 25px !important;" placeholder="Amount"
+                                                value="{{ ceil($sub->subplan->monthly_contribution) }}" required><br>
+                                            <input type="date" name="date_paid" class="form-control col-md-6"
+                                                style="height: 25px !important;" placeholder="Date" required>
                                         </div>
                                         <button class="btn btn-sm btn-primary float-right">Pay</button>
                                     </form>
 
-                                    <a href="/delete-subplan/{{ $sub->id }}" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete {{ $sub->title }}\'s Subscription Plan?')">Delete</a>
+                                    <a href="{{ url('/delete-subs/' . $sub->id) }}" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure you want to delete {{ $sub->subplan->title }}\'s Subscription Plan?')">Delete</a>
                                 </td>
 
                             </tr>

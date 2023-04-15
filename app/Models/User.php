@@ -29,7 +29,19 @@ class User extends Authenticatable
         'dob',
         'business_id',
         'role',
-        'status'
+        'status',
+        'service_no',
+            'ippis_no',
+            'grade_level',
+            'step',
+            'rank',
+            'service_length',
+            'retirement_date',
+            'lga',
+            'kin_name',
+            'kin_address',
+            'salary_account',
+            'bank'
     ];
 
     /**
@@ -51,9 +63,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function projects()
+    public function subscriptions()
     {
-        return $this->hasMany(projects::class, 'client_id', 'id');
+        return $this->hasMany(subscriptions::class, 'client_id', 'id');
     }
 
     public function tasks()

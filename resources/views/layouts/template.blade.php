@@ -244,15 +244,16 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('addxproduct') }}" class="nav-link">
+                                    <a href="{{ url('addproduct') }}" class="nav-link">
                                         <i class="far fa-plus nav-icon"></i>
                                         <p>Add Products</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
-                                    <a href="{{ url('addproject') }}" class="nav-link">
+                                    <a href="{{ url('product_subscription') }}" class="nav-link">
                                         <i class="far fa-user-subscribe nav-icon"></i>
-                                        <p>New Subscription</p>
+                                        <p>View All Subscriptions</p>
                                     </a>
                                 </li>
 
@@ -279,6 +280,12 @@
                                     <a href="{{ url('accountheads') }}" class="nav-link">
                                         <i class="far fa-user-plus nav-icon"></i>
                                         <p>Manage Account Heads</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('payments') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Payments</p>
                                     </a>
                                 </li>
 
@@ -799,15 +806,6 @@
 
             $("#" + item_id).remove();
             $("#itrow" + item_id).remove();
-        });
-
-        $(".subplanCalc").on('input', function(event) {
-            var price = parseFloat($("#product_id").find(":selected").data("price"));
-
-            var no_times = $("#no_times").val();
-            var amount_per = Math.ceil((price / no_times).toFixed(2))
-
-            $("#amount_per").val(amount_per);
         });
 
 

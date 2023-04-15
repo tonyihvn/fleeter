@@ -47,17 +47,21 @@
                             <td>{{ $cl->name }}</td>
                             <td>{{ $cl->phone_number }}</td>
 
-                            <td>{{ $cl->projects->count() }}</td>
-                            <td>{{ isset($cl->projects->where('status', 'Ongoing')->first()->title) ? $cl->projects->where('status', 'Ongoing')->first()->title : 'None' }}
+                            <td>{{ $cl->subscriptions->count() }}</td>
+                            <td>{{ isset($cl->subscriptions->where('status', 'Ongoing')->first()->title) ?? 'None' }}
                             </td>
                             <td width="90">
                                 <div class="btn-group">
-                                    <a href="/edit-client/{{ $cl->id }}" class="btn btn-default btn-xs">Edit</a>
+                                    <a href="{{ url('/edit-client/' . $cl->id) }}" class="btn btn-default btn-xs">Edit</a>
 
-                                    <a href="/client-projects/{{ $cl->id }}"
-                                        class="btn btn-success btn-xs">Projects</a>
+                                    <a href="{{ url('/client-subscriptions/' . $cl->id) }}"
+                                        class="btn btn-success btn-xs">Subcriptions</a>
 
-                                    <a href="/new-project/{{ $cl->id }}/" class="btn btn-primary btn-xs">New</a>
+                                    <a href="{{ url('/delete-client/' . $cl->id) }}" class="btn btn-danger btn-xs"
+                                        onclick="if (! confirm('Are you sure you want to delete this user??')) { return false; }">Del</a>
+
+
+
                                 </div>
                             </td>
 

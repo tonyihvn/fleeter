@@ -27,6 +27,11 @@ class CreateBusinessgroupsTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::table('businessgroups')->insert(
+                array(
+                    'businessgroup_name' => 'AccessMade'
+                ));
     }
 
     /**

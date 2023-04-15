@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\projects;
 use App\Models\categories;
+use App\Models\subscriptions;
 
 // To be used for registration
 use Illuminate\Support\Facades\Hash;
@@ -29,13 +30,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $projects = projects::with('milestones:project_id,status')->get(['id','title', 'status']);
-        return view('home')->with(['projects'=>$projects]);
+        $subscriptions = subscriptions::all();
+        return view('home')->with(['subscriptions'=>$subscriptions]);
     }
 
     public function clients()
     {
         $allclients = User::where('role','Client')->get();
+        $subscriptions = subscriptions::get();
         return view('clients')->with(['allclients'=>$allclients]);
     }
 
@@ -80,11 +82,28 @@ class HomeController extends Controller
             'about'=>$request->about,
             'phone_number'=>$request->phone_number,
             'company_name'=>$request->company_name,
+
+            'service_no'=>$request->service_no,
+            'ippis_no'=>$request->ippis_no,
+            'grade_level'=>$request->grade_level,
+            'step'=>$request->step,
+            'rank'=>$request->rank,
+            'service_length'=>$request->service_length,
+            'retirement_date'=>$request->retirement_date,
+            'salary_account'=>$request->salary_account,
+            'bank'=>$request->bank,
+            'lga'=>$request->lga,
+            'kin_name'=>$request->kin_name,
+            'kin_address'=>$request->kin_address,
+            'dob'=>$request->dob,
+
             'category'=>$request->category,
             'address'=>$request->address,
             'role'=>$request->role,
             'status'=>$request->status,
-            'business_id'=>Auth()->user()->business_id
+            'business_id'=>Auth()->user()->business_id,
+
+
 
         ]);
 
@@ -143,4 +162,10 @@ class HomeController extends Controller
         return redirect()->back()->with(['message'=>$message]);
       }
 
+      public function destroy($cid){
+        User::find($cid)->delete();
+        $message = "The User has been deleted";
+
+        return redirect()->back()->with(['message'=>$message]);
+      }
 }

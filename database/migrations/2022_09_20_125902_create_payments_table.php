@@ -15,11 +15,18 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id')->index();
+            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
 
-               $table->integer('target_views')->default(0)->nullable();
+            $table->unsignedBigInteger('product_id')->index();
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+
+
+            $table->double('amount_paid',10,2)->default(0)->nullable();
             $table->date('payment_date')->nullable();
+
+            $table->unsignedBigInteger('subscription_id')->index()->nullable();
+            $table->foreign('subscription_id')->references('id')->on('subscriptions');
 
             $table->unsignedBigInteger('business_id')->index()->nullable();
             $table->foreign('business_id')->references('id')->on('businesses');

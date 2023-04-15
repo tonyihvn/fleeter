@@ -41,7 +41,7 @@
                             @if ($pr->status == 'Closed') style="background-color: #FFF8B0 !important;" @endif>
                             <td>{{ $pr->id }}</td>
                             <td>{{ $pr->title }}</td>
-                            <td>{{ $pr->supplier->company_name }}</td>
+                            <td>{{ $pr->supplier->company_name ?? '' }}</td>
                             <td>{{ $pr->start_date . ' - ' . $pr->end_date }}</td>
                             <td>{{ $pr->status }}</td>
                             <td width="90">
