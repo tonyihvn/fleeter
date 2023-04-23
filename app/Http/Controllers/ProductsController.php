@@ -71,7 +71,7 @@ class ProductsController extends Controller
                 'title' => $request->title.' - '.$model,
                 'price' => $request->price[$key],
                 'model' => $request->model[$key],
-                'supplier_id'=>$request->supplier_id,
+                //'supplier_id'=>1,
                 'start_date'=>$request->start_date,
                 'end_date'=>$request->end_date,
                 'detail'=>$request->detail,

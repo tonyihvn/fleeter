@@ -348,6 +348,39 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Contributions/Savings
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('contributors') }}" class="nav-link">
+                                        <i class="far fa-user nav-icon"></i>
+                                        <p>All Contributors</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('new-contributor') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Add New Member</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ url('ctransactions') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Transactions</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">

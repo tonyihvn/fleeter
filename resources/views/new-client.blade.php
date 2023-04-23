@@ -8,6 +8,7 @@
     } else {
         $cid = 0;
         // $client = (object) [];
+    
         $type = 'New';
         $password_action = '';
         $button = 'Save New ' . $object;
@@ -55,7 +56,7 @@
                             value="{{ isset($client->company_name) ? $client->company_name : '' }}">
                     </div>
                 </div>
-                @if ($object != 'Staff')
+                @if ($object == 'Client')
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="service_no">Service Number</label>
@@ -179,7 +180,8 @@
                 @endif
                 <div class="row">
                     <div class="form-group col-md-9">
-                        <label for="about">About {{ $object }} </label>
+                        <label for="about"> {{ $object == 'Contributors' ? 'Credit Officer Name' : 'About' }}
+                            {{ $object }} </label>
                         <input type="text" class="form-control" name="about" id="about"
                             aria-describedby="about_client" placeholder="About"
                             value="{{ isset($client->about) ? $client->about : '' }}">
@@ -267,12 +269,12 @@
                             <option value="Client">Client User</option>
                             <option value="Admin">Admin</option>
                             <option value="Staff">Staff</option>
-
+                            <option value="Contributor">Contributor</option>
                             <option value="Super">Super</option>
                         </select>
                     </div>
                 </div>
-                @if ($object != 'Staff')
+                @if ($object == 'Client')
                     <div style="font-size: 0.7em">
 
                         <b>Terms and Conditions:</b>

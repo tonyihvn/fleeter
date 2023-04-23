@@ -46,6 +46,12 @@ class HomeController extends Controller
         return view('staff')->with(['allclients'=>$allclients]);
     }
 
+    public function Contributors()
+    {
+        $allclients = User::where('role','Contributor')->get();
+        return view('contributors')->with(['allclients'=>$allclients,'object'=>'Contributors']);
+    }
+
 
 
     public function newClient()
@@ -56,8 +62,14 @@ class HomeController extends Controller
 
     public function newStaff()
     {
-        $categories = categories::where('group_name','Clients')->get();
+        $categories = categories::where('group_name','Staff')->get();
         return view('new-client')->with(['categories'=>$categories,'object'=>'Staff']);
+    }
+
+    public function newContributor()
+    {
+        $categories = categories::where('group_name','Contributors')->get();
+        return view('new-client')->with(['categories'=>$categories,'object'=>'Contributors']);
     }
 
 
@@ -120,14 +132,21 @@ class HomeController extends Controller
 
         $message = 'The '.$request->object.' has been '.$outcome.' successfully';
 
-        return redirect()->route('clients')->with(['message'=>$message]);
+        return redirect()->back()->with(['message'=>$message]);
     }
 
     public function editClient($cid)
     {
         $client = User::where('id',$cid)->first();
-        $categories = categories::where('group_name','Clients')->get();
-        return view('new-client')->with(['client'=>$client,'categories'=>$categories]);
+        $object = $client->role;
+
+
+        if ($object != 'Client' || $object !='Staff' ) {
+            $object = 'Contributors';
+        }
+
+        $categories = categories::where('group_name',$object)->get();
+        return view('new-client')->with(['client'=>$client,'categories'=>$categories,'object'=>$object]);
     }
 
 

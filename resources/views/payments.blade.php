@@ -31,6 +31,7 @@
                             <th>Product</th>
                             <th>Date</th>
                             <th>Subscription-Plan</th>
+                            <th>Amount</th>
                             <th>Delete</th>
 
                         </tr>
@@ -42,6 +43,7 @@
                                 <td>{{ $sub->product->title }}</td>
                                 <td>{{ $sub->payment_date }}</td>
                                 <td>{{ $sub->subscription->subplan->title }}</td>
+                                <td>{{ $sub->amount_paid }}</td>
                                 <td><a href="{{ url('/delete-payment/' . $sub->id) }}" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this Payment?')">Delete</a>
                                 </td>

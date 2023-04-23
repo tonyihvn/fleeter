@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\payments;
+use App\Models\cpayments;
+
 use App\Models\subscriptions;
 
 use Illuminate\Http\Request;
@@ -20,6 +22,14 @@ class PaymentsController extends Controller
         return view('payments')->with(['payments'=>$payments]);
 
     }
+
+    public function cTransactions()
+    {
+        $contributions  = cpayments::all();
+        return view('ctransactions')->with(['contributions'=>$contributions ]);
+
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -63,6 +73,26 @@ class PaymentsController extends Controller
         return redirect()->back()->with(['message'=>$message]);
     }
 
+    public function paySub(Request $request)
+    {
+        $payment = cpayments::Create([
+            'client_id'=>$request->client_id,
+            'amount'=>$request->amount,
+            'saving_plan'=>$request->saving_plan,
+            'account_head'=>$request->account_head,
+            'credit_officer'=>$request->credit_officer,
+            'status'=>$request->status,
+            'payment_date'=>$request->date_paid,
+            'business_id'=>Auth()->user()->business_id
+        ]);
+
+
+        $message = 'The '.$request->account_head.' payment was successful! ';
+
+        return redirect()->back()->with(['message'=>$message]);
+    }
+
+
     /**
      * Display the specified resource.
      *
@@ -103,6 +133,14 @@ class PaymentsController extends Controller
      * @param  \App\Models\payments  $payments
      * @return \Illuminate\Http\Response
      */
+
+     public function deleteCsub($pid){
+        cpayments::find($pid)->delete();
+        $message = "The record has been deleted";
+
+        return redirect()->back()->with(['message'=>$message]);
+      }
+
     public function destroy($pid){
         payments::find($pid)->delete();
         $message = "The Payment has been deleted";

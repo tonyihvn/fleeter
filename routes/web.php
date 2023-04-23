@@ -24,6 +24,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('staff', [App\Http\Controllers\HomeController::class, 'Staff'])->name('staff');
 Route::get('new-staff', [App\Http\Controllers\HomeController::class, 'newStaff'])->name('new-staff');
 
+// CONTRIBUTIONS
+Route::get('contributors', [App\Http\Controllers\HomeController::class, 'Contributors'])->name('contributors');
+Route::get('new-contributor', [App\Http\Controllers\HomeController::class, 'newContributor'])->name('new-contributor');
+Route::post('/paycsub', [App\Http\Controllers\PaymentsController::class, 'paySub'])->name('paycsub')->middleware('role:Finance,Admin,Super');
+Route::get('ctransactions', [App\Http\Controllers\PaymentsController::class, 'cTransactions'])->name('ctransactions');
+Route::get('/delete-csub/{pid}', [App\Http\Controllers\PaymentsController::class, 'deleteCsub'])->name('delete-csub')->middleware('role:Super');
+
 
 // CLIENTS
 Route::get('clients', [App\Http\Controllers\HomeController::class, 'clients'])->name('clients');
