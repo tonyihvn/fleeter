@@ -35,8 +35,9 @@
                 @yield('content')
 
 
-
-                <a href="{{ url('/login') }}" class="text-center">I already have an account</a>
+                <div class="d-flex justify-content-center" style="margin-top: 20px;">
+                    <a href="{{ url('/login') }}" class="btn btn-info btn-xs">I already have an account</a>
+                </div>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->
@@ -52,3 +53,20 @@
 </body>
 
 </html>
+<script>
+    $(function() {
+        $("#client").hide();
+        $("#contributor").hide();
+
+        $('#memberrole').on('change', function() {
+            var target = $('#memberrole option:selected').val();
+            if (target == "Client") {
+                $("#contributor").hide();
+                $("#client").show();
+            } else {
+                $("#client").hide();
+                $("#contributor").show();
+            }
+        });
+    });
+</script>

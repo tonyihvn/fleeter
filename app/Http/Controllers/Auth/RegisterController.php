@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\categories;
+
 
 class RegisterController extends Controller
 {
@@ -70,8 +72,18 @@ class RegisterController extends Controller
             'phone_number' => $data['phone_number'],
             'about' => "",
             'status' => "InActive",
+            'role' => $data['role'],
+            'category' => $data['category'],
+            'status' => "InActive",
             'business_id' => 1,
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        $clientcategories = categories::where('group_name','Clients')->get();
+        $contributorcat = categories::where('group_name','Contributors')->get();
+        return view("auth.register", compact("clientcategories","contributorcat"));
     }
 }

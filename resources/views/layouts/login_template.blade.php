@@ -35,8 +35,9 @@
                 @yield('content')
 
 
-
-                <a href="{{ url('/register') }}" class="text-center">I don't have an account</a>
+                <div class="d-flex justify-content-center">
+                    <a href="{{ url('/register') }}" class="btn btn-info btn-xs">I don't have an account</a>
+                </div>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->
