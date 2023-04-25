@@ -506,7 +506,7 @@
                         <input type="hidden" name="newministry" id="newministry" value="">
 
                         <div class="form-group">
-                            <label for="ministrygroup_id" class="control-label ">Ministry Group/Headquarter</label>
+                            <label for="ministrygroup_id" class="control-label ">Business Group/Headquarter</label>
                             <select class="form-control" name="ministrygroup_id" id="ministrygroup_id">
                                 <option value="{{ $business->businessgroup_id }}" selected>
                                     {{ $businessgroups->where('id', $business->businessgroup_id)->first()->businessgroup_name }}
@@ -519,7 +519,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="ministry_name">Ministry / Church Name</label>
+                            <label for="ministry_name">Business Name</label>
                             <input type="text" name="ministry_name" id="ministry_name" class="form-control"
                                 value="{{ $business->business_name }}">
                         </div>
