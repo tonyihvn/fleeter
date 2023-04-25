@@ -49,11 +49,16 @@
 
 
                                 <div class="btn-group">
-                                    <a href="{{ url('/edit-product/' . $pr->id) }}" class="btn btn-default btn-xs">Edit
-                                    </a>
+                                    @if (auth()->user()->role == 'Admin' || auth()->user()->role == 'Super')
+                                        <a href="{{ url('/edit-product/' . $pr->id) }}" class="btn btn-default btn-xs">Edit
+                                        </a>
+                                        <a href="{{ url('/product-dashboard/' . $pr->id) }}"
+                                            class="btn btn-primary btn-sm">Dashboard</a>
+                                    @else
+                                        <a href="{{ url('/guest-product-dashboard/' . $pr->id) }}"
+                                            class="btn btn-primary btn-sm">View</a>
+                                    @endif
 
-                                    <a href="{{ url('/product-dashboard/' . $pr->id) }}"
-                                        class="btn btn-primary btn-sm">Dashboard</a>
 
                                 </div>
                             </td>

@@ -52,8 +52,6 @@ class HomeController extends Controller
         return view('contributors')->with(['allclients'=>$allclients,'object'=>'Contributors']);
     }
 
-
-
     public function newClient()
     {
         $categories = categories::where('group_name','Clients')->get();
@@ -72,7 +70,6 @@ class HomeController extends Controller
         return view('new-client')->with(['categories'=>$categories,'object'=>'Contributors']);
     }
 
-
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -81,7 +78,6 @@ class HomeController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-
 
     public function saveClient(Request $request)
     {
@@ -149,7 +145,6 @@ class HomeController extends Controller
         return view('new-client')->with(['client'=>$client,'categories'=>$categories,'object'=>$object]);
     }
 
-
     public function settings(request $request){
         $validateData = $request->validate([
             'logo'=>'image|mimes:jpg,png,jpeg,gif,svg',
@@ -198,4 +193,15 @@ class HomeController extends Controller
 
         return redirect()->back()->with(['message'=>$message]);
       }
-}
+
+      public function Artisan1($command) {
+        $artisan = Artisan::call($command);
+        $output = Artisan::output();
+        return dd($output);
+    }
+
+    public function Artisan2($command, $param) {
+        $output = Artisan::call($command.":".$param);
+        return dd($output);
+    }
+    }

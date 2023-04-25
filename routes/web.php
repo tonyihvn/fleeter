@@ -125,3 +125,7 @@ Route::post('/settings', [App\Http\Controllers\HomeController::class, 'settings'
 
 //LOGOUT
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class,'logout']);
+
+// ARTISAN COMMANDS
+Route::get('/artisan1/{command}', [App\Http\Controllers\HomeController::class, 'Artisan1']);
+Route::get('/artisan2/{command}/{param}', [App\Http\Controllers\HomeController::class, 'Artisan2']);

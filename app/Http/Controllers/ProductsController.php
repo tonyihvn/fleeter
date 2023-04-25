@@ -29,6 +29,8 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function create()
     {
         //
@@ -109,7 +111,12 @@ class ProductsController extends Controller
     public function productDashboard($pid)
     {
         $product = products::where('id',$pid)->first();
-        return view('product-dashboard')->with(['product'=>$product]);
+
+        if (Auth()->user()->role=="Client") {
+            return view('guest-product-dashboard')->with(['product'=>$product]);
+        }else{
+            return view('product-dashboard')->with(['product'=>$product]);
+        }
 
     }
 
