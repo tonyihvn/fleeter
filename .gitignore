@@ -1,13 +1,11 @@
 /node_modules
 /public/hot
 /public/storage
-/public/index.php
 /storage/*.key
 /vendor
 .env
 .env.backup
 .htaccess
-index.php
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
