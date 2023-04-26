@@ -47,8 +47,14 @@ class PaymentsController extends Controller
 
     public function myContributions()
     {
-        $contributions  = cpayments::where('client_id',Auth()->user()->id)->all();
-        return view('ctransactions')->with(['contributions'=>$contributions ]);
+        $contributions  = cpayments::where('client_id',Auth()->user()->id)->get();
+        return view('client-transactions')->with(['contributions'=>$contributions ]);
+
+    }
+
+    public function onlinePayment()
+    {
+        return view('online-payment');
 
     }
 

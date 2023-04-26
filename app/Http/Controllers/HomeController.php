@@ -33,9 +33,9 @@ class HomeController extends Controller
         if(Auth()->user()->role=="Super" || Auth()->user()->role=="Admin"){
             $subscriptions = subscriptions::all();
             return view('home')->with(['subscriptions'=>$subscriptions]);
-        }if(Auth()->user()->role=="Client"){
+        }elseif(Auth()->user()->role=="Client"){
             return redirect()->route('products');
-        }if(Auth()->user()->role=="Contributor"){
+        }elseif(Auth()->user()->role=="Contributor"){
             return redirect()->route('my-contributions');
         }
 
@@ -140,7 +140,11 @@ class HomeController extends Controller
 
     public function editClient($cid)
     {
-        $client = User::where('id',$cid)->first();
+        if (Auth()->user()->role == 'Admin' || Auth()->user()->role == 'Super' ) {
+            $client = User::where('id',$cid)->first();
+        }else{
+            $client = User::where('id',Auth()->user()->id)->first();
+        }
         $object = $client->role;
 
 

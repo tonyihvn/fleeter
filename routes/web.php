@@ -30,7 +30,8 @@ Route::get('new-contributor', [App\Http\Controllers\HomeController::class, 'newC
 Route::post('/paycsub', [App\Http\Controllers\PaymentsController::class, 'paySub'])->name('paycsub')->middleware('role:Finance,Admin,Super');
 Route::get('ctransactions', [App\Http\Controllers\PaymentsController::class, 'cTransactions'])->name('ctransactions')->middleware('role:Finance,Admin,Super');
 Route::get('/delete-csub/{pid}', [App\Http\Controllers\PaymentsController::class, 'deleteCsub'])->name('delete-csub')->middleware('role:Super');
-Route::get('my-contributions', [App\Http\Controllers\PaymentsController::class, 'myContributions'])->name('my-contributions')->middleware('role:Client,Admin,Super');
+Route::get('my-contributions', [App\Http\Controllers\PaymentsController::class, 'myContributions'])->name('my-contributions')->middleware('role:Contributor,Admin,Super');
+Route::get('online-payment', [App\Http\Controllers\PaymentsController::class, 'onlinePayment'])->name('online-payment')->middleware('role:Contributor,Admin,Super');
 
 
 // CLIENTS

@@ -214,31 +214,59 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Items
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ url('products') }}" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>View Items/ Subscribe</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('client-subscriptions/' . auth()->user()->id) }}"
-                                        class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>My Subscriptions</p>
-                                    </a>
-                                </li>
+                        @if (auth()->user()->role == 'Client')
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Items
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ url('products') }}" class="nav-link">
+                                            <i class="far fa-user nav-icon"></i>
+                                            <p>View Items/ Subscribe</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('client-subscriptions/' . auth()->user()->id) }}"
+                                            class="nav-link">
+                                            <i class="far fa-user nav-icon"></i>
+                                            <p>My Subscriptions</p>
+                                        </a>
+                                    </li>
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-credit-card"></i>
+                                    <p>
+                                        Contributions
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ url('online-payment') }}" class="nav-link">
+                                            <i class="far fa-user nav-icon"></i>
+                                            <p>Make Online Payment</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('my-contributions') }}" class="nav-link">
+                                            <i class="far fa-user nav-icon"></i>
+                                            <p>My Contributions</p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        @endif
+
 
 
                         <li class="nav-item">
