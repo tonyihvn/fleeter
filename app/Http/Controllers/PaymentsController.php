@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\payments;
 use App\Models\cpayments;
+use App\Models\products;
 
 use App\Models\subscriptions;
 
@@ -20,6 +21,20 @@ class PaymentsController extends Controller
     {
         $payments = payments::all();
         return view('payments')->with(['payments'=>$payments]);
+
+    }
+
+    public function itemPayments($pid)
+    {
+        if (Auth()->user()->role == 'Super' || Auth()->user()->role == 'Admin'){
+
+            $payments = payments::where('product_id',$pid)->get();
+        }else{
+            $payments = payments::where('product_id',$pid)->where('client_id',Auth()->user()->id)->get();
+        }
+
+        $item = products::where('id',$pid)->first()->title;
+        return view('item-payments')->with(['payments'=>$payments,'item'=>$item]);
 
     }
 

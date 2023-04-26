@@ -62,7 +62,7 @@
                     <a href="{{ '/home' }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="https://accessmadelimited.com/" target="_blank" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -91,25 +91,29 @@
                     </div>
                 </li>
 
-                <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
+                        <span
+                            class="badge badge-danger navbar-badge">{{ $mytasks->where('category', 'Message')->count() }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset('dist/img/user1-128x128.jpg') }}" alt="User Avatar"
+                                <img src="{{ asset('dist/img/realtyplus_logo.png') }}" alt="User Avatar"
                                     class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Name
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    @foreach ($mytasks->where('category', 'Message') as $msg)
+                                        <h3 class="dropdown-item-title">
+                                            Administrator
+                                            <span class="float-right text-sm text-danger"><i
+                                                    class="fas fa-star"></i></span>
+                                        </h3>
+                                        <a class="text-sm" href="{{ url('tasks') }}">{{ $msg->subject }}</a>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                            {{ $msg->created_at }}</p>
+                                    @endforeach
                                 </div>
                             </div>
                             <!-- Message End -->
@@ -123,18 +127,25 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        <span
+                            class="badge badge-warning navbar-badge">{{ $mytasks->where('category', 'Notification')->count() }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
+                        <span
+                            class="dropdown-item dropdown-header">{{ $mytasks->where('category', 'Notification')->count() }}
+                            Notification(s)</span>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
+                        @foreach ($mytasks->where('category', 'Notification') as $noti)
+                            <a href="{{ url('tasks') }}" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> {{ $noti->subject }}
+                                <span class="float-right text-muted text-sm">{{ $noti->start_date }}
+                                    {{ $noti->start_date == $noti->end_date ? ' ' : $noti->end_date }} </span>
+                            </a>
+                        @endforeach
+
                         <div class="dropdown-divider"></div>
 
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        <a href="{{ url('tasks') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -207,7 +218,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Products
+                                    Items
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -215,11 +226,12 @@
                                 <li class="nav-item">
                                     <a href="{{ url('products') }}" class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
-                                        <p>View/Add Items</p>
+                                        <p>View Items/ Subscribe</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('client-products') }}" class="nav-link">
+                                    <a href="{{ url('client-subscriptions/' . auth()->user()->id) }}"
+                                        class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
                                         <p>My Subscriptions</p>
                                     </a>
@@ -231,17 +243,17 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-credit-card"></i>
+                                <i class="nav-icon fas fa-envelope"></i>
                                 <p>
-                                    Payments
+                                    Messages
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('client-payments') }}" class="nav-link">
+                                    <a href="{{ url('tasks') }}" class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
-                                        <p>My Payments</p>
+                                        <p>My Messages</p>
                                     </a>
                                 </li>
                             </ul>

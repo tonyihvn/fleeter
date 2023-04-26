@@ -29,7 +29,7 @@ class SubscriptionsController extends Controller
     public function clientSubs($cid)
     {
         $subscriptions = subscriptions::where('client_id',$cid)->get();
-        return view('product_subscriptions')->with(['subscriptions'=>$subscriptions]);
+        return view('client_subscriptions')->with(['subscriptions'=>$subscriptions]);
     }
 
     /**

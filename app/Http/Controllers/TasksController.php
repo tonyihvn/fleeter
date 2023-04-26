@@ -19,7 +19,11 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks');
+        if (Auth()->user()->role == 'Super' || Auth()->user()->role == 'Admin'){
+            return view('tasks');
+        }else{
+            return view('member-message');
+        }
     }
 
     /**
@@ -29,15 +33,22 @@ class TasksController extends Controller
      */
     public function create($cid)
     {
+
         return view('project-task')->with(['cid'=>$cid]);
+
 
     }
 
     // General Task
     public function newTask()
     {
-        $categories = categories::where('business_id',Auth()->user()->business_id)->get();
-        return view('new-task')->with(['categories'=>$categories]);
+        if (Auth()->user()->role == 'Super' || Auth()->user()->role == 'Admin'){
+            $categories = categories::where('business_id',Auth()->user()->business_id)->get();
+            return view('new-task')->with(['categories'=>$categories]);
+        }else{
+            $categories = categories::where('business_id',Auth()->user()->business_id)->get();
+            return view('new-message')->with(['categories'=>$categories]);
+        }
 
     }
 
@@ -53,7 +64,6 @@ class TasksController extends Controller
             'details'=>$request->details,
             'assigned_to'=>$request->assigned_to,
             'category'=>$request->category,
-            'estimated_cost'=>$request->estimated_cost,
             // 'actual_cost'=>$request->actual_cost,
             // 'files'=>$request->files,
 
@@ -62,7 +72,7 @@ class TasksController extends Controller
 
         ]);
 
-        $message = "Task created successfully!";
+        $message = "Message/Task created successfully!";
 
         return redirect()->back()->with(['message'=>$message]);
 

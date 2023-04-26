@@ -1,4 +1,10 @@
-@extends('layouts.template')
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
+
 <style>
     .list-group {
         font-size: 0.9em !important;
@@ -224,7 +230,8 @@
                                         <label>Client Name</label>
                                         <select name="client_id" class="form-control select2" id="client_id" readonly>
 
-                                            <option value="{{ $login_user->id }}" data-name="{{ $login_user->name }}">
+                                            <option value="{{ auth()->user()->id }}"
+                                                data-name="{{ auth()->user()->name }}">{{ auth()->user()->name }}</option>
 
                                         </select>
                                     </div>

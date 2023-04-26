@@ -47,7 +47,7 @@
 
                 <div class="form-group row">
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>Start Date:</label>
                         <div class="input-group date" id="start_date_activator" data-target-input="nearest">
                             <input type="text" name="start_date" class="form-control datetimepicker-input"
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>End Date:</label>
                         <div class="input-group date" id="end_date_activator" data-target-input="nearest">
                             <input type="text" name="end_date" class="form-control datetimepicker-input"
@@ -70,11 +70,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="estimated_cost">Estimated Cost</label>
-                        <input type="number" step="0.01" class="form-control" name="estimated_cost" id="estimated_cost"
-                            placeholder="Estimated Cost">
-                    </div>
+
 
                 </div>
 
@@ -104,8 +100,9 @@
                     <div class="col-md-4">
                         <label for="">Category</label>
                         <select class="form-control" name="category" required>
+                            <option value="Message" selected>Message</option>
                             @foreach ($categories as $cats)
-                                <option value="{{ $cats->id }}">
+                                <option value="{{ $cats->title }}">
                                     {{ $cats->title }}
                                 </option>
                             @endforeach

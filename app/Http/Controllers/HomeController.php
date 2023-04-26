@@ -30,8 +30,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $subscriptions = subscriptions::all();
-        return view('home')->with(['subscriptions'=>$subscriptions]);
+        if(Auth()->user()->role=="Super" || Auth()->user()->role=="Admin"){
+            $subscriptions = subscriptions::all();
+            return view('home')->with(['subscriptions'=>$subscriptions]);
+        }if(Auth()->user()->role=="Client"){
+            return redirect()->route('products');
+        }if(Auth()->user()->role=="Contributor"){
+
+            // Coming soon
+        }
+
     }
 
     public function clients()
