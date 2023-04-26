@@ -15,15 +15,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-    <style>
-        .register-box {
-            width: 40% !important;
-        }
-    </style>
+
 </head>
 
 <body class="hold-transition register-page">
-    <div class="register-box">
+    <div class="col-md-6 col-md-offset-3">
         <div class="register-logo">
             <a href="#"><b>Access</b>Made</a>
         </div>
