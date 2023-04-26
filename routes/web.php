@@ -30,13 +30,14 @@ Route::get('new-contributor', [App\Http\Controllers\HomeController::class, 'newC
 Route::post('/paycsub', [App\Http\Controllers\PaymentsController::class, 'paySub'])->name('paycsub')->middleware('role:Finance,Admin,Super');
 Route::get('ctransactions', [App\Http\Controllers\PaymentsController::class, 'cTransactions'])->name('ctransactions')->middleware('role:Finance,Admin,Super');
 Route::get('/delete-csub/{pid}', [App\Http\Controllers\PaymentsController::class, 'deleteCsub'])->name('delete-csub')->middleware('role:Super');
+Route::get('my-contributions', [App\Http\Controllers\PaymentsController::class, 'myContributions'])->name('my-contributions')->middleware('role:Client,Admin,Super');
 
 
 // CLIENTS
 Route::get('clients', [App\Http\Controllers\HomeController::class, 'clients'])->name('clients')->middleware('role:Finance,Admin,Super');
 Route::get('new-client', [App\Http\Controllers\HomeController::class, 'newClient'])->name('new-client')->middleware('role:Finance,Admin,Super');
-Route::post('saveClient', [App\Http\Controllers\HomeController::class, 'saveClient'])->name('saveClient')->middleware('role:Finance,Admin,Super');
-Route::get('edit-client/{cid}', [App\Http\Controllers\HomeController::class, 'editClient'])->name('edit-client')->middleware('role:Finance,Admin,Super');
+Route::post('saveClient', [App\Http\Controllers\HomeController::class, 'saveClient'])->name('saveClient')->middleware('role:Client,Admin,Super');
+Route::get('edit-client/{cid}', [App\Http\Controllers\HomeController::class, 'editClient'])->name('edit-client')->middleware('role:Client,Admin,Super');
 Route::get('delete-client/{cid}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('delete-client')->middleware('role:Super');
 
 // PRODUCTS

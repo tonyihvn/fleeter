@@ -24,8 +24,7 @@
 
             <div class="card-body">
                 <a href="{{ url('new-task') }}" class="btn btn-primary float-right" style="float: right;"><i
-                        class="fa fa-plus"></i> Add
-                    New</a>
+                        class="fa fa-paper-plane"></i> Send Message to Admin</a>
                 <br><br>
                 <table class="table responsive-table" id="products" style="font-size: 0.8em !important;">
                     <thead>

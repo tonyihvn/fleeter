@@ -1,10 +1,16 @@
-@extends('layouts.template')
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
 @php
     
     if (isset($client->id)) {
         $type = 'Edit';
         $password_action = 'Change';
         $button = 'Save Changes';
+        $status = $client->status;
     } else {
         $cid = 0;
         // $client = (object) [];
@@ -12,6 +18,7 @@
         $type = 'New';
         $password_action = '';
         $button = 'Save New ' . $object;
+        $status = '';
     }
 @endphp
 @section('content')
@@ -221,7 +228,8 @@
                     <div class="form-group col-md-4">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" name="email" id="email"
-                            placeholder="Email Address" value="{{ isset($client->email) ? $client->email : '' }}">
+                            placeholder="Email Address" value="{{ isset($client->email) ? $client->email : '' }}"
+                            {{ isset($client->role) && $client->role == 'Client' ? 'readonly' : '' }}>
                     </div>
 
                     <div class="form-group col-md-4">
@@ -253,10 +261,13 @@
                         <select name="status" id="status" class="form-control">
                             <option value="{{ isset($client->status) ? $client->status : '' }}" selected>
                                 {{ isset($client->status) ? $client->status : 'Select Status' }}</option>
-                            <option value="Active">Active</option>
-                            <option value="Suspended">Suspended</option>
-                            <option value="Terminated">Terminated</option>
-                            <option value="Awaiting Approval">Awaiting Approval</option>
+
+                            @if ($status == 'Admin' || $status == 'Super')
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Terminated">Terminated</option>
+                                <option value="Awaiting Approval">Awaiting Approval</option>
+                            @endif
                         </select>
                     </div>
 
@@ -266,11 +277,18 @@
                             <option value="{{ isset($client->role) ? $client->role : '' }}" selected>
                                 {{ isset($client->role) ? $client->role : 'Select Role' }}</option>
 
-                            <option value="Client">Client User</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Staff">Staff</option>
-                            <option value="Contributor">Contributor</option>
-                            <option value="Super">Super</option>
+                            @if ($status == 'Admin' || $status == 'Super')
+                                <option value="Client">Client User</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Contributor">Contributor</option>
+                            @endif
+
+                            @if ($status == 'Super')
+                                <option value="Super">Super</option>
+                            @endif
+
+
                         </select>
                     </div>
                 </div>

@@ -36,18 +36,18 @@
                         <label for="title">Subject</label>
                         <input type="text" class="form-control" name="subject" id="subject" aria-describedby="subject"
                             placeholder="Enter a Subject">
-                        <small id="subject" class="form-text text-muted">The subject or title of the task</small>
+                        <small id="subject" class="form-text text-muted">The subject or title of the message</small>
                     </div>
 
                 </div>
                 <div class="form-group col-md-12">
-                    <label for="details">Task Details</label>
+                    <label for="details">Body</label>
                     <textarea name="details" id="details" class="wyswygeditor">
                     Place <em>some</em> <u>text</u> <strong>here</strong>
                     </textarea>
 
-                    <small id="task_details" class="form-text text-muted">A Detailed infomation about the task being
-                        entered</small>
+                    <small id="task_details" class="form-text text-muted">Message body
+                    </small>
                 </div>
 
 

@@ -45,6 +45,13 @@ class PaymentsController extends Controller
 
     }
 
+    public function myContributions()
+    {
+        $contributions  = cpayments::where('client_id',Auth()->user()->id)->all();
+        return view('ctransactions')->with(['contributions'=>$contributions ]);
+
+    }
+
 
     /**
      * Show the form for creating a new resource.

@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
     }
 
     /**
@@ -36,8 +36,7 @@ class HomeController extends Controller
         }if(Auth()->user()->role=="Client"){
             return redirect()->route('products');
         }if(Auth()->user()->role=="Contributor"){
-
-            // Coming soon
+            return redirect()->route('my-contributions');
         }
 
     }
@@ -145,7 +144,7 @@ class HomeController extends Controller
         $object = $client->role;
 
 
-        if ($object != 'Client' || $object !='Staff' ) {
+        if ($object != 'Client' && $object !='Staff' ) {
             $object = 'Contributors';
         }
 

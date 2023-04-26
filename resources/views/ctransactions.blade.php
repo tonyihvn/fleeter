@@ -1,4 +1,9 @@
-@extends('layouts.template')
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
 @php
     $pagetype = 'Table';
     

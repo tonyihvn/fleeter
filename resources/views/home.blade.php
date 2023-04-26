@@ -29,9 +29,9 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ $clients->count() }}</h3>
+                            <h3>{{ $clients->where('role', 'Client')->count() }}</h3>
 
-                            <p>Clients</p>
+                            <p>PayLater Clients</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-persons"></i>
@@ -46,9 +46,9 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ $clients->count() }}</h3>
+                            <h3>{{ $clients->where('role', 'Contributor')->count() }}</h3>
 
-                            <p>Clients</p>
+                            <p>Contribution Clients</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
