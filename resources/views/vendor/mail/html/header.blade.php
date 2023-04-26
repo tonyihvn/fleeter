@@ -4,7 +4,7 @@
             @if (trim($slot) === 'Laravel')
                 <img src="{{ asset('dist/img/realtyplus_logo.png') }}" class="logo" alt="{{ config('app.name') }}">
             @else
-                {{ $slot }}
+                <img src="{{ asset('dist/img/realtyplus_logo.png') }}" class="logo" alt="{{ config('app.name') }}">
             @endif
         </a>
     </td>
