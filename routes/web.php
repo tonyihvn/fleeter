@@ -46,7 +46,7 @@ Route::get('/new-product/{cid}', [App\Http\Controllers\ProjectsController::class
 Route::get('/edit-product/{pid}', [App\Http\Controllers\ProductsController::class, 'editProduct'])->name('edit-product')->middleware('role:Finance,Admin,Super');
 Route::get('/addproduct', [App\Http\Controllers\ProductsController::class, 'newProduct'])->name('addproduct')->middleware('role:Finance,Admin,Super');
 Route::post('save-product', [App\Http\Controllers\ProductsController::class, 'store'])->name('save-product')->middleware('role:Finance,Admin,Super');
-Route::get('/product-dashboard/{pid}', [App\Http\Controllers\ProductsController::class, 'productDashboard'])->name('product-dashboard')->middleware('role:Finance,Admin,Super');
+Route::get('/product-dashboard/{pid}', [App\Http\Controllers\ProductsController::class, 'productDashboard'])->name('product-dashboard')->middleware('role:Client,Admin,Super');
 
 //TASK
 Route::get('tasks', [App\Http\Controllers\TasksController::class, 'index'])->name('tasks');
