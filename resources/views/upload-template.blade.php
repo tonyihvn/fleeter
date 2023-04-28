@@ -56,7 +56,7 @@
                                 <td>{{ $sub->client->ippis_no }}</td>
                                 <td>{{ $sub->subplan->monthly_contribution }}</td>
                                 <td>{{ $monthsleft }}</td>
-                                <td>{{ $sub->date_subscribed }}</td>
+                                <td>{{ date('M-Y', strtotime($sub->date_subscribed)) }}</td>
                                 <td>{{ $endmonth }}</td>
 
                             </tr>
