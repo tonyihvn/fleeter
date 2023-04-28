@@ -22,7 +22,7 @@ class SubscriptionsController extends Controller
 
     public function UploadTemplate()
     {
-        $subscriptions = subscriptions::where('status','Open')->get();
+        $subscriptions = subscriptions::where('status','New')->get();
         return view('upload-template')->with(['subscriptions'=>$subscriptions]);
     }
 

@@ -323,6 +323,7 @@
                                         <label>Status:</label>
                                         <select name="status" class="form-control">
                                             <option value="Open">Open</option>
+                                            <option value="New">New</option>
                                             <option value="Defaulted">Defaulted</option>
                                             <option value="Completed">Completed</option>
                                             <option value="Paused">Paused</option>
