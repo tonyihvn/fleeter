@@ -26,6 +26,12 @@ class SubscriptionsController extends Controller
         return view('upload-template')->with(['subscriptions'=>$subscriptions]);
     }
 
+    public function generateStoppage()
+    {
+        $subscriptions = subscriptions::where('status','Stoppage')->get();
+        return view('stoppage-template')->with(['subscriptions'=>$subscriptions]);
+    }
+
     public function clientSubs($cid)
     {
         $subscriptions = subscriptions::where('client_id',$cid)->get();

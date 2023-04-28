@@ -430,6 +430,13 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ url('generate-stoppage') }}" class="btn btn-default nav-link">
+                                <i class="nav-icon fa far fa-upload text-info"></i>
+                                <p><b> Generate Stoppage<b></p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ url('logout') }}" class="nav-link">
                                 <i class="nav-icon far fa-user text-info"></i>
                                 <p>Logout</p>

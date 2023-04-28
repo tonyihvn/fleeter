@@ -112,6 +112,7 @@ Route::get('/client-subscriptions/{cid}', [App\Http\Controllers\SubscriptionsCon
 
 // GENERATE UPLOADS
 Route::get('/generate-upload', [App\Http\Controllers\SubscriptionsController::class, 'UploadTemplate'])->name('generate-upload')->middleware('role:Finance,Admin,Super');
+Route::get('/generate-stoppage', [App\Http\Controllers\SubscriptionsController::class, 'generateStoppage'])->name('generate-stoppage')->middleware('role:Finance,Admin,Super');
 
 
 //PAYMENTS
