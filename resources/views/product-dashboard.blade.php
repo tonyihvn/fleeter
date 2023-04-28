@@ -287,8 +287,9 @@
                                         <select name="subscription_plan" class="form-control" id="subscription_plan">
                                             @foreach ($business->subplans->where('product_id', $product->id) as $psp)
                                                 <option value="{{ $psp->id }}" data-price="{{ $psp->amount_per }}">
-                                                    {{ $psp->title }} ({{ $psp->amount_per }} per
-                                                    {{ $psp->frequency }})
+                                                    {{ $psp->title }} (<b>{{ $psp->monthly_contribution }} per month</b>
+                                                    for
+                                                    {{ $psp->duration }} months)
                                                 </option>
                                             @endforeach
                                         </select>
