@@ -174,14 +174,9 @@
                             <div class="list-group">
                                 <a href="#" class="list-group-item list-group-item-action active">Menu
                                 </a>
-                                <a href="/product/{{ $product->id }}/transactions"
-                                    class="list-group-item list-group-item-action">Subcribers</a>
-                                <a href="/product/{{ $product->id }}/materials"
+
+                                <a href="/item-payments/{{ $product->id }}"
                                     class="list-group-item list-group-item-action">Payments</a>
-                                <a href="/product/{{ $product->id }}/workers"
-                                    class="list-group-item list-group-item-action">Debtors</a>
-                                <a href="/product/{{ $product->id }}/reports"
-                                    class="list-group-item list-group-item-action">Reports</a>
                             </div>
 
                             <div class="list-group">
