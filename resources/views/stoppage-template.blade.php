@@ -1,7 +1,7 @@
 @extends('layouts.template')
 @php
     $pagetype = 'Table';
-    $pagetitle = 'MINISTRY UPDATE ' . strtoupper(date('F Y'));
+    $pagetitle = 'STOPPAGE LIST';
 @endphp
 @section('content')
     <div class="content-header">
