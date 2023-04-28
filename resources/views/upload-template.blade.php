@@ -46,7 +46,7 @@
                                 
                                 $monthsleft = $sub->subplan->duration - $monthspaid;
                                 
-                                $endmonth = date('j-M-Y', strtotime(+$monthsleft . ' months', strtotime(date('j-M-Y'))));
+                                $endmonth = date('M-Y', strtotime(+$monthsleft . ' months', strtotime(date('M-Y'))));
                                 
                             @endphp
                             <tr>
@@ -56,7 +56,7 @@
                                 <td>{{ $sub->client->ippis_no }}</td>
                                 <td>{{ $sub->subplan->monthly_contribution }}</td>
                                 <td>{{ $monthsleft }}</td>
-                                <td>{{ '01-' . date('M-Y') }}</td>
+                                <td>{{ $sub->date_subscribed }}</td>
                                 <td>{{ $endmonth }}</td>
 
                             </tr>
