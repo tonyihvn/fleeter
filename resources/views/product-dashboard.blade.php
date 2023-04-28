@@ -271,7 +271,7 @@
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label>Client Name</label>
                                         <select name="client_id" class="form-control select2" id="client_id">
                                             @foreach ($clients->where('role', 'Client') as $cl)
@@ -280,8 +280,9 @@
                                             @endforeach
                                         </select>
                                     </div>
-
-                                    <div class="form-group col-md-6">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
                                         <label>Choose Subscription Plan</label>
                                         <select name="subscription_plan" class="form-control" id="subscription_plan">
                                             @foreach ($business->subplans->where('product_id', $product->id) as $psp)
