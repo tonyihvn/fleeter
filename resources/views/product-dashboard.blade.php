@@ -328,6 +328,7 @@
                                             <option value="Completed">Completed</option>
                                             <option value="Paused">Paused</option>
                                             <option value="Terminated">Terminated</option>
+                                            <option value="Stoppage">Stoppage</option>
                                         </select>
                                     </div>
                                 </div>
