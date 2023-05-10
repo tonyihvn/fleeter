@@ -23,43 +23,53 @@
         <div class="card">
 
             <div class="card-body">
-                <table class="table  responsive-table" id="products" style="font-size: 0.9em !important;">
-                    <thead>
-                        <tr style="color: ">
-                            <th>Client</th>
-                            <th>Product</th>
-                            <th>Date Subscribed</th>
-                            <th>Subscription-Plan</th>
-                            <th>Payments-Made</th>
-                            <th>Penalty</th>
-                            <th>My Payments</th>
+                <form method="post" action="{{ route('topUp') }}">
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($subscriptions as $sub)
-                            <tr @if ($sub->status == 'Completed') style="background-color: azure !important;" @endif>
-                                <td>{{ $sub->client->name }}</td>
-                                <td>{{ $sub->product->title }}</td>
-                                <td>{{ $sub->date_subscribed }}</td>
-                                <td>{{ $sub->subplan->title }}</td>
-                                <td>{{ $sub->payments->count() }} times (Total: {{ $sub->payments->sum('amount_paid') }} )
-                                    @if ($sub->subplan->duration <= $sub->payments->count())
-                                        <div class="badge badge-success">Completed</div>
-                                    @else
-                                        <div class="badge badge-warning">Not Completed</div>
-                                    @endif
-                                </td>
-                                <td>{{ $sub->penalties }}</td>
-                                <td><a href="{{ url('/item-payments/' . $sub->product->id) }}"
-                                        class="btn btn-info btn-xs">My-Payments</a></td>
+                    <table class="table  responsive-table" id="products" style="font-size: 0.9em !important;">
+                        <thead>
+                            <tr style="color: ">
+                                <th>Select</th>
+                                <th>Client</th>
+                                <th>Product</th>
+                                <th>Date Subscribed</th>
+                                <th>Subscription-Plan</th>
+                                <th>Payments-Made</th>
+                                <th>Penalty</th>
+                                <th>My Payments</th>
 
                             </tr>
-                        @endforeach
+                        </thead>
+                        <tbody>
+                            @foreach ($subscriptions as $sub)
+                                <tr @if ($sub->status == 'Completed') style="background-color: azure !important;" @endif>
+                                    <td><input type="checkbox" name="topup[]" value="{{ $sub->id }}"></td>
+                                    <td>{{ $sub->client->name }}</td>
+                                    <td>{{ $sub->product->title ?? 'Merged' }}</td>
+                                    <td>{{ $sub->date_subscribed }}</td>
+                                    <td>{{ $sub->subplan->title }}</td>
+                                    <td>{{ $sub->payments->count() }} times (Total: {{ $sub->payments->sum('amount_paid') }}
+                                        )
+                                        @if ($sub->subplan->duration <= $sub->payments->count())
+                                            <div class="badge badge-success">Completed</div>
+                                        @else
+                                            <div class="badge badge-warning">Not Completed</div>
+                                        @endif
+                                    </td>
+                                    <td>{{ $sub->penalties }}</td>
+                                    <td><a href="{{ url('/item-payments/' . $sub->id) }}"
+                                            class="btn btn-info btn-xs">My-Payments</a></td>
+
+                                </tr>
+                            @endforeach
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    <br>
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary  float-right">Merge/TopUp Selected</button>
+                    </div>
+                </form>
             </div>
         </div>
 

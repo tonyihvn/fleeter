@@ -262,7 +262,7 @@
                             <option value="{{ isset($client->status) ? $client->status : '' }}" selected>
                                 {{ isset($client->status) ? $client->status : 'Select Status' }}</option>
 
-                            @if ($status == 'Admin' || $status == 'Super')
+                            @if ($client->role == 'Admin' || $client->role == 'Super')
                                 <option value="Active">Active</option>
                                 <option value="Suspended">Suspended</option>
                                 <option value="Terminated">Terminated</option>
@@ -277,14 +277,14 @@
                             <option value="{{ isset($client->role) ? $client->role : '' }}" selected>
                                 {{ isset($client->role) ? $client->role : 'Select Role' }}</option>
 
-                            @if ($status == 'Admin' || $status == 'Super')
+                            @if ($client->role == 'Admin' || $client->role == 'Super')
                                 <option value="Client">Client User</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Staff">Staff</option>
                                 <option value="Contributor">Contributor</option>
                             @endif
 
-                            @if ($status == 'Super')
+                            @if ($client->role == 'Super')
                                 <option value="Super">Super</option>
                             @endif
 

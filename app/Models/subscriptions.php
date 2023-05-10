@@ -36,4 +36,9 @@ class subscriptions extends Model
         return $this->hasOne(subscription_plans::class, 'id', 'subscription_plan');
     }
 
+    public function merged()
+    {
+        return $this->hasOne(merged_subs::class, 'id', 'subscriptions');
+    }
+
 }

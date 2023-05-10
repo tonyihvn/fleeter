@@ -30,6 +30,7 @@
         <div class="card">
 
             <div class="card-body">
+
                 <table class="table  responsive-table" id="products" style="font-size: 0.9em !important;">
                     <thead>
                         <tr style="color: ">
@@ -47,7 +48,7 @@
                         @foreach ($subscriptions as $sub)
                             <tr @if ($sub->status == 'Completed') style="background-color: azure !important;" @endif>
                                 <td>{{ $sub->client->name }}</td>
-                                <td>{{ $sub->product->title }}</td>
+                                <td>{{ $sub->product->title ?? 'Merged' }}</td>
                                 <td>{{ $sub->date_subscribed }}</td>
                                 <td>{{ $sub->subplan->title }}</td>
                                 <td>{{ $sub->payments->count() }} times (Total: {{ $sub->payments->sum('amount_paid') }} )

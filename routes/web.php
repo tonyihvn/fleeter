@@ -109,6 +109,8 @@ Route::post('/addsubscription', [App\Http\Controllers\SubscriptionsController::c
 Route::post('/paysub', [App\Http\Controllers\PaymentsController::class, 'store'])->name('paysub')->middleware('role:Finance,Admin,Super');
 Route::get('/delete-subs/{id}', [App\Http\Controllers\SubscriptionsController::class, 'destroy'])->name('delete-subs')->middleware('role:Super');
 Route::get('/client-subscriptions/{cid}', [App\Http\Controllers\SubscriptionsController::class, 'clientSubs'])->name('client-supscriptions')->middleware('role:Client,Admin,Super');
+Route::post('/topUp', [App\Http\Controllers\SubscriptionsController::class, 'topUp'])->name('topUp')->middleware('role:Admin,Super');
+
 
 // GENERATE UPLOADS
 Route::get('/generate-upload', [App\Http\Controllers\SubscriptionsController::class, 'UploadTemplate'])->name('generate-upload')->middleware('role:Finance,Admin,Super');
