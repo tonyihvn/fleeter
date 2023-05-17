@@ -46,7 +46,6 @@
                             <td>{{ $cl->category }}</td>
                             <td>{{ $cl->name }}</td>
                             <td>{{ $cl->phone_number }}</td>
-
                             <td>{{ $cl->subscriptions->count() }}</td>
                             <td>{{ isset($cl->subscriptions->where('status', 'Open')->first()->title) ?? 'None' }}
                             </td>
