@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\subscriptions;
-use App\Http\Requests\StoresubscriptionsRequest;
-use App\Http\Requests\UpdatesubscriptionsRequest;
+use App\Models\subscription_plans;
 use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
@@ -22,7 +21,7 @@ class SubscriptionsController extends Controller
 
     public function UploadTemplate()
     {
-        $subscriptions = subscriptions::where('status','New')->get();
+        $subscriptions = subscriptions::where('status','New')->orWhere('status','Merged')->get();
         return view('upload-template')->with(['subscriptions'=>$subscriptions]);
     }
 
@@ -33,92 +32,7 @@ class SubscriptionsController extends Controller
     }
 
 
-    public function uploadPayments(Request $request)
-    {
-            // Excel::import(new UsersImport, $request->file('filename'));
 
-                if ($request->input('submit') != null ){
-
-                  $file = $request->file('file');
-
-                  // File Details
-                  $filename = $file->getClientOriginalName();
-                  $extension = $file->getClientOriginalExtension();
-                  $tempPath = $file->getRealPath();
-                  $fileSize = $file->getSize();
-                  $mimeType = $file->getMimeType();
-
-                  // Valid File Extensions
-                  $valid_extension = array("csv");
-
-                  // 500 in Bytes
-                  $maxFileSize = 524288;
-
-                  // Check file extension
-                  if(in_array(strtolower($extension),$valid_extension)){
-
-                    // Check file size
-                    if($fileSize <= $maxFileSize){
-
-                      // File upload location
-                      $location = 'uploads';
-
-                      // Upload file
-                      $file->move($location,$filename);
-
-                      // Import CSV to Database
-                      $filepath = public_path($location."/".$filename);
-
-                      // Reading file
-                      $file = fopen($filepath,"r");
-
-                      $importData_arr = array();
-                      $i = 0;
-
-                      while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-                         $num = count($filedata );
-
-                         // Skip first row (Remove below comment if you want to skip the first row)
-                         if($i == 0){
-                            $i++;
-                            continue;
-                         }
-                         for ($c=0; $c < $num; $c++) {
-                            $importData_arr[$i][] = $filedata [$c];
-                         }
-                         $i++;
-                      }
-                      fclose($file);
-
-                      // Insert to MySQL database
-                      foreach($importData_arr as $importData){
-
-                        $insertData = array(
-                           "username"=>$importData[1],
-                           "name"=>$importData[2],
-                           "gender"=>$importData[3],
-                           "email"=>$importData[4]);
-                        Page::insertData($insertData);
-
-                      }
-
-                      Session::flash('message','Import Successful.');
-                    }else{
-                      Session::flash('message','File too large. File must be less than 2MB.');
-                    }
-
-                  }else{
-                     Session::flash('message','Invalid File Extension.');
-                  }
-
-                }
-
-                // Redirect to index
-                return redirect()->action('PagesController@index');
-
-
-            return redirect()->route('payments')->with('message', 'Imported Successfully');
-    }
 
     public function clientSubs($cid)
     {
@@ -128,8 +42,74 @@ class SubscriptionsController extends Controller
 
     public function topUp(Request $request)
     {
-        $subscriptions = subscriptions::where('client_id',$cid)->get();
-        return view('client_subscriptions')->with(['subscriptions'=>$subscriptions]);
+        $grandTotalAmount = 0;
+        $allInterestRates = array();
+        $allDuration = array();
+        $newProduct = '';
+
+        $priceGrandTotalAmount = 0;
+
+        foreach($request->topup as $subid){
+
+            $subscription = subscriptions::find($subid);
+
+            $product_name = $subscription->product->title;
+
+            $newProduct.=$product_name." / ";
+            $subsTotalAmount = $subscription->subplan->price;
+
+            // Get Product Price
+            //$subsProductPrice = $subscription->product->price;
+            // Add to Sum Product Price
+            //$priceGrandTotalAmount+=$subsProductPrice;
+
+            $subsTotalPaid = $subscription->payments->sum('amount_paid');
+
+            $subsBal = $subsTotalAmount - $subsTotalPaid;
+            $grandTotalAmount+=$subsBal;
+
+            $subsInterest = $subscription->subplan->percentage_increase;
+            array_push($allInterestRates, $subsInterest);
+
+            $subsDuration = $subscription->subplan->duration;
+            array_push($allDuration, $subsDuration);
+
+            $subscription->status = 'Merged';
+            $subscription->save();
+
+        }
+
+        $newInterestRate = max($allInterestRates);
+        $newDuration = max($allDuration);
+
+        $newInterest = ($grandTotalAmount*$newInterestRate)/100;
+
+        // $newPrice = $grandTotalAmount+$newInterest;
+
+        $newPrice = $grandTotalAmount;
+        $monthly_contribution = ceil(($newPrice)/$newDuration);
+
+        $newSubID = subscription_plans::Create([
+            'title'=>$newProduct." N".number_format($newPrice,2)."(".$newDuration.")",
+            'price'=>$newPrice,
+            'product_id'=>19,
+            'duration'=>$newDuration,
+            'percentage_increase'=>$newInterestRate,
+            'monthly_contribution'=>$monthly_contribution,
+            'business_id'=>Auth()->user()->business_id
+        ])->id;
+
+        subscriptions::updateOrCreate(['id'=>$request->id],[
+            'product_id'=>19,
+            'client_id'=>$request->client_id,
+            'subscription_plan'=>$newSubID,
+            'date_subscribed'=>$request->date_subscribed,
+            'status'=>$request->status,
+            'business_id'=>Auth()->user()->business_id
+        ]);
+        $message = 'The Subscriptions was successful toped-Up / Merged!';
+
+        return redirect()->back()->with(['message'=>$message]);
     }
 
     /**
@@ -137,10 +117,7 @@ class SubscriptionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.

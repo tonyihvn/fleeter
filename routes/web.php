@@ -115,6 +115,8 @@ Route::post('/topUp', [App\Http\Controllers\SubscriptionsController::class, 'top
 // GENERATE UPLOADS
 Route::get('/generate-upload', [App\Http\Controllers\SubscriptionsController::class, 'UploadTemplate'])->name('generate-upload')->middleware('role:Finance,Admin,Super');
 Route::get('/generate-stoppage', [App\Http\Controllers\SubscriptionsController::class, 'generateStoppage'])->name('generate-stoppage')->middleware('role:Finance,Admin,Super');
+Route::get('/upload-payments', [App\Http\Controllers\PaymentsController::class, 'addPayments'])->name('upload-payments')->middleware('role:Finance,Admin,Super');
+Route::post('/uploadPayments', [App\Http\Controllers\PaymentsController::class, 'uploadPayments'])->name('uploadPayments')->middleware('role:Finance,Admin,Super');
 
 
 //PAYMENTS

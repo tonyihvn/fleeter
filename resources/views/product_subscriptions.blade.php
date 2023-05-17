@@ -48,7 +48,7 @@
                         @foreach ($subscriptions as $sub)
                             <tr @if ($sub->status == 'Completed') style="background-color: azure !important;" @endif>
                                 <td>{{ $sub->client->name }}</td>
-                                <td>{{ $sub->product->title ?? 'Merged' }}</td>
+                                <td>{{ $sub->product->title ?? 'Top Up' }}</td>
                                 <td>{{ $sub->date_subscribed }}</td>
                                 <td>{{ $sub->subplan->title }}</td>
                                 <td>{{ $sub->payments->count() }} times (Total: {{ $sub->payments->sum('amount_paid') }} )

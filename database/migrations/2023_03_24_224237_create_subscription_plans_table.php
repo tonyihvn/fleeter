@@ -18,7 +18,7 @@ class CreateSubscriptionPlansTable extends Migration
             $table->unsignedBigInteger('product_id')->index()->nullable();
             $table->foreign('product_id')->references('id')->on('products');
 
-            $table->string('title',60);
+            $table->string('title',150);
 
             $table->double('price',10,2)->nullable();
             $table->double('percentage_increase',10,2)->nullable();

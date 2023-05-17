@@ -18,7 +18,7 @@ class subscriptions extends Model
 
     public function product()
     {
-        return $this->belongsTo(products::class, 'product_id', 'id');
+        return $this->hasOne(products::class, 'id', 'product_id');
     }
 
     public function client()

@@ -21,6 +21,8 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('product_id')->index();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
+            $table->integer('month', 10,2)->default(0)->nullable();
+            $table->string('remarks', 50)->nullable();
 
             $table->double('amount_paid',10,2)->default(0)->nullable();
             $table->date('payment_date')->nullable();

@@ -301,6 +301,12 @@
                                         <p>Payments</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('upload-payments') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Upload Payments</p>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>
@@ -664,8 +670,16 @@
 
             $('.select2').select2();
 
-            $('.wyswygeditor').summernote()
+            $('.wyswygeditor').summernote();
 
+            $("#merged").hide();
+
+
+
+        });
+
+        $(".topup").click(function() {
+            $("#merged").show();
         });
 
         function material(accid) {

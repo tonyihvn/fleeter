@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\payments;
 use App\Models\cpayments;
 use App\Models\products;
-
+use App\Models\User;
 use App\Models\subscriptions;
 
 use Illuminate\Http\Request;
@@ -21,20 +21,19 @@ class PaymentsController extends Controller
     {
         $payments = payments::all();
         return view('payments')->with(['payments'=>$payments]);
-
     }
 
     public function itemPayments($pid)
     {
         if (Auth()->user()->role == 'Super' || Auth()->user()->role == 'Admin'){
 
-            $payments = payments::where('product_id',$pid)->get();
+            $payments = payments::where('subscription_id',$pid)->get();
         }else{
-            $payments = payments::where('product_id',$pid)->where('client_id',Auth()->user()->id)->get();
+            $payments = payments::where('subscription_id',$pid)->where('client_id',Auth()->user()->id)->get();
         }
 
-        $item = products::where('id',$pid)->first()->title;
-        return view('item-payments')->with(['payments'=>$payments,'item'=>$item]);
+        $item = subscriptions::where('id',$pid)->first();
+        return view('item-payments')->with(['payments'=>$payments,'item'=>$item->subplan->title]);
 
     }
 
@@ -118,6 +117,107 @@ class PaymentsController extends Controller
         $message = 'The '.$request->account_head.' payment was successful! ';
 
         return redirect()->back()->with(['message'=>$message]);
+    }
+
+    public function addPayments()
+    {
+        return view('upload-payments');
+    }
+
+    public function uploadPayments(Request $request)
+    {
+            // Excel::import(new UsersImport, $request->file('filename'));
+
+                if ($request->file_name != null ){
+
+                  $file = $request->file('file_name');
+
+                  // File Details
+                  $filename = $file->getClientOriginalName();
+                  $extension = $file->getClientOriginalExtension();
+                  $tempPath = $file->getRealPath();
+                  $fileSize = $file->getSize();
+                  $mimeType = $file->getMimeType();
+
+                  // Valid File Extensions
+                  $valid_extension = array("csv");
+
+                  // 500 in Bytes
+                  $maxFileSize = 524288;
+
+                  // Check file extension
+                  if(in_array(strtolower($extension),$valid_extension)){
+
+                    // Check file size
+                    if($fileSize <= $maxFileSize){
+
+                      // File upload location
+                      $location = 'uploads';
+
+                      // Upload file
+                      $file->move($location,$filename);
+
+                      // Import CSV to Database
+                      // $filepath = public_path($location."/".$filename);
+                      $filepath = $location."/".$filename;
+
+                      // Reading file
+                      $file = fopen($filepath,"r");
+
+                      $importData_arr = array();
+                      $i = 0;
+
+                      while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+                         $num = count($filedata);
+                         // Skip first row (Remove below comment if you want to skip the first row)
+                         if($i == 0){
+                            $i++;
+                            continue;
+                         }
+                         for ($c=0; $c < $num; $c++) {
+                            $importData_arr[$i][] = $filedata [$c];
+                         }
+                         $i++;
+                      }
+                      fclose($file);
+
+                      // Insert to MySQL database
+                      foreach($importData_arr as $importData){
+
+
+                        $client_id = User::select('id')->where('ippis_no',$importData[1])->first();
+
+                        if(isset($client_id->id)){
+                            $subscription = subscriptions::select('id','product_id')->where('client_id',$client_id->id)->where('status','!=','Merged')->first();
+
+                            $payment = payments::Create([
+                                'client_id'=>$client_id->id,
+                                'product_id'=>19,
+                                'amount_paid'=>$importData[2],
+                                'payment_date'=>$request->date_paid,
+                                'month'=>$request->month,
+                                'subscription_id'=>$subscription->id,
+                                'remarks'=>$importData[3],
+                                'business_id'=>Auth()->user()->business_id
+                            ]);
+                        }
+
+                      }
+
+                      $message = 'Import  was Successful.';
+                    }else{
+                      $message = 'File too large. File must be less than 2MB.';
+                    }
+
+                  }else{
+                     $message = 'Invalid File Extension.';
+                  }
+
+                }else{
+                    $message = 'Please select a file.';
+                }
+
+            return redirect()->back()->with('message', $message);
     }
 
 

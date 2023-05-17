@@ -33,8 +33,8 @@
                         <th>Category</th>
                         <th>Contact Person</th>
                         <th>Phone Number</th>
-                        <th>Subscriptions</th>
-                        <th>Ongoing</th>
+                        <th>All Subscriptions</th>
+                        <th>Running</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -48,7 +48,7 @@
                             <td>{{ $cl->phone_number }}</td>
 
                             <td>{{ $cl->subscriptions->count() }}</td>
-                            <td>{{ isset($cl->subscriptions->where('status', 'Ongoing')->first()->title) ?? 'None' }}
+                            <td>{{ isset($cl->subscriptions->where('status', 'Open')->first()->title) ?? 'None' }}
                             </td>
                             <td width="90">
                                 <div class="btn-group">
