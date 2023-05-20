@@ -44,7 +44,7 @@ class ProductFilesController extends Controller
     {
 
         $validateData = $request->validate([
-            'picture'=>'image|mimes:jpg,png,jpeg,gif,svg,doc,docx,pdf,xls,xlsx'
+            'picture'=>'image|mimes:jpg,png,jpeg,gif,svg,webp'
         ]);
 
         if(!empty($request->file('file_name'))){

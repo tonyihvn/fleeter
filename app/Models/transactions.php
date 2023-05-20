@@ -11,11 +11,6 @@ class transactions extends Model
 
     protected $guarded = [];
 
-    public function business()
-    {
-        return $this->belongsTo(businesses::class, 'business_id', 'id');
-    }
-
     public function From()
     {
         return $this->hasOne(User::class, 'id', 'from');
@@ -24,8 +19,8 @@ class transactions extends Model
     {
         return $this->hasOne(User::class, 'id', 'to');
     }
-    public function subscription()
+    public function trip()
     {
-        return $this->hasOne(subscriptions::class, 'id', 'subscription_id');
+        return $this->hasOne(trips::class, 'id', 'trip_id');
     }
 }

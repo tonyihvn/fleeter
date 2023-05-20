@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {{ $pagetitle ?? 'AccessMade' }}</title>
+    <title> {{ $pagetitle ?? 'trERP' }}</title>
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
@@ -62,7 +62,7 @@
                     <a href="{{ '/home' }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="https://accessmadelimited.com/" target="_blank" class="nav-link">Contact</a>
+                    <a href="https://trerp.com/" target="_blank" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -169,7 +169,7 @@
             <a href="{{ '/home' }}" class="brand-link">
                 <img src="{{ asset('dist/img/realtyplus_logo.png') }}" alt="RealtyPlus"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AccessMade Ltd</span>
+                <span class="brand-text font-weight-light">TrERP</span>
             </a>
 
             <!-- Sidebar -->
@@ -328,7 +328,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; {{ date('Y') }} <a href="">AccessMade</a>.</strong>
+            <strong>Copyright &copy; {{ date('Y') }} <a href="">TrERP</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.1.0
@@ -374,8 +374,7 @@
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('dist/js/demo.js') }}"></script>
+
 
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
@@ -384,8 +383,10 @@
 
             //Date picker
 
-            $('.date').datetimepicker({
-                format: 'YYYY-MM-DD'
+            $('.datetime').datetimepicker({
+                useCurrent: false,
+                format: 'YYYY-MM-DD HH:mm',
+                sideBySide: true,
             });
 
 

@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\projects;
-use App\Models\categories;
-use App\Models\subscriptions;
+use App\Models\requests;
+use App\Models\facilities;
+use App\Models\department;
+use App\Models\unit;
 
 // To be used for registration
 use Illuminate\Support\Facades\Hash;
@@ -31,51 +32,31 @@ class HomeController extends Controller
     public function index()
     {
         if(Auth()->user()->role=="Super" || Auth()->user()->role=="Admin"){
-            $subscriptions = subscriptions::all();
-            return view('home')->with(['subscriptions'=>$subscriptions]);
-        }elseif(Auth()->user()->role=="Client"){
-            return redirect()->route('products');
-        }elseif(Auth()->user()->role=="Contributor"){
-            return redirect()->route('my-contributions');
+            $requests = requests::all();
+            return view('home')->with(['requests'=>$requests]);
+        }elseif(Auth()->user()->role=="Staff"){
+            return redirect()->route('new-request');
+        }elseif(Auth()->user()->role=="Supervisor"){
+            return redirect()->route('requests');
         }
 
     }
 
-    public function clients()
+    public function staffs()
     {
-        $allclients = User::where('role','Client')->get();
-        return view('clients')->with(['allclients'=>$allclients]);
+        $allstaffs = User::where('role','Staff')->get();
+        return view('staffs')->with(['allstaffs'=>$allstaffs]);
     }
 
-    public function Staff()
-    {
-        $allclients = User::where('category','Staff')->get();
-        return view('staff')->with(['allclients'=>$allclients]);
-    }
-
-    public function Contributors()
-    {
-        $allclients = User::where('role','Contributor')->get();
-        return view('contributors')->with(['allclients'=>$allclients,'object'=>'Contributors']);
-    }
-
-    public function newClient()
-    {
-        $categories = categories::where('group_name','Clients')->get();
-        return view('new-client')->with(['categories'=>$categories,'object'=>'Client']);
-    }
 
     public function newStaff()
     {
-        $categories = categories::where('group_name','Staff')->get();
-        return view('new-client')->with(['categories'=>$categories,'object'=>'Staff']);
+        $facilities = facilities::select('id','facility_name')->get();
+        $departments = department::select('id','department_name')->get();
+        $units = unit::select('id','unit_name')->get();
+        return view('new-staff')->with(['facilities'=>$facilities,'departments'=>$departments,'units'=>$units,'object'=>'Staff']);
     }
 
-    public function newContributor()
-    {
-        $categories = categories::where('group_name','Contributors')->get();
-        return view('new-client')->with(['categories'=>$categories,'object'=>'Contributors']);
-    }
 
     protected function validator(array $data)
     {
@@ -86,7 +67,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function saveClient(Request $request)
+    public function saveStaff(Request $request)
     {
         if($request->password!=""){
             $password = Hash::make($request->password);
@@ -105,32 +86,15 @@ class HomeController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
-            'about'=>$request->about,
+            'staff_id'=>$request->staff_id,
+            'designation'=>$request->designation,
             'phone_number'=>$request->phone_number,
-            'company_name'=>$request->company_name,
-
-            'service_no'=>$request->service_no,
-            'ippis_no'=>$request->ippis_no,
-            'grade_level'=>$request->grade_level,
-            'step'=>$request->step,
-            'rank'=>$request->rank,
-            'service_length'=>$request->service_length,
-            'retirement_date'=>$request->retirement_date,
-            'salary_account'=>$request->salary_account,
-            'bank'=>$request->bank,
-            'lga'=>$request->lga,
-            'kin_name'=>$request->kin_name,
-            'kin_address'=>$request->kin_address,
-            'dob'=>$request->dob,
-
-            'category'=>$request->category,
-            'address'=>$request->address,
+            'facility_id'=>$request->facility_id,
+            'department_id'=>$request->department_id,
+            'unit_id'=>$request->unit_id,
+            'supervisor'=>$request->supervisor,
             'role'=>$request->role,
-            'status'=>$request->status,
-            'business_id'=>Auth()->user()->business_id,
-
-
-
+            'status'=>$request->status
         ]);
 
         $message = 'The '.$request->object.' has been '.$outcome.' successfully';
@@ -138,22 +102,20 @@ class HomeController extends Controller
         return redirect()->back()->with(['message'=>$message]);
     }
 
-    public function editClient($cid)
+    public function editStaff($cid)
     {
         if (Auth()->user()->role == 'Admin' || Auth()->user()->role == 'Super' ) {
-            $client = User::where('id',$cid)->first();
+            $staff = User::where('id',$cid)->first();
         }else{
-            $client = User::where('id',Auth()->user()->id)->first();
+            $staff = User::where('id',Auth()->user()->id)->first();
         }
-        $object = $client->role;
+        $object = $staff->role;
 
+        $facilities = facilities::select('id','facility_name')->get();
+        $departments = department::select('id','department_name')->get();
+        $units = unit::select('id','unit_name')->get();
 
-        if ($object != 'Client' && $object !='Staff' ) {
-            $object = 'Contributors';
-        }
-
-        $categories = categories::where('group_name',$object)->get();
-        return view('new-client')->with(['client'=>$client,'categories'=>$categories,'object'=>$object]);
+        return view('new-client')->with(['facilities'=>$facilities,'departments'=>$departments,'units'=>$units,'object'=>'Staff']);
     }
 
     public function settings(request $request){
@@ -182,15 +144,13 @@ class HomeController extends Controller
 
 
         settings::updateOrCreate(['id'=>$request->id],[
-            'ministry_name' => $request->ministry_name,
+            'org_name' => $request->org_name,
             'motto' => $request->motto,
             'logo' => $logo,
             'address' => $request->address,
             'background' => $background,
             'mode'=>$request->mode,
             'color'=>$request->color,
-            'ministrygroup_id'=>$request->ministrygroup_id,
-            'user_id'=>$request->user_id
         ]);
 
 

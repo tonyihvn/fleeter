@@ -21,27 +21,15 @@ class User extends Authenticatable  implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'about',
+        'staff_id',
         'phone_number',
-        'company_name',
-        'category',
-        'address',
-        'dob',
-        'business_id',
+        'designation',
+        'facility_id',
+        'department_id',
+        'unit_id',
+        'supervisor',
         'role',
-        'status',
-        'service_no',
-            'ippis_no',
-            'grade_level',
-            'step',
-            'rank',
-            'service_length',
-            'retirement_date',
-            'lga',
-            'kin_name',
-            'kin_address',
-            'salary_account',
-            'bank'
+        'status'
     ];
 
     /**
@@ -63,9 +51,9 @@ class User extends Authenticatable  implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function subscriptions()
+    public function supervisor()
     {
-        return $this->hasMany(subscriptions::class, 'client_id', 'id');
+        return $this->hasOne(User::class, 'id', 'supervisor');
     }
 
     public function tasks()

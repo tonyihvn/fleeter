@@ -19,8 +19,6 @@ class CreateAccountheadsTable extends Migration
             $table->string('category',50)->nullable();
             $table->string('type',50)->nullable();
             $table->string('description',50)->nullable();
-            $table->unsignedBigInteger('business_id')->index()->nullable();
-            $table->foreign('business_id')->references('id')->on('businesses');
             $table->timestamps();
         });
 

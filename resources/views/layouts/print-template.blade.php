@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Realty Plus | {{$page_title}}</title>
 
-  <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TrERP | {{ $page_title }}</title>
+
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
 
 </head>
+
 <body>
 
 
@@ -19,4 +21,5 @@
     </section>
 
 </body>
+
 </html>

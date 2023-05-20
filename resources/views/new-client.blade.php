@@ -6,14 +6,14 @@
 @extends($layout)
 @php
     
-    if (isset($client->id)) {
+    if (isset($staff->id)) {
         $type = 'Edit';
         $password_action = 'Change';
         $button = 'Save Changes';
-        $status = $client->status;
+        $status = $staff->status;
     } else {
         $cid = 0;
-        // $client = (object) [];
+        // $staff = (object) [];
     
         $type = 'New';
         $password_action = '';
@@ -45,191 +45,45 @@
         <div class="card-body">
             <form action="{{ route('saveClient') }}" method="post">
                 @csrf
-                <input type="hidden" name="cid" value="{{ isset($client->id) ? $client->id : 0 }}">
+                <input type="hidden" name="cid" value="{{ isset($staff->id) ? $staff->id : 0 }}">
                 <input type="hidden" name="object" value="{{ $object }}">
-                <input type="hidden" name="oldpassword" value="{{ isset($client->password) ? $client->password : '' }}">
+                <input type="hidden" name="oldpassword" value="{{ isset($staff->password) ? $staff->password : '' }}">
 
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="name">Full Name</label>
                         <input type="text" class="form-control" name="name" id="name"
-                            placeholder="Enter a Full Name" value="{{ isset($client->name) ? $client->name : '' }}">
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="company_name">Employer / Organization</label>
-                        <input type="text" class="form-control" name="company_name" id="company_name"
-                            placeholder="Organization"
-                            value="{{ isset($client->company_name) ? $client->company_name : '' }}">
-                    </div>
-                </div>
-                @if ($object == 'Client')
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label for="service_no">Service Number</label>
-                            <input type="text" class="form-control" name="service_no" id="service_no"
-                                placeholder="Service Number"
-                                value="{{ isset($client->service_no) ? $client->service_no : '' }}">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="ippis_no">IPPIS NO:</label>
-                            <input type="text" class="form-control" name="ippis_no" id="ippis_no"
-                                placeholder="IPPIS Number" value="{{ isset($client->ippis_no) ? $client->ippis_no : '' }}">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="grade_level">Salary Grade Level</label>
-                            <select name="grade_level" id="grade_level" class="form-control">
-                                <option value="{{ isset($client->grade_level) ? $client->grade_level : '' }}" selected>
-                                    {{ isset($client->grade_level) ? $client->grade_level : 'Select' }}</option>
-
-                                @for ($i = 0; $i <= 17; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="step">Step:</label>
-                            <input type="text" class="form-control" name="step" id="step" placeholder="Step"
-                                value="{{ isset($client->step) ? $client->step : '' }}">
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label for="salary_account">Salary Acc. No:</label>
-                            <input type="text" class="form-control" name="salary_account" id="salary_account"
-                                placeholder="Salary Account"
-                                value="{{ isset($client->salary_account) ? $client->salary_account : '' }}">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="bank">Bank Name:</label>
-                            <input list="banklist" name="bank" id="bank" class="form-control"
-                                placeholder="Bank Name">
-                            <datalist id="banklist">
-                                <option value="Access Bank Plc">
-                                <option value="Citibank Nigeria Limited">
-                                <option value="Ecobank Nigeria Plc">
-                                <option value="First City Monument Bank Plc">
-                                <option value="Globus Bank Limited">
-                                <option value="Guaranty Trust Bank Plc">
-                                <option value="Heritage Banking Company Ltd.">
-                                <option value="Keystone Bank Limited">
-                                <option value="Parallex Bank Ltd">
-                                <option value="Polaris Bank Plc">
-                                <option value="Premium Trust Bank">
-                                <option value="Providus Bank">
-                                <option value="Stanbic IBTC Bank Plc">
-                                <option value="Standard Chartered Bank Nigeria Ltd.">
-                                <option value="Sterling Bank Plc">
-                                <option value="SunTrust Bank Nigeria Limited">
-                                <option value="Titan Trust Bank Ltd">
-                                <option value="Union Bank of Nigeria Plc">
-                                <option value="United Bank For Africa Plc">
-                                <option value="Unity  Bank Plc">
-                                <option value="Wema Bank Plc">
-                                <option value="Zenith Bank Plc">
-                            </datalist>
-
-
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="kin_name">Next of Kin Name</label>
-                            <input type="text" class="form-control" name="kin_name" id="kin_name"
-                                placeholder="Next of Kin Name"
-                                value="{{ isset($client->kin_name) ? $client->kin_name : '' }}">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="kin_address">Next of Kin Address:</label>
-                            <input type="text" class="form-control" name="kin_address" id="kin_address"
-                                placeholder="Nxt of Kin Address"
-                                value="{{ isset($client->kin_address) ? $client->kin_address : '' }}">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label for="rank">Rank</label>
-                            <input type="text" class="form-control" name="rank" id="rank" placeholder="Rank"
-                                value="{{ isset($client->rank) ? $client->rank : '' }}">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="service_length">Length of Service:</label>
-                            <input type="text" class="form-control" name="service_length" id="service_length"
-                                placeholder="Service Length"
-                                value="{{ isset($client->service_length) ? $client->service_length : '' }}">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="retirement_date">Retirement Date</label>
-                            <div class="input-group date" id="start_date_activator" data-target-input="nearest">
-                                <input type="text" name="retirement_date" class="form-control datetimepicker-input"
-                                    data-target="#start_date_activator"
-                                    value="{{ isset($client->retirement_date) ?? '' }}">
-                                <div class="input-group-append" data-target="#start_date_activator"
-                                    data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="lga">LGA</label>
-                            <input type="text" class="form-control" name="lga" id="lga"
-                                placeholder="Local Govt. Area" value="{{ isset($client->lga) ? $client->lga : '' }}">
-                        </div>
-                    </div>
-                @endif
-                <div class="row">
-                    <div class="form-group col-md-9">
-                        <label for="about"> {{ $object == 'Contributors' ? 'Credit Officer Name' : 'About' }}
-                            {{ $object }} </label>
-                        <input type="text" class="form-control" name="about" id="about"
-                            aria-describedby="about_client" placeholder="About"
-                            value="{{ isset($client->about) ? $client->about : '' }}">
-                        <small id="about_client" class="form-text text-muted">Please, write a brief information about the
-                            {{ $object }}</small>
+                            placeholder="Enter a Full Name" value="{{ isset($staff->name) ? $staff->name : '' }}">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="dob">Date of Birth</label>
-                        <div class="input-group date" id="dob_date_activator" data-target-input="nearest">
-                            <input type="text" name="dob" class="form-control datetimepicker-input"
-                                data-target="#dob_date_activator" value="{{ isset($client->dob) ?? '' }}">
-                            <div class="input-group-append" data-target="#dob_date_activator"
-                                data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
+                        <label for="name">Staff ID Number</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                            placeholder="Enter a Full Name" value="{{ isset($staff->name) ? $staff->name : '' }}">
                     </div>
+                    <div class="form-group col-md-3">
+                        <label for="designation">Designation</label>
+                        <input type="text" class="form-control" name="designation" id="designation"
+                            placeholder="e.g Program Officer, etc"
+                            value="{{ isset($staff->designation) ? $staff->designation : '' }}">
+                    </div>
+
+
                 </div>
 
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label for="address">Home Address </label>
-                        <input type="text" class="form-control" name="address" id="address"
-                            placeholder="Home Address" value="{{ isset($client->address) ? $client->address : '' }}">
-
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="phone_number">Phone Number</label>
                         <input type="text" class="form-control" name="phone_number" id="phone_number"
                             placeholder="Phone Number"
-                            value="{{ isset($client->phone_number) ? $client->phone_number : '' }}">
+                            value="{{ isset($staff->phone_number) ? $staff->phone_number : '' }}">
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email"
-                            placeholder="Email Address" value="{{ isset($client->email) ? $client->email : '' }}"
-                            {{ isset($client->role) && $client->role == 'Client' ? 'readonly' : '' }}>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address"
+                            value="{{ isset($staff->email) ? $staff->email : '' }}"
+                            {{ isset($staff->role) && $staff->role == 'Client' ? 'readonly' : '' }}>
                     </div>
 
                     <div class="form-group col-md-4">
@@ -244,8 +98,8 @@
                     <div class="form-group col-md-4">
                         <label for="category">Category</label>
                         <select name="category" id="category" class="form-control">
-                            <option value="{{ isset($client->category) ? $client->category : '' }}" selected>
-                                {{ isset($client->category) ? $client->category : 'Select Category' }}</option>
+                            <option value="{{ isset($staff->category) ? $staff->category : '' }}" selected>
+                                {{ isset($staff->category) ? $staff->category : 'Select Category' }}</option>
 
                             @foreach ($categories as $cats)
                                 <option value="{{ $cats->title }}">
@@ -259,8 +113,8 @@
                     <div class="form-group col-md-4">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
-                            <option value="{{ isset($client->status) ? $client->status : '' }}" selected>
-                                {{ isset($client->status) ? $client->status : 'Select Status' }}</option>
+                            <option value="{{ isset($staff->status) ? $staff->status : '' }}" selected>
+                                {{ isset($staff->status) ? $staff->status : 'Select Status' }}</option>
 
                             @if (auth()->user()->role == 'Admin' || auth()->user()->role == 'Super')
                                 <option value="Active">Active</option>
@@ -274,8 +128,8 @@
                     <div class="form-group col-md-4">
                         <label for="role">System Role</label>
                         <select name="role" id="role" class="form-control">
-                            <option value="{{ isset($client->role) ? $client->role : '' }}" selected>
-                                {{ isset($client->role) ? $client->role : 'Select Role' }}</option>
+                            <option value="{{ isset($staff->role) ? $staff->role : '' }}" selected>
+                                {{ isset($staff->role) ? $staff->role : 'Select Role' }}</option>
 
                             @if (auth()->user()->role == 'Admin' || auth()->user()->role == 'Super')
                                 <option value="Client">Client User</option>

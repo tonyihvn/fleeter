@@ -23,8 +23,6 @@ class CreateTasksTable extends Migration
             $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
             $table->string('category',30)->nullable();
             $table->string('status',30)->nullable();
-            $table->unsignedBigInteger('business_id')->index()->nullable();
-            $table->foreign('business_id')->references('id')->on('businesses');
             $table->timestamps();
         });
     }

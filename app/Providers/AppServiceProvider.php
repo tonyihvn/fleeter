@@ -5,8 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\tasks;
 use App\Models\User;
-use App\Models\businesses;
-use App\Models\businessgroups;
+use App\Models\settings;
 use Auth;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,18 +35,12 @@ class AppServiceProvider extends ServiceProvider
             {
                 $view->with('login_user', Auth::user());
                 $view->with('mytasks', tasks::where('assigned_to',Auth::user()->id)->get());
-                $view->with('clients', User::select('id','name','company_name','role','status')->where('business_id',Auth::user()->business_id)->get());
-                $view->with('staff', User::select('id','name','phone_number','status')->where('business_id',Auth::user()->business_id)->get());
+                $view->with('users', User::select('id','name','phone_number','status','role')->get());
 
-                $view->with('userbusinesses',businesses::select('id','business_name','businessgroup_id')->where('user_id',Auth::user()->id)->orWhere('id',Auth()->user()->business_id)->get());
-
-                $view->with('business', businesses::where('id',Auth::user()->business_id)->first());
-
-            }else{
-                $view->with('business', businesses::first());
             }
+            $view->with('users', User::select('id','name','phone_number','status','role')->get());
 
-            $view->with('businessgroups', businessgroups::select('id','businessgroup_name')->get());
+            $view->with('organization', settings::all()->first());
 
             // if you need to access in controller and views:
             // Config::set('something', $something);

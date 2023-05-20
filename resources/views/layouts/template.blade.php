@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {{ $pagetitle ?? 'AccessMade' }}</title>
+    <title> {{ $pagetitle ?? 'TrERP' }}</title>
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
@@ -62,7 +62,7 @@
                     <a href="{{ '/home' }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="https://accessmadelimited.com/" target="_blank" class="nav-link">Contact</a>
+                    <a href="https://trerp.com/" target="_blank" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -169,7 +169,7 @@
             <a href="{{ '/home' }}" class="brand-link">
                 <img src="{{ asset('dist/img/realtyplus_logo.png') }}" alt="RealtyPlus"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AccessMade Ltd</span>
+                <span class="brand-text font-weight-light">TrERP</span>
             </a>
 
             <!-- Sidebar -->
@@ -218,23 +218,31 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Clients
+                                    Personnel
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('clients') }}" class="nav-link">
+                                    <a href="{{ url('staffs') }}" class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
-                                        <p>All Clients</p>
+                                        <p>All Staff</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('new-client') }}" class="nav-link">
+                                    <a href="{{ url('new-staff') }}" class="nav-link">
                                         <i class="far fa-user-plus nav-icon"></i>
-                                        <p>New Client</p>
+                                        <p>New Staff</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ url('drivers') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>All Drivers</p>
+                                    </a>
+                                </li>
+
 
                             </ul>
                         </li>
@@ -243,32 +251,30 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-suitcase"></i>
                                 <p>
-                                    Products
+                                    Vehicle Requests / Trips
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('products') }}" class="nav-link">
+                                    <a href="{{ url('requests') }}" class="nav-link">
                                         <i class="far fa-things nav-icon"></i>
-                                        <p>View Products</p>
+                                        <p>View All Requests</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('addproduct') }}" class="nav-link">
+                                    <a href="{{ url('new-request') }}" class="nav-link">
                                         <i class="far fa-plus nav-icon"></i>
-                                        <p>Add Products</p>
+                                        <p>New Request</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ url('product_subscription') }}" class="nav-link">
-                                        <i class="far fa-user-subscribe nav-icon"></i>
-                                        <p>View All Subscriptions</p>
+                                    <a href="{{ url('trips') }}" class="nav-link">
+                                        <i class="far fa-plus nav-icon"></i>
+                                        <p>View Trips</p>
                                     </a>
                                 </li>
-
-
 
                             </ul>
                         </li>
@@ -295,50 +301,14 @@
                                         <p>Manage Account Heads</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('payments') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Payments</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('upload-payments') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Upload Payments</p>
-                                    </a>
-                                </li>
+
 
                             </ul>
                         </li>
 
 
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    People
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
 
-                                <li class="nav-item">
-                                    <a href="{{ url('staff') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Staff</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ url('suppliers') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Suppliers/Vendors</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -364,39 +334,6 @@
 
                             </ul>
                         </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Contributions/Savings
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ url('contributors') }}" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>All Contributors</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('new-contributor') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Add New Member</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ url('ctransactions') }}" class="nav-link">
-                                        <i class="far fa-user-plus nav-icon"></i>
-                                        <p>Transactions</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
-
 
 
                         <li class="nav-item">
@@ -424,21 +361,20 @@
                                 </li>
 
 
-
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ url('generate-upload') }}" class="btn btn-success nav-link">
+                            <a href="{{ url('requests') }}" class="btn btn-success nav-link">
                                 <i class="nav-icon fa far fa-upload text-info"></i>
-                                <p><b> GENERATE UPLOAD<b></p>
+                                <p><b> VEHICLE REQUESTS<b></p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ url('generate-stoppage') }}" class="btn btn-default nav-link">
+                            <a href="{{ url('trips') }}" class="btn btn-default nav-link">
                                 <i class="nav-icon fa far fa-upload text-info"></i>
-                                <p><b> Generate Stoppage<b></p>
+                                <p><b>ALL TRIPS<b></p>
                             </a>
                         </li>
 
@@ -482,7 +418,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; {{ date('Y') }} <a href="">AccessMade</a>.</strong>
+            <strong>Copyright &copy; {{ date('Y') }} <a href="">TrERP</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.1.0
@@ -510,54 +446,34 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="form-check">
-                        <input type="checkbox" name="create_new_ministry" id="create_new_ministry"
-                            class="form-check-input">
-                        <label class="form-check-label"><small style="color: {{ $business->color }}"><i>Click Here to
-                                    Create New Business</i></small></label>
-                    </div>
 
                     <form method="POST" action="{{ route('settings') }}" id="settingsform"
                         enctype="multipart/form-data">
                         @csrf
 
-                        <input type="hidden" name="id" value="{{ $business->id }}">
 
-                        <input type="hidden" name="oldlogo" value="{{ $business->logo }}">
+                        <input type="hidden" name="oldlogo" value="{{ $organization->logo }}">
 
-                        <input type="hidden" name="oldbackground" value="{{ $business->background }}">
+                        <input type="hidden" name="oldbackground" value="{{ $organization->background }}">
 
-                        <input type="hidden" name="newministry" id="newministry" value="">
 
-                        <div class="form-group">
-                            <label for="ministrygroup_id" class="control-label ">Business Group/Headquarter</label>
-                            <select class="form-control" name="ministrygroup_id" id="ministrygroup_id">
-                                <option value="{{ $business->businessgroup_id }}" selected>
-                                    {{ $businessgroups->where('id', $business->businessgroup_id)->first()->businessgroup_name }}
-                                </option>
-                                @foreach ($businessgroups as $mg)
-                                    <option value="{{ $mg->id }}">{{ $mg->businessgroup_name }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
 
                         <div class="form-group">
-                            <label for="ministry_name">Business Name</label>
-                            <input type="text" name="ministry_name" id="ministry_name" class="form-control"
-                                value="{{ $business->business_name }}">
+                            <label for="org_name">Organization Name</label>
+                            <input type="text" name="org_name" id="org_name" class="form-control"
+                                value="{{ $organization->org_name }}">
                         </div>
 
                         <div class="form-group">
                             <label for="motto">Motto</label>
                             <input type="text" name="motto" id="motto" class="form-control"
-                                value="{{ $business->motto }}">
+                                value="{{ $organization->motto }}">
                         </div>
 
                         <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" name="address" id="address" class="form-control"
-                                value="{{ $business->address }}">
+                                value="{{ $organization->address }}">
                         </div>
 
 
@@ -576,25 +492,13 @@
                         <div class="form-group">
                             <label for="color">Choose System Colour</label>
                             <input type="color" name="color" id="color" class="form-control"
-                                value="{{ $business->color }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="user_id" class="control-label ">Admin User</label>
-                            <select class="form-control" name="user_id" id="user_id">
-                                <option value="{{ $business->user_id }}" selected>{{ $business->user->name }}
-                                </option>
-                                @foreach ($staff as $hm)
-                                    <option value="{{ $hm->id }}">{{ $hm->name }}</option>
-                                @endforeach
-
-                            </select>
+                                value="{{ $organization->color }}">
                         </div>
 
                         <div class="form-group">
                             <label for="mode">Mode</label>
                             <select class="form-control" name="mode" id="mode">
-                                <option value="{{ $business->mode }}">{{ $business->mode }}</option>
+                                <option value="{{ $organization->mode }}">{{ $organization->mode }}</option>
                                 <option value="Active" selected>Active</option>
                                 <option value="Maintenance">Maintenance</option>
                             </select>
@@ -643,7 +547,6 @@
 
     <!-- daterangepicker -->
     <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <!-- Summernote -->
@@ -652,8 +555,6 @@
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('dist/js/demo.js') }}"></script>
 
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
@@ -666,110 +567,22 @@
                 format: 'YYYY-MM-DD'
             });
 
+            $('.datetime').datetimepicker({
+                useCurrent: false,
+                format: 'YYYY-MM-DD HH:mm',
+                sideBySide: true,
+            });
+
 
 
             $('.select2').select2();
 
             $('.wyswygeditor').summernote();
 
-            $("#merged").hide();
-
 
 
         });
 
-        $(".topup").click(function() {
-            $("#merged").show();
-        });
-
-        function material(accid) {
-
-            var name = $('#ach' + accid).attr("data-name");
-            var type = $('#ach' + accid).attr("data-type");
-            var measurement_unit = $('#ach' + accid).attr("data-measurement_unit");
-            var size = $('#ach' + accid).attr("data-size");
-            var picture = $('#ach' + accid).attr("data-picture");
-
-            var cost_per = $('#ach' + accid).attr("data-cost_per");
-            var business_id = $('#ach' + accid).attr("data-business_id");
-            var category = $('#ach' + accid).attr("data-category");
-
-            $('#id').val(accid);
-            $('#name').val(name);
-            $('#type').val(type).attr("selected", "selected");
-            $('#measurement_unit').val(measurement_unit);
-            $('#size').val(size);
-
-
-
-            $('#cost_per').val(cost_per);
-            $('#oldpicture').val(picture);
-            $('#category').val(category).attr("selected", "selected");
-            $('#business_id').val(business_id).attr("selected", "selected");
-            $('#matbutton').html("Update Material");
-
-        }
-
-        function supplier(accid) {
-
-            var supplier_name = $('#ach' + accid).attr("data-supplier_name");
-            var company_name = $('#ach' + accid).attr("data-company_name");
-            var phone_number = $('#ach' + accid).attr("data-phone_number");
-            var details = $('#ach' + accid).attr("data-details");
-            var address = $('#ach' + accid).attr("data-address");
-            var business_id = $('#ach' + accid).attr("data-business_id");
-            var category = $('#ach' + accid).attr("data-category");
-
-            $('#id').val(accid);
-            $('#company_name').val(company_name);
-            $('#supplier_name').val(supplier_name);
-            $('#phone_number').val(phone_number);
-            $('#details').val(details);
-            $('#address').val(address);
-            $('#category').val(category).attr("selected", "selected").change();
-            $('#business_id').val(business_id).attr("selected", "selected").change();
-            $('#supbutton').html("Update Supplier");
-
-        }
-
-        function materialcheckout(accid) {
-
-            $("#forcheckout").show();
-
-            $("#materiallist").hide();
-
-            var material_name = $('#ach' + accid).attr("data-material_name");
-
-            $("#material_named").text(material_name).change();
-
-            $("#quantity").attr('type', 'number').change();
-
-            var checkout_by = $('#ach' + accid).attr("data-checkout_by");
-            var approved_by = $('#ach' + accid).attr("data-approved_by");
-            var task_id = $('#ach' + accid).attr("data-task_id");
-
-            var material_id = $('#ach' + accid).attr("data-material_id");
-            var quantity = $('#ach' + accid).attr("data-quantity");
-            var business_id = $('#ach' + accid).attr("data-business_id");
-            var dated = $('#ach' + accid).attr("data-dated");
-            var details = $('#ach' + accid).attr("data-details");
-
-            var date_supplied = $('#ach' + accid).attr("data-date_supplied");
-
-
-            $('#id').val(accid);
-            $('#task_id').val(task_id).attr("selected", "selected").change();
-            $('#checkout_by').val(checkout_by).attr("selected", "selected").change();
-            $('#material_id').val(material_id).attr("selected", "selected").change();
-            $('#quantity').val(quantity);
-            $('#dated').val(dated);
-            $('#details').val(details);
-            $('#approved_by').val(approved_by).attr("selected", "selected").change();
-
-            $('#business_id').val(business_id).attr("selected", "selected").change();
-            $('#mtcbutton').html("Update Checkout");
-
-        }
 
         function accountHead(accid) {
             var title = $('#ach' + accid).attr("data-title");
@@ -797,36 +610,10 @@
             $('#category_group').val(category_group).attr("selected", "selected");
             $('#description').val(description);
             $('#catbutton').html("Update Category");
-            $('#business_id').val(business_id);
-
         }
 
-        function subplan(accid) {
-            var title = $('#ach' + accid).attr("data-title");
-            var product_id = $('#ach' + accid).attr("data-product_id");
-            var frequency = $('#ach' + accid).attr("data-frequency");
-            var no_times = $('#ach' + accid).attr("data-no_times");
-            var duration_per = $('#ach' + accid).attr("data-duration_per");
-            var amount_per = $('#ach' + accid).attr("data-amount_per");
-            var penalty = $('#ach' + accid).attr("data-penalty");
-            var business_id = $('#ach' + accid).attr("data-business_id");
-
-
-            $('#id').val(accid);
-            $('#title').val(title);
-            $('#product_id').val(product_id).attr("selected", "selected");
-            $('#frequency').val(frequency);
-            $('#no_times').val(no_times);
-            $('#duration_per').val(duration_per);
-            $('#amount_per').val(amount_per);
-            $('#penalty').val(penalty);
-            $('#catbutton').html("Update Subscription Plan");
-            $('#business_id').val(business_id);
-
-        }
 
         function transaction(accid) {
-
 
             var title = $('#ach' + accid).attr("data-title");
             var date = $('#ach' + accid).attr("data-date");

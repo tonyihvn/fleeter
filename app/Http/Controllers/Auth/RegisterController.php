@@ -8,8 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\categories;
-
+use App\Models\facilities;
+use App\Models\department;
+use App\Models\unit;
 
 class RegisterController extends Controller
 {
@@ -70,20 +71,25 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'phone_number' => $data['phone_number'],
-            'about' => "",
+            'facility_id' => $data['facility_id'],
+            'department_id' => $data['department_id'],
+            'unit_id' => $data['unit_id'],
+            'designation' => $data['designation'],
+            'staff_id' => $data['staff_id'],
             'status' => "InActive",
-            'role' => $data['role'],
-            'category' => $data['category'],
+            'role' => 'Staff',
+            'supervisor' => $data['supervisor'],
             'status' => "InActive",
-            'business_id' => 1,
+
             'password' => Hash::make($data['password']),
         ]);
     }
 
     public function showRegistrationForm()
     {
-        $clientcategories = categories::where('group_name','Clients')->get();
-        $contributorcat = categories::where('group_name','Contributors')->get();
-        return view("auth.register", compact("clientcategories","contributorcat"));
+        $facilities = facilities::select('id','facility_name')->get();
+        $departments = department::select('id','department_name')->get();
+        $units = unit::select('id','unit_name')->get();
+        return view('auth.register')->with(['facilities'=>$facilities,'departments'=>$departments,'units'=>$units,'object'=>'Staff']);
     }
 }

@@ -11,8 +11,5 @@ class accountheads extends Model
 
     protected $guarded = [];
 
-    public function business()
-    {
-        return $this->belongsTo(businesses::class, 'business_id', 'id');
-    }
+
 }

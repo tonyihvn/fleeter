@@ -18,9 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('group_name',50)->nullable();
             $table->string('title',50)->nullable();
             $table->string('description',50)->nullable();
-            $table->unsignedBigInteger('business_id')->index()->nullable();
-            $table->foreign('business_id')->references('id')->on('businesses');
-            $table->timestamps();
+         $table->timestamps();
         });
     }
 
