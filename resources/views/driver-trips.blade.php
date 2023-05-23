@@ -24,18 +24,55 @@
 
         <div class="card-body" style="overflow: auto;">
             @foreach ($trips as $trip)
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
-                        {{ $trip->request->purpose }}
+                        Purpose: {{ $trip->request->purpose }} <small
+                            class="badge badge-danger">{{ $trip->multipleTrip->count() > 0 ? ' Multiple Trip ' : '' }}</small>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">From: {{ $trip->from }} | To: {{ $trip->to }}</h5>
-                        <h5 class="card-subtitle">Departure: {{ $trip->from }} | Expected Return: {{ $trip->to }}</h5>
+                        <h4>{{ $trip->from }} <i class="fa fa-angle-double-right"></i> {{ $trip->to }}</h4>
+                        <hr>
+                        <h6><i class="fa fa-clock fa-spin"></i> Take-Off: <b>{{ $trip->departure_timedate }}</b> <i
+                                class="fa fa-clock fa-spin"></i>
+                            Return:
+                            <b> {{ $trip->arrival_timedate }}</b>
+                        </h6>
                         <p class="card-text">Instructions: <br> {{ $trip->remarks }}</p>
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-primary group-item">Start</a>
-                            <a href="#" class="btn btn-red group-item">Stop</a>
-                            <a href="#" class="btn btn-info group-item">Trip Report</a>
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-sm-6">
+                                <a href="#" class="btn btn-success btn-lg btn-block">Drive to Destination <i
+                                        class="fa fa-car-side"></i></a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#" class="btn btn-danger btn-lg btn-block">Stop at Destination</a>
+                            </div>
+                        </div>
+                        @if ($trip->multipleTrip->count() > 0)
+                            @foreach ($trip->multipleTrip as $mtrip)
+                                <b>Next: </b> {{ $mtrip->destination }}
+                                <div class="row" style="margin:10px">
+                                    <div class="col-sm-6">
+                                        <a href="#" class="btn btn-success btn-lg btn-block">Start Next Trip <i
+                                                class="fa fa-car-side"></i></a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="#" class="btn btn-danger btn-lg btn-block">Stop</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        <div class="row" style="margin: 10px;">
+                            <div class="col-sm-6">
+                                <a href="#" class="btn btn-primary btn-lg btn-block">Start Return Trip</a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#" class="btn btn-warning btn-lg btn-block">Stop</a>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <a href="{{ url('new-treport/' . $trip->id) }}" class="btn btn-info align-center">Write Trip
+                                Report</a>
+
                         </div>
 
                     </div>

@@ -33,7 +33,6 @@
         <div class="card-body">
             <form action="{{ route('saveRequest') }}" method="post">
                 @csrf
-
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="from">From</label>
@@ -42,21 +41,39 @@
                             placeholder="Where are taking off from">
                         <input type="hidden" name="fromid" id="fromid"
                             value="{{ auth()->user()->facility->id ?? '' }}">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label for="to">Destination</label>
-                        <input type="text" list="facilities" class="form-control" name="to" id="to"
-                            placeholder="Destination">
-                        <input type="hidden" name="toid" id="toid">
                         <datalist id="facilities">
                             @foreach ($facilities as $faci)
                                 <option value="{{ $faci->facility_name }}" data-fid="{{ $faci->id }}">
                             @endforeach
                         </datalist>
                     </div>
+                </div>
+
+                <div id="destination">
+                    <div class="row" id="1000">
+                        <div class="form-group col-md-10">
+                            <label for="to">Destination</label>
+                            <input type="text" list="facilities" class="form-control" name="to" id="to"
+                                placeholder="Destination">
+                            <input type="hidden" name="toid" id="toid">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>.</label>
+                            <a href="#destination" class="btn btn-sm btn-danger btn-block removesitem" id="des1000">Remove
+                                <i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <small><i>If this is a multi-location trip, click here to add more
+                            destination(s)</i> </small>
+                    <hr>
+
+                    <a class="btn btn-sm btn-success adds_des" href="#destination" id="1000">
+                        Add More Destination
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
                 </div>
 
                 <div class="row">
@@ -102,8 +119,8 @@
                     </thead>
                     <tbody id="staff_list">
 
-                        <tr id="100">
-                            <td class="form-group">
+                        <tr id="100" class="row">
+                            <td class="form-group col-sm-10">
                                 <select class="form-control" name="persons[]" required>
                                     <option value="{{ auth()->user()->id }}" selected>
                                         {{ auth()->user()->name }} -
@@ -119,9 +136,9 @@
                             </td>
 
 
-                            <td class="form-group">
-                                <a href="#staff_list" class="btn btn-sm btn-danger removesitem" id="res100">Remove<i
-                                        class="lnr lnr-remove"></i></a>
+                            <td class="form-group col-sm-2">
+                                <a href="#staff_list" class="btn btn-sm btn-danger btn-block removesitem"
+                                    id="res100">Remove <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -130,7 +147,7 @@
 
                 <a class="btn btn-sm btn-success adds_item" href="#workerslist" id="100">
                     Add Personnel
-                    <i class="lnr lnr-add"></i>
+                    <i class="fa fa-plus"></i>
                 </a>
 
                 <div class="form-group col-md-12">

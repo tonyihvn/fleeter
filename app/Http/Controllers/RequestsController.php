@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\requests;
 use App\Models\trip_persons;
 use App\Models\trips;
+use App\Models\mtrips;
 
 use App\Models\facilities;
 use App\Models\vehicles;
@@ -70,6 +71,22 @@ class RequestsController extends Controller
             'requested_by'=>Auth()->user()->id
         ])->id;
 
+        if(isset($request->destination)){
+            foreach ($request->destination as $key => $destination) {
+                $check_existence = mtrips::where('destination',$destination)->where('request_id',$rid)->first();
+                if(!isset($check_existence)){
+
+                    $geocord = facilities::find($request->geocord[$key])->geocordinates;
+
+                    mtrips::create([
+                        'request_id'=>$rid,
+                        'destination'=>$destination,
+                        'geocord'=>$geocord
+                    ]);
+                }
+            }
+        }
+
         foreach ($request->persons as $key => $staff) {
             trip_persons::create([
                 'request_id'=>$rid,
@@ -87,10 +104,15 @@ class RequestsController extends Controller
             'sender'=>Auth()->user()->name,
             'request_id'=>$rid
         ];
-        $to_email = User::select('email')->where('id',Auth()->user()->supervisor)->first()->email;
+
+        $email_check = User::select('email')->where('id',Auth()->user()->supervisor)->first();
+        if(isset($email_check)){
+                    $to_email = $email_check->email;
+                    Mail::to($to_email)->send(new requestApprovalMail($data));
+        }
 
 
-        Mail::to($to_email)->send(new requestApprovalMail($data));
+
 
         $message = "Vehicle Request Sent Successfully!";
         return redirect()->back()->with(['message'=>$message]);
@@ -116,6 +138,18 @@ class RequestsController extends Controller
             'requested_by'=>$request->requested_by
         ]);
 
+        if(isset($request->destination)){
+            foreach ($request->destination as $key => $destination) {
+                $check_existence = trip_persons::where('person_id',$staff)->where('request_id',$request->id)->first();
+                if(!isset($check_existence)){
+                    mtrips::create([
+                        'request_id'=>$request->id,
+                        'person_id'=>$staff
+                    ]);
+                }
+            }
+        }
+
         foreach ($request->persons as $key => $staff) {
             $check_existence = trip_persons::where('person_id',$staff)->where('request_id',$request->id)->first();
             if(!isset($check_existence)){
@@ -137,10 +171,12 @@ class RequestsController extends Controller
             'request_id'=>$request->id
         ];
 
-        $to_email = User::find($request->requested_by)->email;
+        $email_check = User::find('id',$request->requested_by)->first();
+        if(isset($email_check)){
+                    $to_email = $email_check->email;
+                    Mail::to($to_email)->send(new requestApprovalMail($data));
+        }
 
-
-        Mail::to($to_email)->send(new requestApprovalMail($data));
 
         $message = "Vehicle Request Updated Successfully!";
         return redirect()->back()->with(['message'=>$message]);

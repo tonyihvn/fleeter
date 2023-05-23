@@ -11,8 +11,14 @@ class trips extends Model
 
     public function request()
     {
-        return $this->hasOne(User::class, 'id', 'request_id');
+        return $this->hasOne(requests::class, 'id', 'request_id');
     }
+
+    public function multipleTrip()
+    {
+        return $this->hasMany(mtrips::class, 'request_id', 'request_id');
+    }
+
     public function vehicle()
     {
         return $this->hasOne(vehicles::class, 'id', 'vehicle_id');

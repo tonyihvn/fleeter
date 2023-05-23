@@ -48,7 +48,9 @@
                             </td>
 
                             <td>{{ $req->from }}</td>
-                            <td>{{ $req->to }}</td>
+                            <td>{{ $req->to }} <br><small
+                                    class="badge badge-success">{{ $req->mtrips->count() > 0 ? ' Multiple Trip ' : '' }}</small>
+                            </td>
                             <td>{{ date('F d, Y @ H:m', strtotime($req->expdeparture_timedate)) }}</td>
                             <td>{{ date('F d, Y @ H:m', strtotime($req->exparrival_timedate)) }}</td>
                             <td>{{ $req->noPeople->count() }}</td>

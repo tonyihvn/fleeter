@@ -389,21 +389,25 @@
             $('.wyswygeditor').summernote()
 
         });
+
+        function assignDriver(reqid) {
+            $("#request_id").val(reqid);
+        }
         // ADD MATERIAL CHECKOUT
-        $(".add_item").click(function() {
-            // alert("Am here!");
-            // $(".spechead").show();
-            var item_class = $(".add_item").attr("id");
-            var old_class = parseFloat(item_class);
-            new_class = old_class + 1;
-            $(".add_item").prop('id', new_class);
+        // $(".add_item").click(function() {
+        //     // alert("Am here!");
+        //     // $(".spechead").show();
+        //     var item_class = $(".add_item").attr("id");
+        //     var old_class = parseFloat(item_class);
+        //     new_class = old_class + 1;
+        //     $(".add_item").prop('id', new_class);
 
-            $("#1").clone().attr('id', new_class).appendTo("#item_list");
-            $("#" + new_class + " a").prop('id', "re" + new_class);
+        //     $("#1").clone().attr('id', new_class).appendTo("#item_list");
+        //     $("#" + new_class + " a").prop('id', "re" + new_class);
 
-            // $("table tbody#item_list").append("<tr scope='row' class='row"+new_class+"'><td class='input-field'><input type='text' name='property[]' value='' placeholder='e.g. Color, Brand etc'></td><td class='input-field'><td class='input-field'><input type='text' name='value[]' value='' placeholder='e.g. Red, HP etc'></td><td><a href='#' class='btn-floating red btn-small delpos' onClick='delRow("+new_class+")'><i class='small material-icons'>remove</i></a></td></tr>");
+        //     // $("table tbody#item_list").append("<tr scope='row' class='row"+new_class+"'><td class='input-field'><input type='text' name='property[]' value='' placeholder='e.g. Color, Brand etc'></td><td class='input-field'><td class='input-field'><input type='text' name='value[]' value='' placeholder='e.g. Red, HP etc'></td><td><a href='#' class='btn-floating red btn-small delpos' onClick='delRow("+new_class+")'><i class='small material-icons'>remove</i></a></td></tr>");
 
-        });
+        // });
 
         $(document.body).on('click', '.removeitem', function(event) {
 
@@ -414,8 +418,7 @@
             $("#itrow" + item_id).remove();
         });
 
-
-        // ADD STAFF CHECKOUT
+        // ADD STAFF
         $(".adds_item").click(function() {
             var item_class = $(".adds_item").attr("id");
             var old_class = parseFloat(item_class);
@@ -429,13 +432,33 @@
 
         });
 
-        $(document.body).on('click', '.removesitem', function(event) {
+        // ADD DESTINATION
+        $(".adds_des").click(function() {
+            var item_class = $(".adds_des").attr("id");
+            var old_class = parseFloat(item_class);
+            new_class = old_class + 1;
+            $(".adds_des").prop('id', new_class);
 
+            // $("#1000").clone().attr('id', new_class).appendTo("#destination");
+            // $("#" + new_class + " a").prop('id', "des" + new_class);
+
+            // $("table tbody#item_list").append("<tr scope='row' class='row"+new_class+"'><td class='input-field'><input type='text' name='property[]' value='' placeholder='e.g. Color, Brand etc'></td><td class='input-field'><td class='input-field'><input type='text' name='value[]' value='' placeholder='e.g. Red, HP etc'></td><td><a href='#' class='btn-floating red btn-small delpos' onClick='delRow("+new_class+")'><i class='small material-icons'>remove</i></a></td></tr>");
+            $("#destination").append('<div class="row" id="' + new_class +
+                '"><div class="form-group col-md-10"><label>Next Destination</label><input type="text" list="facilities" class="form-control" name="destination[]" onchange="addHiddenFieldValue(' +
+                new_class + ')" id="to' +
+                new_class +
+                '" placeholder="Next Destination"><input type="hidden" name="geocord[]" id = "toid' +
+                new_class +
+                '"></div><div class="form-group col-md-2"><label>.</label><a href="#destination" class="btn btn-sm btn-danger btn-block removesitem"id="des' +
+                new_class + '">Remove<i class="lnr lnr-remove"></i></a></div></div>');
+        });
+
+        $(document.body).on('click', '.removesitem', function(event) {
             var item_id = $(this).attr("id");
             item_id = item_id.substr(3);
-
+            confirm("Are you sure you want to remove the selected item?");
             $("#" + item_id).remove();
-            $("#itrow2" + item_id).remove();
+            // $("#itrow2" + item_id).remove();
 
         });
 
@@ -460,6 +483,12 @@
             $("#toid").val(fidd);
 
         });
+
+
+        function addHiddenFieldValue(sourceId) {
+            var newVal = this.value;
+            $("#toid" + sourceId).val(newVal);
+        }
     </script>
 
     @if (isset($pagetype) && $pagetype == 'Table')

@@ -64,10 +64,10 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ $requests->where('status', 'Not Approved')->count() }}
+                            <h3>{{ $requests->where('status', 'Waiting for Approval')->count() }}
                             </h3>
 
-                            <p>Unassigned Requests</p>
+                            <p>New Requests</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>

@@ -25,4 +25,8 @@ class requests extends Model
     {
         return $this->hasOne(User::class, 'id', 'approved_by');
     }
+
+    public function mtrips(){
+        return $this->hasMany(mtrips::class, 'request_id', 'id');
+    }
 }
