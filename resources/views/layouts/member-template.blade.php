@@ -214,27 +214,26 @@
                                 </p>
                             </a>
                         </li>
-                        @if (auth()->user()->role == 'Client')
+                        @if (auth()->user()->role == 'Staff')
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
-                                        Items
+                                        Vehicle Requests
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ url('products') }}" class="nav-link">
+                                        <a href="{{ url('requests') }}" class="nav-link">
                                             <i class="far fa-user nav-icon"></i>
-                                            <p>View Items/ Subscribe</p>
+                                            <p>View All</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ url('client-subscriptions/' . auth()->user()->id) }}"
-                                            class="nav-link">
+                                        <a href="{{ url('new-request') }}" class="nav-link">
                                             <i class="far fa-user nav-icon"></i>
-                                            <p>My Subscriptions</p>
+                                            <p>New Vehicle Request</p>
                                         </a>
                                     </li>
 
@@ -245,21 +244,15 @@
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-credit-card"></i>
                                     <p>
-                                        Contributions
+                                        Ride History
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ url('online-payment') }}" class="nav-link">
+                                        <a href="{{ url('trips') }}" class="nav-link">
                                             <i class="far fa-user nav-icon"></i>
-                                            <p>Make Online Payment</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ url('my-contributions') }}" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>My Contributions</p>
+                                            <p>My Ride History</p>
                                         </a>
                                     </li>
 
@@ -443,6 +436,28 @@
 
             $("#" + item_id).remove();
             $("#itrow2" + item_id).remove();
+
+        });
+
+        $("#from").on('change', function() {
+            var val = $('#from').val()
+            var fid = $('#facilities option').filter(function() {
+                return this.value == val;
+            }).data('fid');
+            /* if value doesn't match an option, xyz will be undefined*/
+            var fidd = fid ? fid : '';
+            $("#fromid").val(fidd);
+
+        });
+
+        $("#to").on('change', function() {
+            var val = $('#to').val()
+            var fid = $('#facilities option').filter(function() {
+                return this.value == val;
+            }).data('fid');
+            /* if value doesn't match an option, xyz will be undefined*/
+            var fidd = fid ? fid : '';
+            $("#toid").val(fidd);
 
         });
     </script>

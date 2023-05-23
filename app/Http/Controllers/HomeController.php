@@ -38,6 +38,8 @@ class HomeController extends Controller
             return redirect()->route('new-request');
         }elseif(Auth()->user()->role=="Supervisor"){
             return redirect()->route('requests');
+        }elseif(Auth()->user()->role=="Driver"){
+            return redirect()->route('driver-trips');
         }
 
     }

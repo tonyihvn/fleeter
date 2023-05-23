@@ -44,26 +44,39 @@
                             <td>{{ $cl->id }}</td>
                             <td>{{ $cl->name }}</td>
                             <td>{{ $cl->facility->name }}</td>
-                            <td>{{ $cl->department->name }}</td>
-                            <td>{{ $cl->unit->name }}</td>
+                            <td>{{ $cl->department->name ?? '' }}</td>
+                            <td>{{ $cl->unit->name ?? '' }}</td>
                             <td>{{ $cl->designation }}</td>
                             <td>{{ $cl->status }}
                             </td>
                             <td width="90">
-                                <div class="btn-group">
-                                    <a href="{{ url('/edit-staff/' . $cl->id) }}" class="btn btn-default btn-xs">Edit</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                    <a href="{{ url('/staff-trips/' . $cl->id) }}" class="btn btn-success btn-xs">Trips</a>
-                                    <a href="{{ url('/new-request/' . $cl->id) }}" class="btn btn-success btn-xs">New
-                                        Request</a>
+                                        <li class="dropdown-item"><a href="{{ url('/edit-staff/' . $cl->id) }}"
+                                                class="dropdown-item">Edit</a></li>
+                                        <li class="dropdown-item"><a href="{{ url('/staff-trips/' . $cl->id) }}"
+                                                class="dropdown-item">Trips</a></li>
+                                        <li class="dropdown-item"><a href="{{ url('/new-request/' . $cl->id) }}"
+                                                class="dropdown-item">New
+                                                Request</a></li>
+
+                                        <li class="divider"></li>
+                                        <li class="dropdown-item"><a href="{{ url('/delete-staff/' . $cl->id) }}"
+                                                class="dropdown-item"
+                                                onclick="if (! confirm('Are you sure you want to delete this staff??')) { return false; }">Del</a>
+                                        </li>
 
 
-                                    <a href="{{ url('/delete-staff/' . $cl->id) }}" class="btn btn-danger btn-xs"
-                                        onclick="if (! confirm('Are you sure you want to delete this user??')) { return false; }">Del</a>
 
-
-
+                                    </ul>
                                 </div>
+
+
                             </td>
 
                         </tr>

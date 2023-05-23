@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\vehicles;
+use App\Models\facilities;
+
 use App\Http\Requests\StorevehiclesRequest;
 use App\Http\Requests\UpdatevehiclesRequest;
+use Illuminate\Http\Request;
 
 class VehiclesController extends Controller
 {
@@ -25,7 +28,8 @@ class VehiclesController extends Controller
      */
     public function create()
     {
-        //
+        $facilities = facilities::select('facility_name','state','id')->get();
+        return view('new-vehicle')->with(['facilities'=>$facilities]);
     }
 
     /**
@@ -34,9 +38,27 @@ class VehiclesController extends Controller
      * @param  \App\Http\Requests\StorevehiclesRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorevehiclesRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $validateData = $request->validate([
+            'picture'=>'image|mimes:jpg,png,jpeg,gif,svg,webp'
+        ]);
+
+        if(!empty($request->file('picture'))){
+            $file_name = time().'.'.$request->picture->extension();
+
+            $request->picture->move(\public_path('vehicles/'),$file_name);
+        }else{
+                $file_name = "";
+        }
+
+        $data = request()->except(['facility']);
+        $data['picture'] = $file_name;
+
+        vehicles::create($data);
+
+        return redirect()->back()->with(['message'=>"The Vehicle was recorded successfully!"]);
     }
 
     /**

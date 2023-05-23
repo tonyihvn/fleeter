@@ -16,6 +16,11 @@ class requests extends Model
         return $this->hasOne(User::class, 'id', 'requested_by');
     }
 
+    public function noPeople()
+    {
+        return $this->hasMany(trip_persons::class, 'request_id', 'id');
+    }
+
     public function approvedBy()
     {
         return $this->hasOne(User::class, 'id', 'approved_by');

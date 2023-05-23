@@ -60,4 +60,19 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasMany(tasks::class, 'assigned_to', 'id');
     }
+
+    public function facility()
+    {
+        return $this->hasOne(facilities::class, 'id', 'facility_id');
+    }
+
+    public function department()
+    {
+        return $this->hasOne(department::class, 'id', 'department_id');
+    }
+
+    public function unit()
+    {
+        return $this->hasOne(unit::class, 'id', 'unit_id');
+    }
 }

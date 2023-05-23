@@ -25,10 +25,8 @@ class CreateTripsTable extends Migration
             $table->timestamp('departure_timedate')->nullable();
             $table->timestamp('arrival_timedate')->nullable();
 
-
-
-            $table->unsignedBigInteger('requested_by')->index()->nullable();
-            $table->foreign('requested_by')->references('id')->on('users');
+            $table->unsignedBigInteger('request_id')->index()->nullable();
+            $table->foreign('request_id')->references('id')->on('requests');
 
             $table->unsignedBigInteger('vehicle_id')->index()->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles');

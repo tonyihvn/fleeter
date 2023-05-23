@@ -23,6 +23,7 @@ class CreateFacilitiesTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('contact_person')->nullable();
+            $table->string('geocordinates')->nullable();
             $table->timestamps();
         });
 

@@ -32,8 +32,31 @@ Route::get('delete-staff/{cid}', [App\Http\Controllers\HomeController::class, 'd
 Route::get('requests', [App\Http\Controllers\RequestsController::class, 'index'])->name('requests')->middleware('role:Supervisor,Admin,Super');
 Route::get('new-request', [App\Http\Controllers\RequestsController::class, 'create'])->name('new-request')->middleware('role:Staff,Supervisor,Admin,Super');
 Route::post('saveRequest', [App\Http\Controllers\RequestsController::class, 'store'])->name('saveRequest')->middleware('role:Staff,Supervisor,Admin,Super');
-// Route::get('edit-staff/{cid}', [App\Http\Controllers\HomeController::class, 'editStaff'])->name('edit-staff')->middleware('role:Staff,Supervisor,Admin,Super');
-// Route::get('delete-staff/{cid}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('delete-staff')->middleware('role:Super');
+Route::post('updateRequest', [App\Http\Controllers\RequestsController::class, 'updateRequest'])->name('updateRequest')->middleware('role:Staff,Supervisor,Admin,Super');
+
+Route::get('edit-request/{rid}', [App\Http\Controllers\RequestsController::class, 'editRequest'])->name('edit-request')->middleware('role:Staff,Supervisor,Admin,Super');
+Route::get('approve-request/{rid}', [App\Http\Controllers\RequestsController::class, 'approveRequest'])->name('approve-request')->middleware('role:Admin,Super');
+Route::get('disapprove-request/{rid}', [App\Http\Controllers\RequestsController::class, 'disapproveRequest'])->name('disapprove-request')->middleware('role:Supervisor,Admin,Super');
+Route::get('start-trip/{rid}', [App\Http\Controllers\RequestsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
+Route::get('request-persons/{rid}', [App\Http\Controllers\RequestsController::class, 'tripPersons'])->name('request-persons')->middleware('role:Staff,Driver]Admin,Super');
+
+
+// TRIPS
+Route::post('assignDriver', [App\Http\Controllers\TripsController::class, 'store'])->name('assignDriver')->middleware('role:Admin,Super');
+Route::get('driver-trips', [App\Http\Controllers\TripsController::class, 'driverTrips'])->name('driver-trips')->middleware('role:Driver,Admin,Super');
+Route::get('start-trip/{tid}', [App\Http\Controllers\TripsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
+Route::get('stop-trip/{tid}', [App\Http\Controllers\TripsController::class, 'stopTrip'])->name('stop-trip')->middleware('role:Driver,Admin,Super');
+
+
+// Vehicles
+Route::get('vehicles', [App\Http\Controllers\VehiclesController::class, 'index'])->name('vehicles')->middleware('role:Driver,Admin,Super');
+Route::get('new-vehicle', [App\Http\Controllers\VehiclesController::class, 'create'])->name('new-vehicle')->middleware('role:Driver,Admin,Super');
+Route::post('saveVehicle', [App\Http\Controllers\VehiclesController::class, 'store'])->name('saveVehicle')->middleware('role:Driver,Admin,Super');
+Route::post('updateRequest', [App\Http\Controllers\RequestsController::class, 'updateVehicle'])->name('updateVehicle')->middleware('role:Driver,Admin,Super');
+
+
+
+Route::get('delete-request/{rid}', [App\Http\Controllers\RequestsController::class, 'destroy'])->name('delete-request')->middleware('role:Super');
 
 //TASK
 Route::get('tasks', [App\Http\Controllers\TasksController::class, 'index'])->name('tasks');

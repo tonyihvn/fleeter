@@ -25,6 +25,9 @@ class CreateVehiclesTable extends Migration
             $table->string('color',30)->nullable();
             $table->string('picture',30)->nullable();
             $table->string('status',50)->nullable();
+            $table->string('condition',50)->nullable();
+            $table->unsignedBigInteger('facility_id')->index();
+            $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade');
             $table->timestamps();
         });
     }

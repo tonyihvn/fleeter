@@ -43,7 +43,7 @@
             <h4 class="card-title">{{ $type }} {{ $object }} Form</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('saveClient') }}" method="post">
+            <form action="{{ route('saveStaff') }}" method="post">
                 @csrf
                 <input type="hidden" name="cid" value="{{ isset($staff->id) ? $staff->id : 0 }}">
                 <input type="hidden" name="object" value="{{ $object }}">
@@ -181,6 +181,7 @@
                                 {{ isset($staff->role) ? $staff->role : 'Select Role' }}</option>
 
                             @if (auth()->user()->role == 'Admin' || auth()->user()->role == 'Super')
+                                <option value="Driver">Driver</option>
                                 <option value="Staff">Staff User</option>
                                 <option value="Supervisor">Supervisor</option>
                                 <option value="Admin">Admin</option>

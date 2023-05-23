@@ -573,16 +573,15 @@
                 sideBySide: true,
             });
 
-
-
             $('.select2').select2();
 
             $('.wyswygeditor').summernote();
 
-
-
         });
 
+        function assignDriver(reqid) {
+            $("#request_id").val(reqid);
+        }
 
         function accountHead(accid) {
             var title = $('#ach' + accid).attr("data-title");
@@ -642,7 +641,7 @@
 
         }
 
-        // ADD MATERIAL CHECKOUT
+        // ADD STAFF
         $(".add_item").click(function() {
             // alert("Am here!");
             // $(".spechead").show();

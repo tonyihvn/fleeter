@@ -29,14 +29,14 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ $clients->where('role', 'Client')->count() }}</h3>
+                            <h3>{{ $users->where('role', 'Staff')->count() }}</h3>
 
-                            <p>PayLater Clients</p>
+                            <p>All Staff</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-persons"></i>
                         </div>
-                        <a href="{{ url('clients') }}" class="small-box-footer">View All Clients <i
+                        <a href="{{ url('staffs') }}" class="small-box-footer">View All <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -46,14 +46,14 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ $clients->where('role', 'Contributor')->count() }}</h3>
+                            <h3>{{ $users->where('role', 'Driver')->count() }}</h3>
 
-                            <p>Contribution Clients</p>
+                            <p>Drivers</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="{{ url('clients') }}" class="small-box-footer">More info <i
+                        <a href="{{ url('drivers') }}" class="small-box-footer">View All <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -64,15 +64,15 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ $subscriptions->where('status', 'Completed')->count() }}
+                            <h3>{{ $requests->where('status', 'Not Approved')->count() }}
                             </h3>
 
-                            <p>Completed Payment</p>
+                            <p>Unassigned Requests</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="{{ url('subscriptions') }}" class="small-box-footer">More info <i
+                        <a href="{{ url('requests') }}" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -81,14 +81,14 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{ $subscriptions->where('status', 'In Progress')->count() }}</h3>
+                            <h3>{{ $requests->where('status', 'In Progress')->count() }}</h3>
 
-                            <p>Ongoing Payments</p>
+                            <p>Ongoing Trips</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="{{ url('subscriptions') }}" class="small-box-footer">More info <i
+                        <a href="{{ url('requests') }}" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

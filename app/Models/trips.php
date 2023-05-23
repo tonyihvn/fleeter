@@ -9,11 +9,10 @@ class trips extends Model
 {
     protected $guarded = [];
 
-    public function requestedBy()
+    public function request()
     {
-        return $this->hasOne(User::class, 'id', 'requested_by');
+        return $this->hasOne(User::class, 'id', 'request_id');
     }
-
     public function vehicle()
     {
         return $this->hasOne(vehicles::class, 'id', 'vehicle_id');
@@ -23,6 +22,7 @@ class trips extends Model
     {
         return $this->hasOne(User::class, 'id', 'driver_id');
     }
+
 
     use HasFactory;
 }

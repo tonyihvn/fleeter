@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class requestApprovalMail extends Mailable
+class approvedTripMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class requestApprovalMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Approval for Vehicle Request - IHVN Transport Office')->view('mails.approvalRequest')->with(['data'=>$this->data]);
+        return $this->subject('Vehicle Request Approved - IHVN Transport Office')->view('mails.approvedTripMail')->with(['data'=>$this->data]);
     }
 }
