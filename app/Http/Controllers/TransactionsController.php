@@ -6,8 +6,7 @@ use App\Models\transactions;
 use Illuminate\Http\Request;
 
 use App\Models\accountheads;
-use App\Models\User;
-use App\Models\subscriptions;
+use App\Models\trips;
 
 class TransactionsController extends Controller
 {
@@ -20,10 +19,9 @@ class TransactionsController extends Controller
     {
         $transactions = transactions::paginate(50);
         $accountheads = accountheads::select('title','category')->get();
-        $users = User::select('id','name')->get();
-        $subscriptions = subscriptions::select('id','client_id')->get();
+        $trips = trips::select('id','to','driver_id','departure_timedate')->get();
 
-        return view('transactions', compact('transactions','accountheads','users'));
+        return view('transactions', compact('transactions','accountheads','trips'));
     }
 
     /**

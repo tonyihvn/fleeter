@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\tasks;
-use App\Models\materials;
-use App\Http\Requests\StoretasksRequest;
-use App\Http\Requests\UpdatetasksRequest;
 use Illuminate\Http\Request;
-use App\Models\task_workers;
 use App\Models\categories;
+use Auth;
 
 class TasksController extends Controller
 {
@@ -31,23 +28,16 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($cid)
-    {
 
-        return view('project-task')->with(['cid'=>$cid]);
-
-
-    }
 
     // General Task
     public function newTask()
     {
         if (Auth()->user()->role == 'Super' || Auth()->user()->role == 'Admin'){
-            $categories = categories::where('business_id',Auth()->user()->business_id)->get();
+            $categories = categories::all();
             return view('new-task')->with(['categories'=>$categories]);
         }else{
-            $categories = categories::where('business_id',Auth()->user()->business_id)->get();
-            return view('new-message')->with(['categories'=>$categories]);
+            return view('new-message');
         }
 
     }
@@ -56,20 +46,15 @@ class TasksController extends Controller
     public function saveTask(Request $request)
     {
         tasks::updateOrCreate(['id'=>$request->tid],[
-            //'project_id'=>$request->project_id,
-            // 'milestone_id'=>$request->milestone_id,
+
             'subject'=>$request->subject,
             'start_date'=>$request->start_date,
             'end_date'=>$request->end_date,
             'details'=>$request->details,
             'assigned_to'=>$request->assigned_to,
             'category'=>$request->category,
-            // 'actual_cost'=>$request->actual_cost,
-            // 'files'=>$request->files,
-
             'status'=>$request->status,
-            'business_id'=>Auth()->user()->business_id
-
+            'sender_id'=>Auth()->user()->id
         ]);
 
         $message = "Message/Task created successfully!";
@@ -81,8 +66,7 @@ class TasksController extends Controller
     public function viewTask($tid)
     {
         $task = tasks::where('id',$tid)->first();
-        $materials = materials::select('id','name','measurement_unit')->get();
-        return view('task')->with(['task'=>$task,'materials'=>$materials]);
+        return view('task')->with(['task'=>$task]);
 
     }
 
@@ -96,23 +80,6 @@ class TasksController extends Controller
 
         return redirect()->back()->with(['message'=>$message]);
 
-    }
-
-    public function addWorkers(Request $request)
-    {
-        foreach($request->worker as $key=>$worker_id){
-            task_workers::create([
-                'worker_id'=>$worker_id,
-                'amount_paid' => $request->amountpaid[$key],
-                'work_date' => $request->work_date,
-                'task_id'=>$request->task_id,
-                'business_id'=>Auth()->user()->business_id
-            ]);
-
-        }
-
-        $message = "Workers added to the task";
-        return redirect()->back()->with(['message'=>$message]);
     }
 
     public function completetask($id)

@@ -1,46 +1,52 @@
-@extends('template')
+@extends('layouts.template')
 
 @section('content')
-    
-    <div class = "row" style="width:98%; margin:auto;">
-        <h5 class="text-center">Activities / Audit Trails</h5>
-    
-        @if ($audits!=NULL)
-          
-        <table id="audits" class="display responsive-table" style="width:100%;;">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Date & Time</th>
-                    <th>Event/Action</th>
-                    <th>Description</th>
-                    <th>User</th>
-                    
-                   
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($audits as $au)                 
-                
-                <tr>
-                    <td>{{$au->created_at}}</td>
-                    <td>{{$au->action}}</td>
-                    <td>{{$au->description}}</td>
-                    <td>{{$au->doneby}}</td>
-                    
-                  
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>                    
-                    <th>Datetime</th>
-                    <th>Event/Action</th>
-                    <th>Description</th>
-                    <th>User</th>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="col m6 offset-m3">{{$audits->links()}}</div>
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Audit Trails</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Audits</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="card" style="padding:10px">
+
+        @if ($audits != null)
+            <table id="audits" class="table responsive-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Event/Action</th>
+                        <th>Description</th>
+                        <th>User</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($audits as $au)
+                        <tr>
+                            <td>{{ $au->created_at }}</td>
+                            <td>{{ $au->action }}</td>
+                            <td>{{ $au->description }}</td>
+                            <td>{{ $au->doneby }}</td>
+
+
+                        </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+            <div class="col m6 offset-m3">{{ $audits->links() }}</div>
         @else
             <blockquote>No Audit trails found in the database.</blockquote>
         @endif

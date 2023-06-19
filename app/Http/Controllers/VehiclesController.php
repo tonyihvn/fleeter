@@ -18,7 +18,8 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-        //
+        $vehicles = vehicles::all();
+        return view('vehicles')->with(['vehicles'=>$vehicles]);
     }
 
     /**
@@ -67,9 +68,10 @@ class VehiclesController extends Controller
      * @param  \App\Models\vehicles  $vehicles
      * @return \Illuminate\Http\Response
      */
-    public function show(vehicles $vehicles)
+    public function show($vid)
     {
-        //
+        $vehicle = vehicles::where('id',$vid)->first();
+        return view('vehicle')->with(['vehicle'=>$vehicle]);
     }
 
     /**
@@ -90,9 +92,16 @@ class VehiclesController extends Controller
      * @param  \App\Models\vehicles  $vehicles
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatevehiclesRequest $request, vehicles $vehicles)
+    public function update(Request $request)
     {
-        //
+        $vehicle = vehicles::where('id',$request->vid)->first();
+        $vehicle->condition = $request->condition ?? '';
+        $vehicle->fuel_level = $request->fuel_level ?? '';
+        $vehicle->odometer = $request->odometer ?? '';
+        $vehicle->save();
+
+        $message = "The vehicle was updated successfully!";
+        return redirect()->back()->with(['message'=>$message]);
     }
 
     /**
@@ -101,8 +110,10 @@ class VehiclesController extends Controller
      * @param  \App\Models\vehicles  $vehicles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(vehicles $vehicles)
+    public function destroy($vid)
     {
-        //
+        vehicles::find($vid)->delete();
+        $message = "The vehicle was deleted successfully!";
+        return redirect()->back()->with(['message'=>$message]);
     }
 }

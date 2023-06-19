@@ -8,8 +8,13 @@ class unit extends Model
 {
     protected $guarded = [];
 
-    public function inventory()
+    public function facility()
     {
-        return $this->hasMany('App\inventory','unit_id');
+        return $this->hasOne(facilities::class, 'id','facility_id');
+    }
+
+    public function department()
+    {
+        return $this->hasOne(department::class, 'id','department_id');
     }
 }

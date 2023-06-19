@@ -148,7 +148,7 @@
                         <label for="supervisor">Supervisor</label>
                         <select name="supervisor" id="supervisor" class="form-control">
                             <option value="{{ isset($staff->supervisor) ? $staff->supervisor : '' }}" selected>
-                                {{ isset($staff->supervisor) ? $staff->supervisor : 'Select Category' }}</option>
+                                {{ isset($staff->supervisor) ? $staff->Supervisor->name : 'Select Category' }}</option>
 
                             @foreach ($users->where('role', 'Supervisor') as $sups)
                                 <option value="{{ $sups->id }}">

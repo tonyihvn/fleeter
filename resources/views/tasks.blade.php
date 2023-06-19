@@ -1,5 +1,9 @@
-@extends('layouts.template')
-
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
 @section('content')
     @php $pagetype="Table"; @endphp
 
@@ -31,7 +35,7 @@
                     <thead>
                         <tr style="color: ">
                             <th>Title</th>
-                            <th>Details</th>
+                            <th class="d-none d-md-table-cell">Details</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Assigned To</th>
@@ -45,7 +49,7 @@
                                 @if ($task->status == 'In Progress') style="background-color: #FFF8B0 !important;" @endif>
                                 <td><b>{{ $task->subject }}</b> <br> <small>Category: <i>{{ $task->category }}</i></small>
                                 </td>
-                                <td>{!! isset($task->project) ? '<i>Project: </i>' . $task->project->title . '<br><hr>' : '' !!}
+                                <td class="d-none d-md-table-cell">
                                     {!! $task->details !!}</td>
                                 <td>{{ $task->start_date . ' ' . $task->end_date }}</td>
                                 <td>{{ $task->status }}</td>

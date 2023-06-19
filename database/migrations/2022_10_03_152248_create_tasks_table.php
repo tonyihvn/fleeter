@@ -21,6 +21,8 @@ class CreateTasksTable extends Migration
             $table->text('details')->nullable();
             $table->unsignedBigInteger('assigned_to')->index();
             $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('sender_id')->index();
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('category',30)->nullable();
             $table->string('status',30)->nullable();
             $table->timestamps();

@@ -22,7 +22,8 @@
         <div class="card">
             <div class="card-heading">
 
-                <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#accounthead">Add
+                <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#accounthead"><i
+                        class="fa fa-plus"></i> Add
                     New</a>
 
 

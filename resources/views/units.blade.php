@@ -1,73 +1,66 @@
-@extends('template')
-
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
+@php
+    $pagetype = 'Table';
+@endphp
 @section('content')
 
-    <div class = "row" style="width:98%; margin:auto;">
-        <h5 class="text-center">List of Units</h5>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Units</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Units</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <div class="card" style="padding:10px">
 
-        @if ($units!=NULL)
-          <div>
-              <a href="{{url('/add_unit')}}" class="btn btn-small btn-floating right pulse"><i class="material-icons">add</i></a>
-          </div>
-        <table id="products" class="display responsive-table" style="width:100%;;">
-            <thead class="thead-dark">
-                <tr>
+        @if ($units != null)
+            <div>
+                <a href="{{ url('/add_unit') }}" class="btn btn-primary float-right"><i class="fa fa-add"></i>
+                    Add
+                    New</a>
+            </div>
+            <table id="products" class="table responsive-table">
+                <thead>
+                    <tr>
 
-                    <th>Unit Name</th>
-                    <th>Department</th>
-                    <th>Facility Name</th>
-                    <th>Internal Location</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($units as $un)
+                        <th>Unit Name</th>
+                        <th>Department</th>
+                        <th>Facility Name</th>
+                        <th>Internal Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($units as $un)
+                        <tr>
 
-                <tr>
+                            <td>{{ $un->unit_name }}</td>
+                            <td>{{ $un->department->department_name ?? '' }}</td>
+                            <td>{{ $un->facility->facility_name ?? '' }}</td>
+                            <td>{{ $un->internal_location }}</td>
+                            <td>
+                                <a href="{{ url('/delete-unit/' . $un->id) }}" class="btn-btn-danger">Delete</a>
 
-                    <td>{{$un->unit_name}}</td>
-                    <td>{{$un->department}}</td>
-                    <td>{{$un->facility}}</td>
-                    <td>{{$un->internal_location}}</td>
-                    <td>
-                        <div class="fixed-action-btn horizontal direction-top direction-left click-to-toggle sales_action" style="position: relative !important; float: text-align: center; display: inline-block; bottom: 0px !important; padding: 0px !important">
-                                <a class="btn-floating btn-small dark-purple waves-effect waves-light" style="display: inline-block" >
-                                    <i class="small material-icons">menu</i>
-                                </a>
-                                <ul style="top: 0px !important">
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
 
-                                    <li>
-                                            <form method="POST" action="{{route('units.destroy',$un->id)}}">
-                                                @csrf
-                                                @method('DELETE')
-                                            <button onclick="return confirm('Are you sure you want to delete this unit?')" class="btn-floating btn-small waves-effect red waves-light tooltipped" data-position="top" data-tooltip="Delete this Item"><i class="material-icons">delete</i></button>
-                                            </form>
-                                    </li>
-
-                                    <li>
-                                            <a href="{{url('/unit/'.$un->id)}}" class="btn-floating btn-small waves-effect blue waves-light tooltipped" data-position="top" data-tooltip="unit Inventory" target="_blank"><i class="material-icons">list</i></a>
-                                    </li>
-
-
-                                </ul>
-                        </div>
-
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-
-                    <th>Unit Name</th>
-                    <th>Department</th>
-                    <th>Facility Name</th>
-                    <th>Internal Location</th>
-                    <th>Actions</th>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="col m6 offset-m3">{{$units->links()}}</div>
+            </table>
+            <div class="col m6 offset-m3">{{ $units->links() }}</div>
         @else
             <blockquote>No unit found in the database.</blockquote>
         @endif

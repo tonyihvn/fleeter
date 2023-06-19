@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.member-template')
 @php
     $pagetype = 'Table';
 @endphp
@@ -21,7 +21,8 @@
 
 
     <div class="card">
-
+        <div class="alert alert-success" role="alert" id="destinationAlert"
+            style="text-align: center; font-weight: bold; font-size: 1.2em;"></div>
         <div class="card-body" style="overflow: auto;">
             @foreach ($trips as $trip)
                 <div class="card card-primary">
@@ -37,41 +38,13 @@
                             Return:
                             <b> {{ $trip->arrival_timedate }}</b>
                         </h6>
-                        <p class="card-text">Instructions: <br> {{ $trip->remarks }}</p>
-                        <div class="row" style="margin: 10px;">
-                            <div class="col-sm-6">
-                                <a href="#" class="btn btn-success btn-lg btn-block">Drive to Destination <i
-                                        class="fa fa-car-side"></i></a>
+                        <p class="card-text"><b>Instructions:</b> <br> {{ $trip->remarks }}</p>
+
+                        <div class="row" style="margin: 10px; ">
+                            <div class="col-sm-12" style="margin-bottom: 10px;">
+                                <a href="{{ url('/start-trip/'.$trip->id) }}" class="btn btn-success btn-lg btn-block">                                    Start this Trip
+                                     <i class="fa fa-car-side"></i></a>
                             </div>
-                            <div class="col-sm-6">
-                                <a href="#" class="btn btn-danger btn-lg btn-block">Stop at Destination</a>
-                            </div>
-                        </div>
-                        @if ($trip->multipleTrip->count() > 0)
-                            @foreach ($trip->multipleTrip as $mtrip)
-                                <b>Next: </b> {{ $mtrip->destination }}
-                                <div class="row" style="margin:10px">
-                                    <div class="col-sm-6">
-                                        <a href="#" class="btn btn-success btn-lg btn-block">Start Next Trip <i
-                                                class="fa fa-car-side"></i></a>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a href="#" class="btn btn-danger btn-lg btn-block">Stop</a>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                        <div class="row" style="margin: 10px;">
-                            <div class="col-sm-6">
-                                <a href="#" class="btn btn-primary btn-lg btn-block">Start Return Trip</a>
-                            </div>
-                            <div class="col-sm-6">
-                                <a href="#" class="btn btn-warning btn-lg btn-block">Stop</a>
-                            </div>
-                        </div>
-                        <div style="text-align: center;">
-                            <a href="{{ url('new-treport/' . $trip->id) }}" class="btn btn-info align-center">Write Trip
-                                Report</a>
 
                         </div>
 
@@ -82,3 +55,4 @@
         </div>
     </div>
 @endsection
+

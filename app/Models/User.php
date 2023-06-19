@@ -51,7 +51,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function supervisor()
+    public function Supervisor()
     {
         return $this->hasOne(User::class, 'id', 'supervisor');
     }

@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::check())
             {
                 $view->with('login_user', Auth::user());
-                $view->with('mytasks', tasks::where('assigned_to',Auth::user()->id)->get());
+                $view->with('mytasks', tasks::where('assigned_to',Auth::user()->id)->orWhere('sender_id',Auth::user()->id)->get());
                 $view->with('users', User::select('id','name','phone_number','facility_id','status','role')->get());
 
             }else{

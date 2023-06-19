@@ -14,4 +14,9 @@ class vehicles extends Model
     {
         return $this->hasOne(facilities::class, 'id', 'facility_id');
     }
+
+    public function trips()
+    {
+        return $this->hasMany(trips::class, 'vehicle_id', 'id');
+    }
 }

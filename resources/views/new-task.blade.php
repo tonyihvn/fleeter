@@ -1,4 +1,9 @@
-@extends('layouts.template')
+@if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
+    @php $layout = 'layouts.template' @endphp
+@else
+    @php $layout = 'layouts.member-template' @endphp
+@endif
+@extends($layout)
 
 @section('content')
     <div class="content-header">
@@ -78,7 +83,7 @@
                     <div class="col-md-4">
                         <label>Assigned To:</label>
                         <select name="assigned_to" class="form-control select2">
-                            @foreach ($staff as $st)
+                            @foreach ($users as $st)
                                 <option data-select2-id="{{ $st->id }}" value="{{ $st->id }}">
                                     {{ $st->name }}</option>
                             @endforeach

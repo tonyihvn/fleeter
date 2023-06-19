@@ -27,7 +27,7 @@
                 <input type="hidden" name="tid" value="">
                 <input type="hidden" name="start_date" value="{{ date('Y-m-d') }}">
                 <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}">
-                <input type="hidden" name="assigned_to" value="2">
+                <input type="hidden" name="assigned_to" value="{{ auth()->user()->supervisor }}">
                 <input type="hidden" name="status" value="Upcoming">
                 <input type="hidden" name="category" value="Message">
 
@@ -42,8 +42,8 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="details">Body</label>
-                    <textarea name="details" id="details" class="wyswygeditor">
-                    Place <em>some</em> <u>text</u> <strong>here</strong>
+                    <textarea name="details" id="details" class="wyswygeditor" placeholder="Write Here">
+
                     </textarea>
 
                     <small id="task_details" class="form-text text-muted">Message body

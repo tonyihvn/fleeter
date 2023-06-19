@@ -50,6 +50,12 @@ class HomeController extends Controller
         return view('staffs')->with(['allstaffs'=>$allstaffs]);
     }
 
+    public function drivers()
+    {
+        $allstaffs = User::where('role','Driver')->get();
+        return view('staffs')->with(['allstaffs'=>$allstaffs]);
+    }
+
 
     public function newStaff()
     {
@@ -117,7 +123,7 @@ class HomeController extends Controller
         $departments = department::select('id','department_name')->get();
         $units = unit::select('id','unit_name')->get();
 
-        return view('new-client')->with(['facilities'=>$facilities,'departments'=>$departments,'units'=>$units,'object'=>'Staff']);
+        return view('new-staff')->with(['staff'=>$staff,'facilities'=>$facilities,'departments'=>$departments,'units'=>$units,'object'=>$object]);
     }
 
     public function settings(request $request){

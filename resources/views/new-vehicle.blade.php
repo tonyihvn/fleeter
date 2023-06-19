@@ -118,7 +118,7 @@
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
                             <option value="On Trip" selected>On Trip</option>
-                            <option value="Idle">Idle</option>
+                            <option value="Available">Available</option>
                             <option value="Others">Others</option>
                         </select>
                     </div>

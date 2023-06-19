@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\facilities;
-use App\audit;
+use App\Models\facilities;
+use App\Models\audit;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -16,10 +16,10 @@ class FacilitiesController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->role=="Admin"){
+        if(auth()->user()->role=="Admin" || auth()->user()->role=="Super" ){
             $facilities = facilities::orderBy('facility_name', 'asc')->get();
         }else{
-            $facilities = facilities::orderBy('facility_name', 'asc')->where('state',auth()->user()->state)->get();
+            $facilities = facilities::orderBy('facility_name', 'asc')->where('facility_id',auth()->user()->facility_id)->get();
         }
         return view('facilities',compact('facilities'));
     }
@@ -54,7 +54,8 @@ class FacilitiesController extends Controller
             'town'=>$request->town,
             'address'=>$request->address,
             'phone_number'=>$request->phone_number,
-            'contact_person'=>$request->contact_person
+            'contact_person'=>$request->contact_person,
+            'geocordinates'=>$request->geocordinates
         ]);
 
         audit::create([
@@ -131,12 +132,12 @@ class FacilitiesController extends Controller
      * @param  \App\facilities  $facilities
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         facilities::findOrFail($id)->delete();
 
         audit::create([
-            'action'=>"Deleted Facility ".$request->id,
+            'action'=>"Deleted Facility ".$id,
             'description'=>'A facility was deleted',
             'doneby'=>"Admin" // Auth::user()->id
         ]);

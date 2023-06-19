@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> {{ $pagetitle ?? 'trERP' }}</title>
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
@@ -39,6 +40,7 @@
             -- overflow: auto !important;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -91,37 +93,34 @@
                     </div>
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" style="width: 100%;">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
                         <span
-                            class="badge badge-danger navbar-badge">{{ $mytasks->where('category', 'Message')->count() }}</span>
+                            class="badge badge-danger navbar-badge">{{ $mytasks->where('status', 'Upcoming')->count() }}</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-item">
                             <!-- Message Start -->
-                            <div class="media">
-                                <img src="{{ asset('dist/img/realtyplus_logo.png') }}" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    @foreach ($mytasks->where('category', 'Message') as $msg)
-                                        <h3 class="dropdown-item-title">
-                                            Administrator
-                                            <span class="float-right text-sm text-danger"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <a class="text-sm" href="{{ url('tasks') }}">{{ $msg->subject }}</a>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
-                                            {{ $msg->created_at }}</p>
-                                    @endforeach
-                                </div>
-                            </div>
+
+                            @foreach ($mytasks->where('status', 'Upcoming') as $msg)
+                                <li class="dropdown-item-title">
+                                    <a class="text-sm" href="{{ url('task/' . $msg->id) }}">
+                                        {{ $msg->subject }}
+                                        <br> <small>{{ $msg->sentBy->name }}</small>
+                                        <br>
+                                        <span class="badge badge-default badge-xs"><i class="far fa-clock mr-1"></i>
+                                            {{ $msg->created_at }}</span></a>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                            @endforeach
+
                             <!-- Message End -->
-                        </a>
+                        </div>
                         <div class="dropdown-divider"></div>
 
                         <a href="{{ url('tasks') }}" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
+                    </ul>
                 </li>
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -214,76 +213,50 @@
                                 </p>
                             </a>
                         </li>
-                        @if (auth()->user()->role == 'Staff')
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                        Vehicle Requests
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ url('requests') }}" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>View All</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ url('new-request') }}" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>New Vehicle Request</p>
-                                        </a>
-                                    </li>
 
-                                </ul>
+                        @if (auth()->user()->role == 'Driver')
+                            <li class="nav-item">
+                                <a href="{{ url('driver-trips') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-bus text-info"></i>
+                                    <p>My Assigned Trips</p>
+                                </a>
                             </li>
-                        @else
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-credit-card"></i>
-                                    <p>
-                                        Ride History
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
+                                <a href="{{ url('trips') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-th-list text-info"></i>
+                                    <p>Ride History</p>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ url('trips') }}" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>My Ride History</p>
-                                        </a>
-                                    </li>
+                            </li>
+                        @endif
+                        @if (auth()->user()->role != 'Driver')
+                            <li class="nav-item">
+                                <a href="{{ url('requests') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-taxi text-info"></i>
+                                    <p>Vehicle Requests</p>
+                                </a>
+                            </li>
 
-                                </ul>
+                            <li class="nav-item">
+                                <a href="{{ url('new-request') }}" class="nav-link">
+                                    <i class="nav-icon fa fa-car text-info"></i>
+                                    <p>New Vehicle Requests</p>
+                                </a>
                             </li>
                         @endif
 
 
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-envelope"></i>
-                                <p>
-                                    Messages
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ url('tasks') }}" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>My Messages</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
+                        <li class="nav-item">
+                            <a href="{{ url('tasks') }}" class="nav-link">
+                                <i class="nav-icon fa fa-envelope text-info"></i>
+                                <p>Messages</p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="{{ url('logout') }}" class="nav-link">
-                                <i class="nav-icon far fa-user text-info"></i>
+                                <i class="nav-icon fa fa-sign-out-alt text-info"></i>
                                 <p>Logout</p>
                             </a>
                         </li>
@@ -386,7 +359,9 @@
 
             $('.select2').select2();
 
-            $('.wyswygeditor').summernote()
+            $('.wyswygeditor').summernote({
+                height: 110
+            })
 
         });
 
@@ -485,9 +460,109 @@
         });
 
 
+        let latitude;
+        let longitude;
+
+        var getCurrentPosition = function() {
+            var deferred = $.Deferred();
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(deferred.resolve, deferred.reject);
+            } else {
+                deferred.reject({
+                    error: 'browser doesn\'t support geolocation'
+                });
+            }
+
+            return deferred.promise();
+        };
+
+        $(".drive").on('click', function(event) {
+            event.preventDefault();
+
+
+            var tripid = $(this).data('tripid');
+            var mtripid = $(this).data('mtripid');
+            if ($("#odo" + tripid).val() != "") {
+
+                var url = $(this).data('url');
+                var type = $(this).data('type');
+                var odometer = $("#odo" + tripid).val();
+                var token = $('meta[name="csrf-token"]').attr('content');
+
+                // Setup CSRF
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                // HANDDLE GEO LOCATION AND SEND
+
+                var userPositionPromise = getCurrentPosition();
+                // var geocords = null;
+
+                userPositionPromise
+                    .then(function(data) {
+                        var geocords = data.coords.latitude + "," + data.coords.longitude;
+                        var drivedata = 'tripid=' + tripid + '&type=' + type + "&_token=" + token +
+                            "&odometer=" + odometer + "&mtripid=" + mtripid;
+
+                        $.ajax({
+                            url: url,
+                            method: 'POST',
+                            data: drivedata + '&geocord=' + geocords,
+                            dataType: 'json',
+                            success: function(response) {
+                                $(this).attr("disabled", "disabled");
+                                $("#destinationAlert").html(response.message);
+
+                            },
+                            error: function(response) {
+                                $("#destinationAlert").html(response.message);
+                            }
+                        });
+
+                    })
+                    .fail(function(error) {
+                        var drivedata = 'tripid=' + tripid + '&type=' + type + '&geocord='
+                        geocords + "&_token=" + token;
+
+                        $.ajax({
+                            url: url,
+                            method: 'POST',
+                            data: drivedata,
+                            dataType: 'json',
+                            success: function(response) {
+                                $(this).attr("disabled", "disabled");
+                                $("#destinationAlert").html(response.message);
+
+                            },
+                            error: function(response) {
+                                $("#destinationAlert").html(response.message);
+                            }
+                        });
+                    });
+            } else {
+                alert("Error! Please, enter Spodometer reading before clicking on Start/Stop");
+            }
+
+        });
+
+
         function addHiddenFieldValue(sourceId) {
             var newVal = this.value;
             $("#toid" + sourceId).val(newVal);
+        }
+
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
         }
     </script>
 

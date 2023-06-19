@@ -23,7 +23,7 @@
     <div class="card">
 
         <div class="card-body" style="overflow: auto;">
-            <a href="{{ url('new-requests') }}" class="btn btn-primary" style="float: right;">Add New</a>
+            <a href="{{ url('new-request') }}" class="btn btn-primary" style="float: right;">Add New</a>
             <br>
             <table class="table responsive-table" id="products" style="font-weight:normal !important; font-size: 0.9em;">
                 <thead>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\department;
-use App\facilities;
-use App\audit;
+use App\Models\facilities;
+use App\Models\audit;
+use App\Models\department;
 use Illuminate\Http\Request;
-
+use Auth;
 class DepartmentController extends Controller
 {
     /**
@@ -45,7 +45,7 @@ class DepartmentController extends Controller
 
         department::create([
             'department_name'=>$request->department_name,
-            'facility'=>$request->facility,
+            'facility_id'=>$request->facility,
             'internal_location'=>$request->internal_location,
             'description'=>$request->description
         ]);
@@ -53,10 +53,10 @@ class DepartmentController extends Controller
         audit::create([
             'action'=>"Created New Department ".$request->department_name,
             'description'=>'A new department was created',
-            'doneby'=>"Admin" // Auth::user()->id           
+            'doneby'=>"Admin" // Auth::user()->id
         ]);
         session()->flash('message','The New Department: '.$request->department_name.' has been added successfully!');
-        
+
         return redirect()->back();
     }
 
@@ -100,16 +100,16 @@ class DepartmentController extends Controller
      * @param  \App\department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         department::findOrFail($id)->delete();
 
         audit::create([
-            'action'=>"Deleted Department ".$request->id,
+            'action'=>"Deleted Department ".$id,
             'description'=>'A Department was deleted',
-            'doneby'=>"Admin" // Auth::user()->id           
+            'doneby'=>Auth::user()->id
         ]);
- 
+
         session()->flash('message','The the selected department has been successfully deleted.');
 
         return redirect()->back();

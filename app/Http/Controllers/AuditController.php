@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\audit;
+use App\Models\audit;
 use Illuminate\Http\Request;
 
 class AuditController extends Controller

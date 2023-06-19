@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\unit;
-use App\facilities;
-use App\department;
-use App\audit;
+use App\Models\unit;
+use App\Models\facilities;
+use App\Models\department;
+use App\Models\audit;
 use Illuminate\Http\Request;
-
+use Auth;
 class unitController extends Controller
 {
     /**
@@ -28,8 +28,8 @@ class unitController extends Controller
      */
     public function create()
     {
-        $facilities = facilities::select('facility_name')->get();
-        $departments = department::select('department_name')->get();
+        $facilities = facilities::select('id','facility_name')->get();
+        $departments = department::select('id','department_name')->get();
         return view('new_unit',compact('facilities'), ['departments'=>$departments]);
     }
 
@@ -47,8 +47,8 @@ class unitController extends Controller
 
         unit::create([
             'unit_name'=>$request->unit_name,
-            'department'=>$request->department,
-            'facility'=>$request->facility,
+            'department_id'=>$request->department,
+            'facility_id'=>$request->facility,
             'internal_location'=>$request->internal_location,
             'description'=>$request->description
         ]);
@@ -56,10 +56,10 @@ class unitController extends Controller
         audit::create([
             'action'=>"Created New unit ".$request->unit_name,
             'description'=>'A new unit was created',
-            'doneby'=>"Admin" // Auth::user()->id           
+            'doneby'=>Auth::user()->id
         ]);
         session()->flash('message','The New unit: '.$request->unit_name.' has been added successfully!');
-        
+
         return redirect()->back();
     }
 
@@ -103,16 +103,16 @@ class unitController extends Controller
      * @param  \App\unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         unit::findOrFail($id)->delete();
 
         audit::create([
-            'action'=>"Deleted unit ".$request->id,
+            'action'=>"Deleted unit ".$id,
             'description'=>'A unit was deleted',
-            'doneby'=>"Admin" // Auth::user()->id           
+            'doneby'=>Auth::user()->id
         ]);
- 
+
         session()->flash('message','The the selected unit has been successfully deleted.');
 
         return redirect()->back();

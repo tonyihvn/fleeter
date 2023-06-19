@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Messages</a></li>
-                        <li class="breadcrumb-item active">Member Messages</li>
+                        <li class="breadcrumb-item active">Messages</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -24,35 +24,26 @@
 
             <div class="card-body">
                 <a href="{{ url('new-task') }}" class="btn btn-primary float-right" style="float: right;"><i
-                        class="fa fa-paper-plane"></i> Send Message to Admin</a>
+                        class="fa fa-paper-plane"></i> Send Message to Supervisor</a>
                 <br><br>
-                <table class="table responsive-table" id="products" style="font-size: 0.8em !important;">
+                <table class="table responsive-table" style="font-size: 0.8em !important;">
                     <thead>
                         <tr style="color: ">
-                            <th>Title</th>
-                            <th>Details</th>
-                            <th>Date</th>
-                            <th>Set Status</th>
-
+                            <th>Subject</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($mytasks as $task)
-                            <tr @if ($task->status == 'Completed') style="background-color: azure !important;" @endif
-                                @if ($task->status == 'In Progress') style="background-color: #FFF8B0 !important;" @endif>
-                                <td><b>{{ $task->subject }}</b> <br> <small>Category: <i>{{ $task->category }}</i></small>
-                                </td>
-                                <td>{!! isset($task->project) ? '<i>Project: </i>' . $task->project->title . '<br><hr>' : '' !!}
-                                    {!! $task->details !!}</td>
-                                <td>{{ $task->start_date . ' ' . $task->end_date }}</td>
-                                </td>
-
-                                <td>
-
-
-                                    <a href="{{ url('/completetask/' . $task->id) }}/{{ $task->member }}"
-                                        class="badge badge-success">Read</a><br>
-
+                            <tr @if ($task->status == 'Upcoming') style="background-color: azure !important;" @endif>
+                                <td><b><a
+                                            href="{{ url('/task/' . $task->id) }}/{{ $task->member }}">{{ $task->subject }}</a></b>
+                                    <br>
+                                    @if ($task->sender_id == auth()->user()->id)
+                                        <small><i class="badge badge-info">Sent Message</i></small>
+                                    @else
+                                        <small><i class="badge badge-info">From: {{ $task->sentBy->name }}</i></small>
+                                    @endif
+                                    <small>{{ $task->start_date . ' ' . $task->end_date }}</small>
                                 </td>
 
                             </tr>

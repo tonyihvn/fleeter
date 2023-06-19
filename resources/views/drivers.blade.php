@@ -28,10 +28,11 @@
             <table class="table responsive-table" id="products">
                 <thead>
                     <tr>
-
+                        <th width="20">#</th>
                         <th>Staff Name</th>
-                        <th>Staff ID</th>
-                        <th>Location</th>
+                        <th>Facility</th>
+                        <th>Department</th>
+                        <th>Unit</th>
                         <th>Designation</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -40,11 +41,11 @@
                 <tbody>
                     @foreach ($allstaffs as $cl)
                         <tr @if ($cl->status == 'Active') style="background-color: azure !important;" @endif>
-
+                            <td>{{ $cl->id }}</td>
                             <td>{{ $cl->name }}</td>
-                            <td>{{ $cl->staff_id }}</td>
-                            <td>{{ $cl->facility->facility_name }} <br> <small>{{ $cl->unit->unit_name ?? '' }},
-                                    {{ $cl->department->department_name ?? '' }}</small></td>
+                            <td>{{ $cl->facility->name }}</td>
+                            <td>{{ $cl->department->name ?? '' }}</td>
+                            <td>{{ $cl->unit->name ?? '' }}</td>
                             <td>{{ $cl->designation }}</td>
                             <td>{{ $cl->status }}
                             </td>

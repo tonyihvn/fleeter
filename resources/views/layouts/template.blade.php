@@ -39,6 +39,7 @@
             -- overflow: auto !important;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -249,9 +250,34 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-car"></i>
+                                <p>
+                                    Vehicles
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('all-vehicles') }}" class="nav-link">
+                                        <i class="far fa-add nav-icon"></i>
+                                        <p>All Vehicles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('new-request') }}" class="nav-link">
+                                        <i class="far fa-plus nav-icon"></i>
+                                        <p>Add New Vehicle</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-suitcase"></i>
                                 <p>
-                                    Vehicle Requests / Trips
+                                    Requests / Trips
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -354,9 +380,33 @@
 
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ url('facilities') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Facilities</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('departments') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Departments</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('units') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Units</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ url('categories') }}" class="nav-link">
                                         <i class="far fa-user-plus nav-icon"></i>
                                         <p>Categories</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('audits') }}" class="nav-link">
+                                        <i class="far fa-user-plus nav-icon"></i>
+                                        <p>Audit Trails</p>
                                     </a>
                                 </li>
 
@@ -729,6 +779,17 @@
 
             alert(fidd);
             $("#toid" + sourceId).val(fidd);
+        }
+
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
         }
     </script>
 

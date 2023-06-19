@@ -28,7 +28,7 @@
 
             </div>
             <div class="card-body">
-                <table class="table responsive-table" id="subscriptions" style="font-size: 0.7em !important;">
+                <table class="table responsive-table" id="trips" style="font-size: 0.7em !important;">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -49,13 +49,13 @@
                         @foreach ($transactions as $transact)
                             <tr>
                                 <td>{{ $transact->title }} <br> <i
-                                        style="color: green;"><small>{{ $transact->subscription_id != '' ? $transact->subscription->title : '' }}</small></i>
+                                        style="color: green;"><small>{{ $transact->trip_id != '' ? $transact->trip->to : '' }}</small></i>
                                 </td>
                                 <td>{{ $transact->amount }}</td>
                                 <td>{{ $transact->account_head }}</td>
                                 <td>{{ $transact->date }}</td>
                                 <td>{{ $transact->reference_no }}</td>
-                                <td>{{ $transact->subscription->subplan->title }} <br>{{ $transact->detail }}</td>
+                                <td>{{ $transact->trip->to }} <br>{{ $transact->detail }}</td>
                                 <td>{{ $transact->From->name }}
                                 </td>
                                 <td>{{ $transact->To->name }}
@@ -71,8 +71,7 @@
                                         data-target="#transaction" data-title="{{ $transact->title }}"
                                         data-amount="{{ $transact->amount }}"
                                         data-account_head="{{ $transact->account_head }}"
-                                        data-date="{{ $transact->date }}"
-                                        data-subscription="{{ $transact->subscription_id }}"
+                                        data-date="{{ $transact->date }}" data-trip="{{ $transact->trip_id }}"
                                         data-reference_no="{{ $transact->reference_no }}"
                                         data-detail="{{ $transact->detail }}" data-from="{{ $transact->from }}"
                                         data-to="{{ $transact->to }}" data-approved_by="{{ $transact->approved_by }}"
@@ -170,12 +169,13 @@
 
 
                             <div class="form-group col-md-6">
-                                <label for="subscription_id">Select subscription</label>
-                                <select class="form-control" name="subscription_id" id="subscription_id">
+                                <label for="trip_id">Select trip</label>
+                                <select class="form-control" name="trip_id" id="trip_id">
                                     <option value="" selected>Not Applicable</option>
-                                    @foreach ($business->subscriptions as $subscription)
-                                        <option value="{{ $subscription->id }}">{{ $subscription->subplan->title }}
-                                        </option>
+                                    @foreach ($trips as $trip)
+                                        <option value="{{ $trip->id }}">to: {{ $trip->to }}
+                                            ({{ $trip->departure_timedate }} - {{ $trip->driver->name }}
+                                        </option>)
                                     @endforeach
                                 </select>
                             </div>
@@ -192,7 +192,7 @@
                                 <label for="from" class="control-label">From/Sender</label>
 
                                 <select class="form-control select2" name="from" id="from">
-                                    <option value="{{ $business->id }}">{{ $business->business_name }}</option>
+                                    <option value="{{ $organization->id }}">{{ $organization->org_name }}</option>
                                     <option value="Others">Others</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -203,7 +203,7 @@
                             <div class="form-group col-md-6">
                                 <label for="to" class="control-label">To/Receiver</label>
                                 <select class="form-control select2" name="to" id="to">
-                                    <option value="{{ $business->id }}">{{ $business->business_name }}</option>
+                                    <option value="{{ $organization->id }}">{{ $organization->org_name }}</option>
                                     <option value="Workers" selected>Workers</option>
                                     <option value="Others">Others</option>
                                     @foreach ($users as $user)
@@ -217,7 +217,7 @@
                             <div class="form-group col-md-6">
                                 <label for="approved_by" class="control-label">Approved By</label>
                                 <select class="form-control select2" name="approved_by" id="approved_by">
-                                    <option value="{{ $business->business_name }}">{{ $business->business_name }}
+                                    <option value="{{ $organization->org_name }}">{{ $organization->org_name }}
                                     </option>
                                     <option value="Workers" selected>Workers</option>
                                     <option value="Others">Others</option>

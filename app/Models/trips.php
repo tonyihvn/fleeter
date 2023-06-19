@@ -29,6 +29,16 @@ class trips extends Model
         return $this->hasOne(User::class, 'id', 'driver_id');
     }
 
+    public function report()
+    {
+        return $this->hasMany(trip_reports::class, 'trip_id', 'id');
+    }
+
+    public function tripRoutes()
+    {
+        return $this->hasMany(routes::class, 'trip_id', 'id');
+    }
+
 
     use HasFactory;
 }

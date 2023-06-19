@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// use App\WebSocketServer;
+use App\Events\UpdateCoordinates;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,7 @@ Route::get('new-staff', [App\Http\Controllers\HomeController::class, 'newStaff']
 Route::post('saveStaff', [App\Http\Controllers\HomeController::class, 'saveStaff'])->name('saveStaff')->middleware('role:Staff,Supervisor,Admin,Super');
 Route::get('edit-staff/{cid}', [App\Http\Controllers\HomeController::class, 'editStaff'])->name('edit-staff')->middleware('role:Staff,Supervisor,Admin,Super');
 Route::get('delete-staff/{cid}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('delete-staff')->middleware('role:Super');
+Route::get('drivers', [App\Http\Controllers\HomeController::class, 'drivers'])->name('drivers')->middleware('role:Admin,Super');
 
 
 // Requests
@@ -37,24 +40,43 @@ Route::post('updateRequest', [App\Http\Controllers\RequestsController::class, 'u
 Route::get('edit-request/{rid}', [App\Http\Controllers\RequestsController::class, 'editRequest'])->name('edit-request')->middleware('role:Staff,Supervisor,Admin,Super');
 Route::get('approve-request/{rid}', [App\Http\Controllers\RequestsController::class, 'approveRequest'])->name('approve-request')->middleware('role:Admin,Super');
 Route::get('disapprove-request/{rid}', [App\Http\Controllers\RequestsController::class, 'disapproveRequest'])->name('disapprove-request')->middleware('role:Supervisor,Admin,Super');
-Route::get('start-trip/{rid}', [App\Http\Controllers\RequestsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
-Route::get('request-persons/{rid}', [App\Http\Controllers\RequestsController::class, 'tripPersons'])->name('request-persons')->middleware('role:Staff,Driver]Admin,Super');
+//Route::get('start-trip/{rid}', [App\Http\Controllers\RequestsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
+Route::get('request-persons/{rid}', [App\Http\Controllers\RequestsController::class, 'tripPersons'])->name('request-persons')->middleware('role:Staff,Driver,Admin,Super');
 
+// LIVE MAP
+// Route::get('/update-coordinates', function () {
+//     $server = app()->make(WebSocketServer::class);
+//     $server->broadcast('update-coordinates');
+//     return response()->json(['success' => true]);
+// });
+Route::get('live-tracker/{tripid}', [App\Http\Controllers\TripsController::class, 'liveTracker'])->name('live-tracker')->middleware('role:Staff,Driver,Admin,Super');
+Route::post('/update-location', [App\Http\Controllers\TripsController::class, 'updateLocation'])->name('update-location')->middleware('role:Staff,Driver,Supervisor,Admin,Super');
+Route::get('/visitors', [App\Http\Controllers\TripsController::class, 'onTrip'])->name('visitors')->middleware('role:Staff,Driver,Admin,Super');
 
 // TRIPS
+Route::get('trips', [App\Http\Controllers\TripsController::class, 'index'])->name('trips')->middleware('role:Staff,Driver,Admin,Super');
+Route::get('trip/{tripid}', [App\Http\Controllers\TripsController::class, 'trip'])->name('trip')->middleware('role:Staff,Driver,Supervisor,Admin,Super');
+Route::get('trip-report/{tripid}', [App\Http\Controllers\TripsController::class, 'newTripReport'])->name('trip-report')->middleware('role:Staff,Driver,Supervisor,Admin,Super');
+
+Route::post('saveTripreport', [App\Http\Controllers\TripsController::class, 'saveTripreport'])->name('saveTripreport')->middleware('role:Staff,Driver,Supervisor,Admin,Super');
+
 Route::post('assignDriver', [App\Http\Controllers\TripsController::class, 'store'])->name('assignDriver')->middleware('role:Admin,Super');
 Route::get('driver-trips', [App\Http\Controllers\TripsController::class, 'driverTrips'])->name('driver-trips')->middleware('role:Driver,Admin,Super');
-Route::get('start-trip/{tid}', [App\Http\Controllers\TripsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
-Route::get('stop-trip/{tid}', [App\Http\Controllers\TripsController::class, 'stopTrip'])->name('stop-trip')->middleware('role:Driver,Admin,Super');
-
+Route::post('drive', [App\Http\Controllers\TripsController::class, 'drive'])->name('drive')->middleware('role:Driver,Admin,Super');
+Route::get('start-trip/{tripid}', [App\Http\Controllers\TripsController::class, 'startTrip'])->name('start-trip')->middleware('role:Driver,Admin,Super');
 
 // Vehicles
-Route::get('vehicles', [App\Http\Controllers\VehiclesController::class, 'index'])->name('vehicles')->middleware('role:Driver,Admin,Super');
+Route::get('all-vehicles', [App\Http\Controllers\VehiclesController::class, 'index'])->name('all-vehicles')->middleware('role:Admin,Super');
 Route::get('new-vehicle', [App\Http\Controllers\VehiclesController::class, 'create'])->name('new-vehicle')->middleware('role:Driver,Admin,Super');
 Route::post('saveVehicle', [App\Http\Controllers\VehiclesController::class, 'store'])->name('saveVehicle')->middleware('role:Driver,Admin,Super');
+Route::get('vehicle/{vid}', [App\Http\Controllers\VehiclesController::class, 'show'])->name('vehicle')->middleware('role:Admin,Super');
+Route::post('updateVehicle', [App\Http\Controllers\VehiclesController::class, 'update'])->name('updateVehicle')->middleware('role:Driver,Admin,Super');
+
+
+Route::get('/delete-vehicle/{vid}', [App\Http\Controllers\VehiclesController::class, 'destroy'])->name('delete-vehicle')->middleware('role:Admin,Super');
+
+
 Route::post('updateRequest', [App\Http\Controllers\RequestsController::class, 'updateVehicle'])->name('updateVehicle')->middleware('role:Driver,Admin,Super');
-
-
 
 Route::get('delete-request/{rid}', [App\Http\Controllers\RequestsController::class, 'destroy'])->name('delete-request')->middleware('role:Super');
 
@@ -86,6 +108,7 @@ Route::get('/delete-acch/{id}', [App\Http\Controllers\AccountheadsController::cl
 Route::get('/categories', [App\Http\Controllers\CategoriesController::class, 'index'])->name('categories')->middleware('role:Finance,Admin,Super');
 Route::post('/addcategory', [App\Http\Controllers\CategoriesController::class, 'store'])->name('addcategory')->middleware('role:Finance,Admin,Super');
 Route::get('/delete-cat/{id}', [App\Http\Controllers\CategoriesController::class, 'destroy'])->name('delete-cat')->middleware('role:Super');
+
 // TRANSACTIONS
 Route::get('/transactions', [App\Http\Controllers\TransactionsController::class, 'index'])->name('transactions')->middleware('role:Finance,Admin,Super');
 Route::post('/addtransaction', [App\Http\Controllers\TransactionsController::class, 'store'])->name('addtransaction')->middleware('role:Finance,Admin,Super');
@@ -94,20 +117,25 @@ Route::get('/delete-trans/{id}', [App\Http\Controllers\TransactionsController::c
 Route::post('/settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings')->middleware('role:Super');
 
 // Facilities
-Route::get('facilities', [App\Http\Controllers\FacilitiesController::class,'index'])->middleware('role:Admin,Manager');
-Route::get('add_facility', [App\Http\Controllers\FacilitiesController::class,'create'])->name('add_facility')->middleware('role:Admin,Manager');
-Route::get('facility/{id}', [App\Http\Controllers\FacilitiesController::class,'edit'])->middleware('role:Admin,Manager');
+Route::resource('facilities', App\Http\Controllers\FacilitiesController::class)->middleware('role:Admin,Super');
+
+// Route::get('facilities', [App\Http\Controllers\FacilitiesController::class,'index'])->middleware('role:Admin,Super');
+Route::get('add_facility', [App\Http\Controllers\FacilitiesController::class,'create'])->name('add_facility')->middleware('role:Admin,Super');
+Route::get('facility/{id}', [App\Http\Controllers\FacilitiesController::class,'edit'])->middleware('role:Admin,Super');
+Route::get('delete-facility/{id}', [App\Http\Controllers\FacilitiesController::class,'destroy'])->middleware('role:Admin,Super');
 
 // Audits
-Route::get('audits', [App\Http\Controllers\AuditController::class,'index'])->middleware('role:Admin');
+Route::get('audits', [App\Http\Controllers\AuditController::class,'index'])->middleware('role:Admin,Super');
 
 // Departments
-Route::get('departments', [App\Http\Controllers\DepartmentController::class,'index'])->middleware('auth');
-Route::get('add_department', [App\Http\Controllers\DepartmentController::class,'create'])->name('add_department')->middleware('role:Admin,Manager');
+Route::resource('departments', App\Http\Controllers\DepartmentController::class)->middleware('auth');
+Route::get('add_department', [App\Http\Controllers\DepartmentController::class,'create'])->name('add_department')->middleware('role:Admin,Super');
+Route::get('delete-department/{id}', [App\Http\Controllers\DepartmentController::class,'destroy'])->middleware('role:Admin,Super');
 
 // Units
-Route::get('units', [App\Http\Controllers\UnitController::class,'index'])->middleware('auth');
-Route::get('add_unit', [App\Http\Controllers\UnitController::class,'create'])->name('add_unit')->middleware('role:Admin,Manager');
+Route::resource('units', App\Http\Controllers\UnitController::class)->middleware('auth');
+Route::get('add_unit', [App\Http\Controllers\UnitController::class,'create'])->name('add_unit')->middleware('role:Admin,Super');
+Route::get('delete-unit/{id}', [App\Http\Controllers\UnitController::class,'destroy'])->middleware('role:Admin,Super');
 
 //LOGOUT
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class,'logout']);

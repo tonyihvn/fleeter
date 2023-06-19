@@ -8,8 +8,13 @@ class facilities extends Model
 {
     protected $guarded = [];
 
-    public function inventory()
+    public function departments()
     {
-        return $this->hasMany('App\inventory', 'facility_id');
+        return $this->hasMany(department::class, 'facility_id','id');
+    }
+
+    public function units()
+    {
+        return $this->hasMany(unit::class, 'facility_id','id');
     }
 }
