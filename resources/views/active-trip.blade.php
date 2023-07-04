@@ -7,6 +7,8 @@
   <script>
     function initMap() {
         var toDestination = '{{$trip->to_geocord}}';
+        // var fromDestination = '{{$trip->from_geocord}}';
+
         if(toDestination!=''){
             var latlng = toDestination.split(/, ?/);
 

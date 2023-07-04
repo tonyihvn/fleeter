@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TreERP | Sign up</title>
+    <title>ETMS | Sign up</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -21,7 +21,7 @@
 <body class="hold-transition register-page">
     <div class="col-md-6 col-md-offset-3">
         <div class="register-logo">
-            <a href="../../index2.html"><b>Tr</b>ERP</a>
+            <a href="../../index2.html"><b>E</b>TMS</a>
         </div>
 
         <div class="card">

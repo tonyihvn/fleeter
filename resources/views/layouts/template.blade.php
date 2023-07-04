@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {{ $pagetitle ?? 'TrERP' }}</title>
+    <title> {{ $pagetitle ?? 'ETMS' }}</title>
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
@@ -468,7 +468,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; {{ date('Y') }} <a href="">TrERP</a>.</strong>
+            <strong>Copyright &copy; {{ date('Y') }} <a href="">ETMS</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.1.0
